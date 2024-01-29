@@ -1,50 +1,39 @@
-cmake_minimum_required(VERSION 3.21.1)
+cmake_minimum_required(VERSION 3.16)
 
-option(LINK_INSIGHT "Link Qt Insight Tracker library" ON)
-option(BUILD_QDS_COMPONENTS "Build design studio components" ON)
+project(Constructor VERSION 0.1 LANGUAGES CXX)
 
-project(ConstructorApp LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_AUTOMOC ON)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
+qt_standard_project_setup()
 
-if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
-    qt_standard_project_setup()
-endif()
-
-qt_add_executable(ConstructorApp src/main.cpp)
-
-qt_add_resources(ConstructorApp "configuration"
-    PREFIX "/"
-    FILES
-        qtquickcontrols2.conf
+qt_add_executable(appConstructor
+    src/main.cpp
 )
 
-target_link_libraries(ConstructorApp PRIVATE
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Qml
-    Qt6::Quick
+qt_add_qml_module(appConstructor
+    URI Constructor
+    VERSION 1.0
+    QML_FILES src/Main.qml
+    RESOURCES
+    QML_FILES src/View/ConstructMenu/ConstructMenu.qml
 )
 
-if (BUILD_QDS_COMPONENTS)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/qmlcomponents)
-endif()
+set_target_properties(appConstructor PROPERTIES
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/qmlmodules)
-
-if (LINK_INSIGHT)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/insight)
-endif ()
+target_link_libraries(appConstructor
+    PRIVATE Qt6::Quick
+)
 
 include(GNUInstallDirs)
-install(TARGETS ConstructorApp
+install(TARGETS appConstructor
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-
-# make IDEs aware of the QML import path
-set(QML_IMPORT_PATH ${PROJECT_BINARY_DIR}/qml CACHE PATH
-    "Path to the custom QML components defined by the project")
