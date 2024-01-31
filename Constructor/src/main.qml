@@ -6,8 +6,8 @@ Window{
     width: 1920
     height: 1080
     visible: true
-    property int swidth: this.width / 100
-    property int sheight: this.height / 100
+    property real swidth: this.width / 100
+    property real sheight: this.height / 100
     Rectangle{
         id: help_and_fail_menu
         width: parent.width

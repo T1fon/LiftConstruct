@@ -4,8 +4,8 @@ import QtQuick.Controls
 
 Rectangle {
     id: construct_menu_window
-    property int swidth: width / 100
-    property int sheight: 1080 / 100
+    property real swidth: width / 100
+    property real sheight: 1080 / 100
     width: 1920
     height: sheight * 101
     Rectangle
