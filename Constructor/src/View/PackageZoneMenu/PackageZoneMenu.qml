@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Dialogs 1.3
 
-ApplicationWindow
+Rectangle
 {
     visible: true
     width: 1920
@@ -19,7 +19,7 @@ ApplicationWindow
 
         ScrollView
         {
-            id: sone_storage_scrollview
+            id: zone_storage_scrollview
             height: parent.height
             width: swidth * 1.563
             anchors.right: parent.right
@@ -59,8 +59,8 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
-                            input_name_text = model.name
-                            color_box = model.color
+                            input_name.text = model.name
+                            color_box.color = model.color
                         }
                     }
                 }
@@ -180,6 +180,9 @@ ApplicationWindow
                             name: input_name.text,
                             color: color_box.color
                          })
+                zone_storage_listview.forceLayout();
+                input_name.text = ""
+                color_box.color = "black"
             }
         }
 
