@@ -11,12 +11,12 @@ Window{
     Rectangle{
         id: help_and_fail_menu
         width: parent.width
-        height: sheight * 4
+        height: sheight * 3.704
         anchors.top: parent.top
         ComboBox
         {
             height: parent.height
-            width: swidth * 9
+            width: swidth * 7.813
             anchors.left: parent.left
             id: fail_box
             model: ListModel
@@ -52,8 +52,8 @@ Window{
         {
             id: help_button;
             height: parent.height
-            width: swidth * 9
-            x:swidth * 9
+            width: swidth * 7.813
+            x: swidth * 7.813
             text: "Помощь"
         }
     }
@@ -61,54 +61,54 @@ Window{
     {
         id: widows_buttons
         width: parent.width
-        height: sheight * 4
-        y: sheight * 4
+        height: sheight * 3.704
+        y: sheight * 3.704
         anchors.left: parent.left
         Button
         {
             id:construct_menu_button
             height: parent.height
-            width: swidth * 9
+            width: swidth * 12.5
             text: "Конструктор"
         }
         Button
         {
             id: packet_zone_button
             height: parent.height
-            width: swidth * 9
-            x:swidth * 9
+            width: swidth * 12.5
+            x: swidth * 12.5
             text: "Зон пакетов"
         }
         Button
         {
            id: station_zone_button
            height: parent.height
-           width: swidth * 9
-           x:swidth * 18
+           width: swidth * 18.385
+           x:swidth * 25
            text: "Станций"
         }
         Button
         {
            id: package_zone_button
            height: parent.height
-           width: swidth * 9
-           x:swidth * 27
+           width: swidth * 12.5
+           x:swidth * 43.385
            text: "Пакетов"
         }
         Button
         {
            id: test_zone_button
            height: parent.height
-           width: swidth * 9
-           x:swidth * 36
+           width: swidth * 12.5
+           x:swidth * 55.885
            text: "Тестов"
         }
         Button
         {
            id: emulator_zone_button
            height: parent.height
-           width: swidth * 9
-           x:swidth * 45
+           width: swidth * 12.5
+           x:swidth * 68.385
            text: "Эмулятор"
         }
     }
@@ -116,9 +116,9 @@ Window{
     {
         id: windows_zone
         width: parent.width
-        height: sheight * 100
+        height: sheight * 101
+        y: sheight * 7.407
         color: "red"
-        anchors.bottom: parent.bottom
 
     }
 }
