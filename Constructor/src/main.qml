@@ -118,7 +118,7 @@ Window{
         width: parent.width
         height: sheight * 101
         y: sheight * 7.407
-        color: "red"
+        //color: "red"
 
     }
 }
