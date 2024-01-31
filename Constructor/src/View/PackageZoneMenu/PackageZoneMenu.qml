@@ -19,27 +19,76 @@ ApplicationWindow
 
         ScrollView
         {
+            id: sone_storage_scrollview
             height: parent.height
             width: swidth * 1.563
             anchors.right: parent.right
-            Rectangle
+            ListView
             {
-                id: zone_storage_rec
+                id: zone_storage_listview
                 width: swidth * 15.625
                 height: parent.height
                 anchors.right: parent.left
-            }
-            Button
-            {
-                id: plus_button
-                height: sheight * 5.317
-                width: swidth * 2.604
-                x: swidth * 6.51
-                y: sheight * 17.602
-                onClicked:
+                model: ListModel
                 {
-                    input_name.text = ""
-                    color_box.color = "black"
+
+                }
+                delegate: Rectangle
+                {
+                    width: zone_storage_listview.width
+                    height: sheight * 5.501
+                    color: model.color
+                    Rectangle
+                    {
+                        height: parent.height
+                        width: parent.width
+                        anchors.left: parent.left
+                        Text {
+                            text: model.name
+                        }
+                    }
+                    Rectangle
+                    {
+                        height: parent.height
+                        width: parent.width
+                        anchors.right: parent.right
+                        color: model.color
+                    }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            input_name_text = model.name
+                            color_box = model.color
+                        }
+                    }
+                }
+            }
+        }
+        Button
+        {
+            id: plus_button
+            height: sheight * 5.317
+            width: swidth * 2.604
+            x: swidth * 6.51
+            y: sheight * 17.602
+            anchors.top: zone_storage_listview.bottom
+            text: "+"
+            onClicked:
+            {
+                input_name.text = ""
+                color_box.color = "black"
+            }
+            onAnchorsChanged:
+            {
+                if (zone_storage_listview.contentHeight > zone_storage_listview.height)
+                {
+                    plus_button.anchors.top = zone_storage_listview.contentHeight + 6.601
+                }
+                else
+                {
+                    plus_button.anchors.top = zone_storage_listview.bottom
                 }
             }
         }
@@ -124,6 +173,14 @@ ApplicationWindow
             x: swidth * 24.948
             y: sheight * 76.916
             text: "Сохранить"
+            onClicked:
+            {
+                zone_storage_listview.model.append
+                        ({
+                            name: input_name.text,
+                            color: color_box.color
+                         })
+            }
         }
 
         Button
@@ -134,6 +191,19 @@ ApplicationWindow
             x: swidth * 77.552
             y: sheight * 76.916
             text: "Удалить"
+            onClicked:
+            {
+                var selectedIdx = zone_storage_listview.currentIndex
+                if (selectedIdx >= 0 && selectedIdx < zone_storage_listview.model.count)
+                {
+                    var elementName = zone_storage_listview.model.get(selectedIdx).name
+                    var confirmationDialog = Qt.inputDialog(parent, "Вы действительно хотите удалить '" + elementName + "'?", "Удалить?", "Оставить")
+                    if (confirmationDialog.exec() === Qt.DialogCode.Accepted)
+                    {
+                        zone_storage_listview.model.remove(selectedIdx)
+                    }
+                }
+            }
         }
     }
 }
