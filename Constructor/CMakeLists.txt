@@ -20,6 +20,7 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/ConstructMenu/ConstructMenu.qml
     QML_FILES src/View/PackageZoneMenu/PackageZoneMenu.qml
     QML_FILES src/View/StationMenu/StationMenu.qml
+    QML_FILES src/View/PackageZoneConstructMenu/PackageZoneConstructMenu.qml
 )
 
 set_target_properties(appConstructor PROPERTIES
