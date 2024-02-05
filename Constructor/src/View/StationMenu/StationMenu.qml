@@ -6,10 +6,12 @@ import QtQuick.Dialogs 1.3
 Rectangle
 {
     id: station_menu_window
+    //когда настрою все кнопки, переделать, чтобы сюда шли не тсатичные параметры, а высоты и ширины из главного окна и выделенного под окна соответствующе
     property real swidth: width / 100
     property real sheight: 1080 / 100
     width: 1920
-    height: sheight * 101
+    height: 1000
+    //левая панелька с названиями
     ScrollView
     {
         id: station_menu_scrollview_left
@@ -29,7 +31,7 @@ Rectangle
             delegate: Rectangle
             {
                 width: station_menu_listview.width
-                height: sheight * 5.501
+                height: sheight * 5.556
                 color: model.color
                 Rectangle
                 {
@@ -57,32 +59,33 @@ Rectangle
                 }
             }
         }
-    }
-    Button
-    {
-        id: plus_button
-        height: sheight * 5.317
-        width: swidth * 2.604
-        x: swidth * 6.51
-        y: sheight * 17.602
-        anchors.top: station_menu_scrollview_left.bottom
-        text: "+"
-        onClicked:
+        Button
         {
-
-        }
-        onAnchorsChanged:
-        {
-            if (station_menu_scrollview_left.contentHeight > station_menu_scrollview_left.height)
+            id: plus_button
+            height: sheight * 537
+            width: swidth * 2.604
+            x: swidth * 6.51
+            anchors.top: station_menu_scrollview_left.bottom
+            text: "+"
+            onClicked:
             {
-                plus_button.anchors.top = station_menu_scrollview_left.contentHeight + 6.601
+                //здесь что-то + делает, хезе ч
             }
-            else
+            onAnchorsChanged:
             {
-                plus_button.anchors.top = station_menu_scrollview_left.bottom
+                if (station_menu_scrollview_left.contentHeight > station_menu_scrollview_left.height)
+                {
+                    //будет ли так работать, или в listview поставить высоту 0
+                    plus_button.anchors.top = station_menu_scrollview_left.contentHeight + 6.601
+                }
+                else
+                {
+                    plus_button.anchors.top = station_menu_scrollview_left.bottom
+                }
             }
         }
     }
+    //правая панелька с кнопками
     Rectangle
     {
         id: buttons_right_menu
@@ -93,8 +96,8 @@ Rectangle
         {
             id: add_color_button
             width: swidth * 14.062
-            height: sheight * 5.501
-            y: sheight * 2.384
+            height: sheight * 5.556
+            y: sheight * 10
             x: swidth * 83.646
             text: "Добавить"
             visible: false
@@ -104,8 +107,8 @@ Rectangle
         {
             id: change_color_button
             width: swidth * 14.062
-            height: sheight * 5.501
-            y: sheight * 2.384
+            height: sheight * 5.556
+            y: sheight * 10
             x: swidth * 83.646
             text: "Изменить"
             visible: false
@@ -115,19 +118,21 @@ Rectangle
         {
             id: delete_color_button
             width: swidth * 14.062
-            height: sheight * 5.501
-            y: sheight * 9.718
+            height: sheight * 5.556
+            y: sheight * 17.222
             x: swidth * 83.646
             text: "Удалить"
             visible: false
             enabled: false
         }
     }
+    //центральное окно
     ScrollView
     {
         id: station_menu_scrollview_right
         width: swidth * 1.563
-        height: sheight * 79.116
+        //поправить высоту если при развороте оно не будет удлиняться
+        height: sheight * 87.315
         x: swidth * 81.25
         Rectangle
         {
@@ -137,11 +142,11 @@ Rectangle
             anchors.right: parent.left
             Rectangle
             {
-                id: station_name_rec
+                id: sm_station_name_rec
                 width: swidth * 58.698
-                height: sheight * 4.584
+                height: sheight * 4.629
                 x: swidth * 20.052
-                y: sheight * 2.292
+                y: sheight * 9.722
                 Rectangle
                 {
                     height: parent.height
@@ -154,7 +159,7 @@ Rectangle
                 }
                 TextInput
                 {
-                    id: station_name
+                    id: sm_station_name
                     width: swidth * 24.884
                     height: parent.height
                     anchors.right: parent.right
@@ -162,11 +167,11 @@ Rectangle
             }
             Rectangle
             {
-                id: interfase_name_rec
+                id: sm_interfase_name_rec
                 width: swidth * 58.698
-                height: sheight * 4.584
+                height: sheight * 4.629
                 x: swidth * 20.052
-                y: sheight * 9.626
+                y: sheight * 17.129
             }
             Rectangle
             {
@@ -180,7 +185,7 @@ Rectangle
             }
             TextInput
             {
-                id: interfase_name
+                id: sm_interfase_name
                 width: swidth * 24.884
                 height: parent.height
                 anchors.right: parent.right
@@ -188,11 +193,11 @@ Rectangle
         }
         Rectangle
         {
-            id: crc_ok_zone
+            id: sm_crc_ok_zone
             width: swidth * 58.698
-            height: sheight * 4.584
+            height: sheight * 2.963
             x: swidth * 20.052
-            y: sheight * 17.327
+            y: sheight * 24.907
             Rectangle
             {
                 id: crc_ok_text
@@ -206,26 +211,39 @@ Rectangle
             }
             CheckBox
             {
-                id: crc_ok_checkbox
+                id: sm_crc_ok_checkbox
                 width: swidth * 1.354
-                height: sheight * 1.354
+                height: sheight * 1.667
                 anchors.right: parent.right
-            }
+                checked: false
+                onCheckedChanged:
+                {
+                    if (sm_crc_ok_checkbox.checked === true)
+                    {
+                        show_crc.enabled = true
+                    }
+                    else
+                    {
+                        show_crc.enabled = false
+                    }
+                }
+            }  
         }
     }
+    //верхняя панелька настроек порта
     Rectangle
     {
         id: port_settings
-        height: sheight * 4.584
+        height: sheight * 4.629
         width: swidth * 64.063
         x: swidth * 17.188
-        y: sheight * 23.194
+        y: sheight * 30.833
         Rectangle
         {
-            height: sheight * 2.2
+            height: sheight * 2.222
             width: swidth * 8.802
             x: swidth * 19.583
-            y: sheight * 24.386
+            y: sheight * 32.037
             Text
             {
                 text: qsTr("Настройки порта")
@@ -235,9 +253,9 @@ Rectangle
         {
             id: show_port_parametrs
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             x: swidth * 79.167
-            y: sheight * 24.294
+            y: sheight * 32.037
             checked: false
             onCheckedChanged:
             {
@@ -247,240 +265,243 @@ Rectangle
         Image
         {
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             anchors.verticalCenter: show_port_parametrs.verticalCenter
             source: show_port_parametrs.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_port_parametrs.indeterminate || !show_port_parametrs.checked
         }
+    }
+    //разворачивающаяся панелька настроек порта, здесь надо проставить сдвиги
+    Rectangle
+    {
+        id: port_settings_parametrs
+        width: swidgth * 17.188
+        height: 0
+        states:
+            [
+            State
+            {
+                name: "opened"
+                PropertyChanges
+                {
+                    target: port_settings_parametrs; height: sheight * 42.037
+                }
+            },
+            State {
+                name: "closed"
+                PropertyChanges
+                {
+                    target: port_settings_parametrs; height: 0
+
+                }
+            }
+        ]
+        /*transitions: Transition
+        {
+            NumberAnimation
+            {
+                properties: "height"
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }*/
+        //Начинка под настройки порта
         Rectangle
         {
-            id: port_settings_parametrs
-            width: swidgth * 17.188
-            height: 0
-            states:
-                [
-                State
-                {
-                    name: "opened"
-                    PropertyChanges
-                    {
-                        target: port_settings_parametrs; height: sheight * 41.621
-                    }
-                },
-                State {
-                    name: "closed"
-                    PropertyChanges
-                    {
-                        target: port_settings_parametrs; height: 0
-
-                    }
-                }
-            ]
-            /*transitions: Transition
-            {
-                NumberAnimation
-                {
-                    properties: "height"
-                    duration: 300
-                    easing.type: Easing.InOutQuad
-                }
-            }*/
+            id: bits_in_sec_rec
+            width: swidth * 58.696
+            height: sheight * 3.989
+            x: swidth * 20.052
+            y: sheight * 39.259
             Rectangle
             {
-                id: bits_in_sec_rec
-                width: pwidth * 91.623
-                height: pheight * 9.489
-                x: pwidth * 4.472
-                y: pheight * 8.59
-                Rectangle
+                width: swidth * 10.26
+                height: sheight * 2.778
+                anchors.left: parent.left
+                Text
                 {
-                    width: pwidth * 16.016
-                    height: pheight * 6.608
-                    anchors.left: parent.left
-                    Text
-                    {
-                        text: qsTr("Бит в секунду")
-                    }
+                    text: qsTr("Бит в секунду")
                 }
-                ComboBox
+            }
+            ComboBox
+            {
+                id: bits_in_sec_cb
+                width: swidth * 7.945
+                height: parent.height
+                anchors.right: parent.right
+                model: ListModel
                 {
-                    id: bits_in_sec_cb
-                    width: pwidth * 12.402
-                    height: parent.height
-                    anchors.right: parent.right
-                    model: ListModel
+                    id: bits_in_sec
+                    ListElement
                     {
-                        id: bits_in_sec
-                        ListElement
-                        {
-                            text: "9600"
-                        }
+                        text: "9600"
                     }
                 }
             }
+        }
+        Rectangle
+        {
+            id: data_bit_rec
+            width: swidth * 58.696
+            height: sheight * 3.989
+            x: swidth * 20.052
+            y: sheight * 47.019
             Rectangle
             {
-                id: data_bit_rec
-                width: pwidth * 91.623
-                height: pheight * 9.489
-                x: pwidth * 4.472
-                y: pheight * 26.889
-                Rectangle
+                width: swidth * 10.26
+                height: sheight * 2.778
+                anchors.left: parent.left
+                Text
                 {
-                    width: pwidth * 16.016
-                    height: pheight * 6.608
-                    anchors.left: parent.left
-                    Text
-                    {
-                        text: qsTr("Бит данных")
-                    }
+                    text: qsTr("Бит данных")
                 }
-                ComboBox
+            }
+            ComboBox
+            {
+                id: data_bit_cb
+                width: swidth * 7.945
+                height: parent.height
+                anchors.right: parent.right
+                model: ListModel
                 {
-                    id: data_bit_cb
-                    width: pwidth * 12.402
-                    height: parent.height
-                    anchors.right: parent.right
-                    model: ListModel
+                    id: data_bit
+                    ListElement
                     {
-                        id: data_bit
-                        ListElement
-                        {
-                            text: "8"
-                        }
+                        text: "8"
                     }
                 }
             }
+        }
+        Rectangle
+        {
+            id: parity_rec
+            width: swidth * 58.696
+            height: sheight * 3.989
+            x: swidth * 20.052
+            y: sheight * 54.644
             Rectangle
             {
-                id: parity_rec
-                width: pwidth * 91.623
-                height: pheight * 9.489
-                x: pwidth * 4.472
-                y: pheight * 26.889
-                Rectangle
+                width: swidth * 10.26
+                height: sheight * 2.778
+                anchors.left: parent.left
+                Text
                 {
-                    width: pwidth * 16.016
-                    height: pheight * 6.608
-                    anchors.left: parent.left
-                    Text
-                    {
-                        text: qsTr("Четность")
-                    }
+                    text: qsTr("Четность")
                 }
-                ComboBox
+            }
+            ComboBox
+            {
+                id: parity_cb
+                width: swidth * 7.945
+                height: parent.height
+                anchors.right: parent.right
+                model: ListModel
                 {
-                    id: parity_cb
-                    width: pwidth * 12.402
-                    height: parent.height
-                    anchors.right: parent.right
-                    model: ListModel
+                    id: parity
+                    ListElement
                     {
-                        id: parity
-                        ListElement
-                        {
-                            text: "Нет"
-                        }
-                        ListElement
-                        {
-                            text: "Да"
-                        }
+                        text: "Нет"
+                    }
+                    ListElement
+                    {
+                        text: "Да"
                     }
                 }
             }
+        }
+        Rectangle
+        {
+            id: stop_bits_rec
+            width: swidth * 58.696
+            height: sheight * 3.989
+            x: swidth * 20.052
+            y: sheight * 62.336
             Rectangle
             {
-                id: stop_bits_rec
-                width: pwidth * 91.623
-                height: pheight * 9.489
-                x: pwidth * 4.472
-                y: pheight * 63.487
-                Rectangle
+                width: swidth * 10.26
+                height: sheight * 2.778
+                anchors.left: parent.left
+                Text
                 {
-                    width: pwidth * 16.016
-                    height: pheight * 6.608
-                    anchors.left: parent.left
-                    Text
-                    {
-                        text: qsTr("Стоповые биты")
-                    }
+                    text: qsTr("Стоповые биты")
                 }
-                ComboBox
+            }
+            ComboBox
+            {
+                id: stop_bits_cb
+                width: swidth * 7.945
+                height: parent.height
+                anchors.right: parent.right
+                model: ListModel
                 {
-                    id: stop_bits_cb
-                    width: pwidth * 12.402
-                    height: parent.height
-                    anchors.right: parent.right
-                    model: ListModel
+                    id: stop_bits
+                    ListElement
                     {
-                        id: stop_bits
-                        ListElement
-                        {
-                            text: "1"
-                        }
+                        text: "1"
                     }
                 }
             }
+        }
+        Rectangle
+        {
+            id: flow_control_rec
+            width: swidth * 58.696
+            height: sheight * 3.989
+            x: swidth * 20.052
+            y: sheight * 70.028
             Rectangle
             {
-                id: flow_control_rec
-                width: pwidth * 91.623
-                height: pheight * 9.489
-                x: pwidth * 4.472
-                y: pheight * 81.786
-                Rectangle
+                width: swidth * 10.26
+                height: sheight * 2.778
+                anchors.left: parent.left
+                Text
                 {
-                    width: pwidth * 16.016
-                    height: pheight * 6.608
-                    anchors.left: parent.left
-                    Text
-                    {
-                        text: qsTr("Управление потоком")
-                    }
+                    text: qsTr("Управление потоком")
                 }
-                ComboBox
+            }
+            ComboBox
+            {
+                id: flow_control_cb
+                width: swidth * 7.945
+                height: parent.height
+                anchors.right: parent.right
+                model: ListModel
                 {
-                    id: flow_control_cb
-                    width: pwidth * 12.402
-                    height: parent.height
-                    anchors.right: parent.right
-                    model: ListModel
+                    id: flow_control
+                    ListElement
                     {
-                        id: flow_control
-                        ListElement
-                        {
-                            text: "Нет"
-                        }
-                        ListElement
-                        {
-                            text: "Да"
-                        }
+                        text: "Нет"
+                    }
+                    ListElement
+                    {
+                        text: "Да"
                     }
                 }
             }
         }
     }
+    //заголовок окнапакетов, здесь надо продумать как сделать таблицу пакета
     Rectangle
     {
         id: package_templates
-        height: sheight * 4.584
+        height: sheight * 4.629
         width: swidth * 64.063
         anchors.top: port_settings_parametrs.bottom
         Rectangle
         {
-            height: sheight * 2.2
+            height: sheight * 2.222
             width: swidth * 8.802
             anchors.verticalCenter: parent.left
             Text
             {
-                text: qsTr("Настройки порта")
+                text: qsTr("Шаблоны пакетов")
             }
         }
         CheckBox
         {
             id: show_package_templates
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             anchors.verticalCenter: parent.right
             checked: false
             onCheckedChanged:
@@ -491,54 +512,55 @@ Rectangle
         Image
         {
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             anchors.verticalCenter: show_package_templates.verticalCenter
             source: show_package_templates.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_package_templates.indeterminate || !show_package_templates.checked
         }
-        Rectangle
-        {
-            id: package_templates_parametrs
-            width: swidgth * 17.188
-            height: 0
-            states:
-                [
-                State
-                {
-                    name: "opened"
-                    PropertyChanges
-                    {
-                        target: package_templates_parametrs; height: sheight * 64.356
-                    }
-                },
-                State {
-                    name: "closed"
-                    PropertyChanges
-                    {
-                        target: package_templates_parametrs; height: 0
-                    }
-                }
-            ]
-            /*transitions: Transition
-            {
-                NumberAnimation
-                {
-                    properties: "height"
-                    duration: 300
-                    easing.type: Easing.InOutQuad
-                }
-            }*/
-        }
     }
     Rectangle
     {
+        id: package_templates_parametrs
+        width: swidgth * 17.188
+        height: 0
+        states:
+            [
+            State
+            {
+                name: "opened"
+                PropertyChanges
+                {
+                    target: package_templates_parametrs; height: sheight * 64.356
+                }
+            },
+            State {
+                name: "closed"
+                PropertyChanges
+                {
+                    target: package_templates_parametrs; height: 0
+                }
+            }
+        ]
+        /*transitions: Transition
+        {
+            NumberAnimation
+            {
+                properties: "height"
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }*/
+    }
+    //СРС
+    Rectangle
+    {
         id: crc_templates
-        height: sheight * 4.584
+        height: sheight * 4.629
         width: swidth * 64.063
         anchors.top: package_templates_parametrs.bottom
         Rectangle
         {
-            height: sheight * 2.2
+            height: sheight * 2.222
             width: swidth * 8.802
             anchors.verticalCenter: parent.left
             Text
@@ -550,9 +572,10 @@ Rectangle
         {
             id: show_crc
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             anchors.verticalCenter: parent.right
             checked: false
+            enabled: false
             onCheckedChanged:
             {
                 crc_parametrs.state === "closed" ? crc_parametrs.state = "opened" : crc_parametrs.state = "closed";
@@ -561,137 +584,137 @@ Rectangle
         Image
         {
             width: swidth * 1.302
-            height: sheight * 2.292
+            height: sheight * 2.315
             anchors.verticalCenter: show_crc.verticalCenter
             source: show_crc.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_crc.indeterminate || !show_crc.checked
         }
+    }
+    Rectangle
+    {
+        id: crc_parametrs
+        width: swidgth * 17.188
+        height: 0
+        states:
+            [
+            State
+            {
+                name: "opened"
+                PropertyChanges
+                {
+                    target: package_templates_parametrs; height: sheight * 85.533
+                }
+            },
+            State {
+                name: "closed"
+                PropertyChanges
+                {
+                    target: package_templates_parametrs; height: 0
+
+                }
+            }
+        ]
+        /*transitions: Transition
+        {
+            NumberAnimation
+            {
+                properties: "height"
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }*/
         Rectangle
         {
-            id: crc_parametrs
-            width: swidgth * 17.188
-            height: 0
-            states:
-                [
-                State
-                {
-                    name: "opened"
-                    PropertyChanges
-                    {
-                        target: package_templates_parametrs; height: sheight * 85.533
-                    }
-                },
-                State {
-                    name: "closed"
-                    PropertyChanges
-                    {
-                        target: package_templates_parametrs; height: 0
-
-                    }
-                }
-            ]
-            /*transitions: Transition
-            {
-                NumberAnimation
-                {
-                    properties: "height"
-                    duration: 300
-                    easing.type: Easing.InOutQuad
-                }
-            }*/
+            id: byte_info_rec
+            width: swidth * 59.01
+            height: sheight * 5.556
             Rectangle
             {
-                id: byte_info_rec
-                width: swidth * 59.01
-                height: sheight * 5.501
-                Rectangle
-                {
-                    width: swidth * 14.409
-                    height: 4.95
-                    anchors.verticalCenter: parent.left
-                    Text
-                    {
-                        text: qsTr("В какой байт поместить
-                                    контрольную сумму")
-                    }
-                }
-                TextInput
-                {
-                    id: byte_info
-                    height: parent.height
-                    width: swidth * 3.125
-                    anchors.right: parent.right
-                }
-            }
-            Rectangle
-            {
-                id: start_count_rec
-                width: swidth * 59.01
-                height: sheight * 5.501
-                anchors.horizontalCenter: byte_info_rec.bottom
-                Rectangle
-                {
-                    width: swidth * 14.409
-                    height: 4.95
-                    anchors.verticalCenter: parent.left
-                    Text
-                    {
-                        text: qsTr("Начало вычисления
-                                    контрольной суммы")
-                    }
-                }
-                TextInput
-                {
-                    id: start_count
-                    height: parent.height
-                    width: swidth * 3.125
-                    anchors.right: parent.right
-                }
-            }
-            Rectangle
-            {
-                id: end_count_rec
-                width: swidth * 59.01
-                height: sheight * 5.501
-                anchors.horizontalCenter: start_count_rec.bottom
-                Rectangle
-                {
-                    width: swidth * 14.409
-                    height: 4.95
-                    anchors.verticalCenter: parent.left
-                    Text
-                    {
-                        text: qsTr("Конец вычисления
-                                    контрольной суммы")
-                    }
-                }
-                TextInput
-                {
-                    id: end_count
-                    height: parent.height
-                    width: swidth * 3.125
-                    anchors.right: parent.right
-                }
-            }
-            Rectangle
-            {
-                id: code_rec
                 width: swidth * 14.409
-                height: sheight * 2.475
-                anchors.top:  end_count_rec.bottom
+                height: 5
+                anchors.verticalCenter: parent.left
                 Text
                 {
-                    text: qsTr("Код")
+                    text: qsTr("В какой байт поместить
+                                контрольную сумму")
                 }
             }
-
-            TextEdit
+            TextInput
             {
-                id: cod_example
-                width: swidth * 59.01
-                height: sheight * 53.447
-                anchors.top: code_rec.bottom
+                id: byte_info
+                height: parent.height
+                width: swidth * 3.125
+                anchors.right: parent.right
             }
+        }
+        Rectangle
+        {
+            id: start_count_rec
+            width: swidth * 59.01
+            height: sheight * 5.556
+            anchors.horizontalCenter: byte_info_rec.bottom
+            Rectangle
+            {
+                width: swidth * 14.409
+                height: 5
+                anchors.verticalCenter: parent.left
+                Text
+                {
+                    text: qsTr("Начало вычисления
+                                контрольной суммы")
+                }
+            }
+            TextInput
+            {
+                id: start_count
+                height: parent.height
+                width: swidth * 3.125
+                anchors.right: parent.right
+            }
+        }
+        Rectangle
+        {
+            id: end_count_rec
+            width: swidth * 59.01
+            height: sheight * 5.556
+            anchors.horizontalCenter: start_count_rec.bottom
+            Rectangle
+            {
+                width: swidth * 14.409
+                height: 5
+                anchors.verticalCenter: parent.left
+                Text
+                {
+                    text: qsTr("Конец вычисления
+                                контрольной суммы")
+                }
+            }
+            TextInput
+            {
+                id: end_count
+                height: parent.height
+                width: swidth * 3.125
+                anchors.right: parent.right
+            }
+        }
+        Rectangle
+        {
+            id: code_rec
+            width: swidth * 14.409
+            height: sheight * 2.5
+            anchors.top:  end_count_rec.bottom
+            Text
+            {
+                text: qsTr("Код")
+            }
+        }
+
+        TextEdit
+        {
+            id: cod_example
+            width: swidth * 59.01
+            height: sheight * 53.981
+            anchors.top: code_rec.bottom
         }
     }
 
@@ -699,16 +722,16 @@ Rectangle
     {
         id: buttons_bottom_menu
         width: swidth * 64.063
-        height: sheight * 12.193
-        y: sheight * 79.116
+        height: sheight * 12.315
+        y: sheight * 87.315
         x: swidth * 17.188
         Button
         {
             id: save_station_button
             width: swidth * 14.063
-            height: sheight * 5.501
+            height: sheight * 5.556
             x: swidth * 18.177
-            y: sheight * 83.425
+            y: sheight * 91.667
             text: "Сохранить"
             onClicked:
             {
@@ -724,9 +747,9 @@ Rectangle
         {
             id: delete_station_button
             width: swidth * 14.063
-            height: sheight * 5.501
+            height: sheight * 5.556
             x: swidth * 66.406
-            y: sheight * 83.425
+            y: sheight * 91.667
             text: "Удалить"
             onClicked:
             {
