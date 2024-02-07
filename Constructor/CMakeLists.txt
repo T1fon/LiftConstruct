@@ -21,6 +21,8 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageZoneMenu/PackageZoneMenu.qml
     QML_FILES src/View/StationMenu/StationMenu.qml
     QML_FILES src/View/PackageConstructMenu/PackageConstructMenu.qml
+    QML_FILES src/View/TestConstructMenu/TestConstructMenu.qml
+    QML_FILES src/View/EmulatorMenu/EmulatorMenu.qml
 )
 
 set_target_properties(appConstructor PROPERTIES
