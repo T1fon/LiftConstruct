@@ -1,89 +1,110 @@
 import QtQuick 2.15
 import QtQuick.Window
 import QtQuick.Controls
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 
 
 Rectangle
 {
     id: construct_menu_window
-    //когда настрою все кнопки, переделать, чтобы сюда шли не тсатичные параметры, а высоты и ширины из главного окна и выделенного под окна соответствующе
-    property real swidth: width / 100
-    property real sheight: 1080 / 100
+
     width: 1920
     height: 1000
-
-    ScrollView
+    property real swidth: width / 100
+    property real sheight: height / 100
+    color: "#D9D9D9"
+    Rectangle
     {
-        id: left_menu_scrollview
+        id: left_rect
+        width: swidth * 17.188
         height: parent.height
-        width: swidth * 1.563
-        anchors.right: parent.right
-        ListView
+        anchors.left: parent.left
+        color: "#D9D9D9"
+        ScrollView
         {
-            id: left_menu_listview
-            width: swidth * 15.625
+            id: left_menu_scrollview
             height: parent.height
-            anchors.right: parent.left
-            model: ListModel
-            {
+            width: swidth * 17.188
+            anchors.right : parent.right
+            anchors.top: parent.top
+            clip: true
 
-            }
-            delegate: Rectangle
+            ListView
             {
-                width: left_menu_listview.width
-                height: sheight * 5.556
-                color: model.color
-                Rectangle
+                id: left_menu_listView
+                width: parent.width
+                height: contentHeight
+
+                model: ListModel
                 {
-                    height: parent.height
-                    width: parent.width
-                    anchors.left: parent.left
-                    Text {
-                        text: model.name
-                    }
+                    id: pzm_model
                 }
-                Rectangle
+                delegate: Rectangle
                 {
-                    height: parent.height
-                    width: parent.width
-                    anchors.right: parent.right
+                    width: left_menu_listView.width
+                    height: sheight * 5.556
                     color: model.color
-                }
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
+                    border.color: "black"
+                    border.width: (left_menu_listView.currentIndex === index) ? 2 : 0
+
+                    Text
                     {
-                        input_name.text = model.name
-                        color_box.color = model.color
+                        text: model.text
+                        anchors.centerIn: parent
+                        font.family: "Inter"
+                        font.pointSize: 20 * swidth * 0.035
+                    }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            input_name.text = model.text
+                            color_box.color = model.color
+                            left_menu_listView.currentIndex = index
+                            color_box.enabled = true
+                            delete_zone.enabled = true
+                        }
+                    }
+
+                }
+            }
+            Rectangle
+            {
+                id: white_rect
+                width: swidth * 17.188
+                height: sheight * 0.9
+                color: "white"
+                x: left_menu_listView.height
+                anchors.left: parent.left
+            }
+            onContentHeightChanged: {
+                if (left_menu_scrollview.flickableItem !== undefined) {
+                    if (contentHeight > left_menu_scrollview.height) {
+                        left_menu_scrollview.flickableItem.interactive = true;
+                    } else {
+                        left_menu_scrollview.flickableItem.interactive = false;
                     }
                 }
             }
-        }
-        Button
-        {
-            id: plus_button
-            height: sheight * 5.37
-            width: swidth * 2.604
-            anchors.top: left_menu_listview.bottom
-            text: "+"
-            onClicked:
+            Button
             {
-                input_name.text = ""
-                color_box.color = "black"
-            }
-            onAnchorsChanged:
-            {
-                if (left_menu_listview.contentHeight > left_menu_listview.height)
-                    //будет ли так работать, или в listview поставить высоту 0
+                id: plus_but
+                width: swidth * 2.604
+                height: sheight * 5.37
+                x: swidth * 6.51
+                y: left_menu_listView.contentHeight + white_rect.height
+                text: "+"
+                font.pointSize: 48 * swidth * 0.03
+                onClicked:
                 {
-                    plus_button.anchors.top = left_menu_listview.contentHeight + 7.407
+                    input_name.enabled = true
+                    input_name.text = ""
+                    color_box.enabled = true
+                    color_box.color = "black"
+                    save_zone.enabled = true
                 }
-                else
-                {
-                    plus_button.anchors.top = left_menu_listview.bottom
-                }
+                //cdelat cnachala serii kvadrat potom on sapolnitsa
             }
         }
     }
@@ -95,25 +116,43 @@ Rectangle
         height: sheight * 4.629
         y: sheight * 12.129
         x: swidth * 24.948
+        color: "#D9D9D9"
 
         Rectangle
         {
             height: parent.height
             width: swidth * 5.578
             anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            color: "#D9D9D9"
             Text
             {
                 id: text_name
+                font.family: "Inter"
+                font.pixelSize: 22 * 0.04 * swidth
                 text: qsTr("Имя зоны")
             }
         }
-
-        TextInput
+        Rectangle
         {
-            id: input_name
             height: parent.height
             width: swidth * 29.323
             anchors.right: parent.right
+            color: "white"
+            border.color: "black"
+            border.width: 1
+            TextInput
+            {
+                id: input_name
+                height: parent.height
+                width: parent.width
+                font.family: "Inter"
+                font.pixelSize: 22 * 0.04 * swidth
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                text: ""
+                enabled: false
+            }
         }
     }
 
@@ -124,15 +163,19 @@ Rectangle
         height: sheight * 4.629
         y: sheight * 21.481
         x: swidth * 24.948
+        color: "#D9D9D9"
 
         Rectangle
         {
             height: parent.height
             width: swidth * 5.578
             anchors.left: parent.left
+            color: "#D9D9D9"
             Text
             {
                 id: color_name
+                font.family: "Inter"
+                font.pixelSize: 22 * 0.04 * swidth
                 text: qsTr("Цвет")
             }
         }
@@ -144,64 +187,132 @@ Rectangle
             width: swidth * 3.147
             anchors.right: parent.right
             color: "#ff0000"
+            border.color: "black"
+            border.width: 1
+            enabled: false
 
             MouseArea
             {
                 anchors.fill: parent
-                onClicked:
-                {
-                    var color = Qt.inputDialog(parent, "Выберите цвет", "Цвет", color_box.color)
-                    if (color.exec() === Qt.DialogCode.Accepted)
-                    {
-                        color_box.color = color.inputField.text
-                    }
+                onClicked: {
+                    colorDialog.open()
+                }
+            }
+
+            ColorDialog
+            {
+                id: colorDialog
+                onAccepted: {
+                    color_box.color = colorDialog.selectedColor
                 }
             }
         }
     }
 
-    Button
-    {
+    Dialog {
+        id: warning_dialog
+        title: "ошибка?"
+        standardButtons: Dialog.Ok
+        Text {
+            text:  "Измените цвет (не черный) или впишите имя";
+        }
+        onAccepted:
+        {
+
+        }
+    }
+
+    Button {
         id: save_zone
         height: sheight * 5.556
         width: swidth * 14.063
         x: swidth * 24.948
-        y: sheight * 85.093
+        y: sheight * 77.685
         text: "Сохранить"
+        enabled: false
         onClicked:
         {
-            left_menu_listview.model.append
-                    ({
-                        name: input_name.text,
-                        color: color_box.color
-                     })
-            left_menu_listview.forceLayout();
-            input_name.text = ""
-            color_box.color = "black"
+            if(input_name.text ==  " " || color_box.color == "#000000")
+            {
+                warning_dialog.open()
+            }
+            else
+            {
+                console.log(input_name.text)
+                console.log(color_box.color)
+                var newItem = { text: input_name.text, color: color_box.color };
+                var itemIndex = -1;
+
+                for (var i = 0; i < pzm_model.count; ++i) {
+                    if (pzm_model.get(i).text === input_name.text)
+                    {
+                        itemIndex = i;
+                        break;
+                    }
+                }
+
+                if (itemIndex !== -1)
+                {
+                    pzm_model.set(itemIndex, newItem);
+                }
+                else
+                {
+                    pzm_model.append(newItem);
+                }
+
+                left_menu_listView.height += 5.556;
+                input_name.text = "";
+                color_box.color = "black";
+                left_menu_listView.currentIndex = -1;
+                white_rect.y = left_menu_listView.contentHeight
+                plus_but.y = white_rect.y + white_rect.height
+                color_box.enabled = false
+                input_name.enabled = false
+                save_zone.enabled = false
+            }
         }
     }
 
-    Button
-    {
+
+    Dialog {
+        id: confirmation_dialog
+        title: "Удалить?"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        Text {
+            text:  "Вы действительно хотите удалить '" + input_name.text + "'?";
+        }
+        onAccepted:
+        {
+            if (confirmation_dialog.opened)
+            {
+                var selectedIdx = left_menu_listView.currentIndex;
+                left_menu_listView.model.remove(selectedIdx);
+                left_menu_listView.height = left_menu_listView.contentHeight;
+                white_rect.y = left_menu_listView.height;
+                plus_but.y = white_rect.y + white_rect.height;
+            }
+        }
+    }
+
+    Button {
         id: delete_zone
         height: sheight * 5.556
         width: swidth * 14.063
         x: swidth * 77.552
-        y: sheight * 85.093
+        y: sheight * 77.685
         text: "Удалить"
+        enabled: false
         onClicked:
         {
-            var selectedIdx = left_menu_listview.currentIndex
-            if (selectedIdx >= 0 && selectedIdx < left_menu_listview.model.count)
-            {
-                var elementName = left_menu_listview.model.get(selectedIdx).name
-                var confirmationDialog = Qt.inputDialog(parent, "Вы действительно хотите удалить '" + elementName + "'?", "Удалить?", "Оставить")
-                if (confirmationDialog.exec() === Qt.DialogCode.Accepted)
-                {
-                    left_menu_listview.model.remove(selectedIdx)
-                }
+            var selectedIdx = left_menu_listView.currentIndex
+            if (selectedIdx >= 0 && selectedIdx < left_menu_listView.model.count) {
+                confirmation_dialog.open();
             }
+            delete_zone.enabled = false;
         }
     }
+
+
+
 }
 

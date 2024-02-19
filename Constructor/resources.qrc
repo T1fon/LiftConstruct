@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/View/StationMenu/SM_AddSection.qml</file>
+        <file>src/View/StationMenu/SM_Package_View.qml</file>
+        <file>src/View/StationMenu/SM_one_zone_rec.qml</file>
+        <file>src/View/PackageConstructMenu/PCM_one_zone_rec.qml</file>
+        <file>src/View/TestConstructMenu/TCM_one_element.qml</file>
+    </qresource>
+</RCC>
