@@ -25,39 +25,43 @@ Window
             width: swidth * 7.813
             anchors.left: parent.left
             id: fail_box
+
             background: Rectangle
             {
                 color: "#D9D9D9"
+                border.width: 1
+                border.color: "black"
             }
+
             model: ListModel
             {
                 id: fail_model
-                ListElement
-                {
-                    text: "Файл"
-                }
-                ListElement
-                {
-                    text: "Открыть"
-                }
-                ListElement
-                {
-                    text: "Закрыть"
-                }
-                ListElement
-                {
-                    text: "Сохранить"
-                }
-                ListElement
-                {
-                    text: "Сохранить как"
-                }
-                ListElement
-                {
-                    text: "Экспортировать"
-                }
+                ListElement { text: "Файл" }
+                ListElement { text: "Открыть" }
+                ListElement { text: "Закрыть" }
+                ListElement { text: "Сохранить" }
+                ListElement { text: "Сохранить как" }
+                ListElement { text: "Экспортировать" }
+
+            }
+            onActivated:
+            {
+                   if (currentIndex !== 0) {
+                       console.log("Выбран элемент:", currentItem.text);
+                       fail_box.text = "Файл"; // Установка текста ComboBox обратно на "Файл"
+                   }
+               }
+
+            delegate: Text
+            {
+                text: model.text
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                padding: 5
             }
         }
+
         Button
         {
             id: help_button;
@@ -68,6 +72,8 @@ Window
             background: Rectangle
             {
                 color: "#D9D9D9"
+                border.color: "black"
+                border.width: 1
             }
         }
     }
@@ -90,8 +96,7 @@ Window
             {
                text: construct_menu_button.text
                font: construct_menu_button.font
-               opacity: enabled ? 1.0 : 0.3
-               color: construct_menu_button.down ? "#D9D9D9" : "black"
+               color: "black"
                horizontalAlignment: Text.AlignHCenter
                verticalAlignment: Text.AlignVCenter
                elide: Text.ElideRight
@@ -99,9 +104,9 @@ Window
 
                background: Rectangle
                {
+                   id: construct_menu_button_rec
                    color: "#D9D9D9"
-                   opacity: enabled ? 1 : 0.3
-                   border.color: construct_menu_button.down ? "#D9D9D9" : "#E9E9E9"
+                   border.color: "black"
                    border.width: 1
                    radius: 2
                }
@@ -114,6 +119,13 @@ Window
                 package_zone_button.enabled = true
                 test_zone_button.enabled = true
                 emulator_zone_button.enabled = true
+
+                construct_menu_button_rec.border.color = "#D9D9D9"
+                packet_zone_button_rec.border.color = "black"
+                station_zone_button_rec.border.color = "black"
+                package_zone_button_rec.border.color = "black"
+                test_zone_button_rec.border.color = "black"
+                emulator_zone_button_rec.border.color = "black"
             }
         }
         Button
@@ -127,8 +139,8 @@ Window
             {
                text: packet_zone_button.text
                font: packet_zone_button.font
-               opacity: enabled ? 1.0 : 0.3
-               color: packet_zone_button.down ? "#D9D9D9" : "black"
+               //opacity: enabled ? 1.0 : 0.3
+               color: "black"
                horizontalAlignment: Text.AlignHCenter
                verticalAlignment: Text.AlignVCenter
                elide: Text.ElideRight
@@ -136,11 +148,16 @@ Window
 
            background: Rectangle
            {
+               id: packet_zone_button_rec
                color: "#D9D9D9"
-               opacity: enabled ? 1 : 0.3
-               border.color: packet_zone_button.down ? "#D9D9D9" : "#E9E9E9"
+               //opacity: enabled ? 1 : 0.3
+               border.color: "black"
                border.width: 1
                radius: 2
+               Behavior on border.color
+               {
+                    ColorAnimation { duration: 100 }
+                }
            }
             onClicked:
             {
@@ -151,6 +168,13 @@ Window
                 package_zone_button.enabled = true
                 test_zone_button.enabled = true
                 emulator_zone_button.enabled = true
+
+                construct_menu_button_rec.border.color = "black"
+                packet_zone_button_rec.border.color = "#D9D9D9"
+                station_zone_button_rec.border.color = "black"
+                package_zone_button_rec.border.color = "black"
+                test_zone_button_rec.border.color = "black"
+                emulator_zone_button_rec.border.color = "black"
             }
 
         }
@@ -165,8 +189,7 @@ Window
            {
               text: station_zone_button.text
               font: station_zone_button.font
-              opacity: enabled ? 1.0 : 0.3
-              color: station_zone_button.down ? "#D9D9D9" : "black"
+              color: "black"
               horizontalAlignment: Text.AlignHCenter
               verticalAlignment: Text.AlignVCenter
               elide: Text.ElideRight
@@ -174,9 +197,9 @@ Window
 
               background: Rectangle
               {
+                  id: station_zone_button_rec
                   color: "#D9D9D9"
-                  opacity: enabled ? 1 : 0.3
-                  border.color: station_zone_button.down ? "#D9D9D9" : "#E9E9E9"
+                  border.color: "black"
                   border.width: 1
                   radius: 2
               }
@@ -189,6 +212,13 @@ Window
                package_zone_button.enabled = true
                test_zone_button.enabled = true
                emulator_zone_button.enabled = true
+
+               construct_menu_button_rec.border.color = "black"
+               packet_zone_button_rec.border.color = "black"
+               station_zone_button_rec.border.color = "#D9D9D9"
+               package_zone_button_rec.border.color = "black"
+               test_zone_button_rec.border.color = "black"
+               emulator_zone_button_rec.border.color = "black"
            }
         }
         Button
@@ -202,8 +232,7 @@ Window
            {
               text: package_zone_button.text
               font: package_zone_button.font
-              opacity: enabled ? 1.0 : 0.3
-              color: package_zone_button.down ? "#D9D9D9" : "black"
+              color: "black"
               horizontalAlignment: Text.AlignHCenter
               verticalAlignment: Text.AlignVCenter
               elide: Text.ElideRight
@@ -211,9 +240,9 @@ Window
 
               background: Rectangle
               {
+                  id: package_zone_button_rec
                   color: "#D9D9D9"
-                  opacity: enabled ? 1 : 0.3
-                  border.color: package_zone_button.down ? "#D9D9D9" : "#E9E9E9"
+                  border.color: "black"
                   border.width: 1
                   radius: 2
               }
@@ -226,6 +255,13 @@ Window
                   package_zone_button.enabled = false
                   test_zone_button.enabled = true
                   emulator_zone_button.enabled = true
+
+                  construct_menu_button_rec.border.color = "black"
+                  packet_zone_button_rec.border.color = "black"
+                  station_zone_button_rec.border.color = "black"
+                  package_zone_button_rec.border.color = "#D9D9D9"
+                  test_zone_button_rec.border.color = "black"
+                  emulator_zone_button_rec.border.color = "black"
               }
         }
         Button
@@ -239,8 +275,7 @@ Window
            {
               text: test_zone_button.text
               font: test_zone_button.font
-              opacity: enabled ? 1.0 : 0.3
-              color: test_zone_button.down ? "#D9D9D9" : "black"
+              color: "black"
               horizontalAlignment: Text.AlignHCenter
               verticalAlignment: Text.AlignVCenter
               elide: Text.ElideRight
@@ -248,9 +283,9 @@ Window
 
               background: Rectangle
               {
+                  id: test_zone_button_rec
                   color: "#D9D9D9"
-                  opacity: enabled ? 1 : 0.3
-                  border.color: test_zone_button.down ? "#D9D9D9" : "#E9E9E9"
+                  border.color: "black"
                   border.width: 1
                   radius: 2
               }
@@ -263,6 +298,13 @@ Window
                   package_zone_button.enabled = true
                   test_zone_button.enabled = false
                   emulator_zone_button.enabled = true
+
+                  construct_menu_button_rec.border.color = "black"
+                  packet_zone_button_rec.border.color = "black"
+                  station_zone_button_rec.border.color = "black"
+                  package_zone_button_rec.border.color = "black"
+                  test_zone_button_rec.border.color = "#D9D9D9"
+                  emulator_zone_button_rec.border.color = "black"
               }
 
         }
@@ -277,17 +319,16 @@ Window
            {
               text: emulator_zone_button.text
               font: emulator_zone_button.font
-              opacity: enabled ? 1.0 : 0.3
-              color: emulator_zone_button.down ? "#D9D9D9" : "black"
+              color: "black"
               horizontalAlignment: Text.AlignHCenter
               verticalAlignment: Text.AlignVCenter
               elide: Text.ElideRight
             }
            background: Rectangle
            {
+               id: emulator_zone_button_rec
                color: "#D9D9D9"
-               opacity: enabled ? 1 : 0.3
-               border.color: emulator_zone_button.down ? "#D9D9D9" : "#E9E9E9"
+               border.color: "black"
                border.width: 1
                radius: 2
            }
@@ -300,6 +341,13 @@ Window
                package_zone_button.enabled = true
                test_zone_button.enabled = true
                emulator_zone_button.enabled = false
+
+               construct_menu_button_rec.border.color = "black"
+               packet_zone_button_rec.border.color = "black"
+               station_zone_button_rec.border.color = "black"
+               package_zone_button_rec.border.color = "black"
+               test_zone_button_rec.border.color = "black"
+               emulator_zone_button_rec.border.color = "#D9D9D9"
            }
         }
     }

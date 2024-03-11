@@ -26,6 +26,7 @@ qt_add_qml_module(appConstructor
     RESOURCES resources.qrc
 )
 
+
 set_target_properties(appConstructor PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}

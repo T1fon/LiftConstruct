@@ -6,11 +6,11 @@ import QtQuick.Dialogs
 Rectangle
 {
     id: test_construct_menu_window
-    property real swidth: width / 100
-    property real sheight: 1080 / 100
-    property int counter_seq: 1
     width: 1920
-    height: 1000
+    height: 1080
+    property real sheight: height / 100
+    property real swidth: width / 100
+    property int counter_seq: 1
     color: "#D9D9D9"
     Rectangle
     {
@@ -82,8 +82,8 @@ Rectangle
                 {
                     id: tcm_name_lift_rec
                     width: swidth * 58.698
-                    height: sheight * 5.556
-                    x: swidth * 4.322
+                    height: sheight * 4.629
+                    x: swidth * 4.323
                     y: sheight * 4.259
                     color: "#D9D9D9"
                     Rectangle
@@ -122,8 +122,8 @@ Rectangle
                 {
                     id: tcm_name_test_rec
                     width: swidth * 58.698
-                    height: sheight * 5.556
-                    x: swidth * 4.322
+                    height: sheight * 4.629
+                    x: swidth * 4.323
                     y: sheight * 12.5
                     color: "#D9D9D9"
                     Rectangle
@@ -137,7 +137,7 @@ Rectangle
                         {
                             font.family: "Inter"
                             font.pixelSize: 22 * 0.04 * swidth
-                            text: qsTr("Название лифта")
+                            text: qsTr("Название теста")
                         }
                     }
                     Rectangle

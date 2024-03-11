@@ -377,6 +377,8 @@ Rectangle
                 height: parent.height
                 anchors.right: parent.right
                 text: "0"
+                horizontalAlignment: TextInput.AlignRight
+                maximumLength: 15
             }
         }
         Rectangle

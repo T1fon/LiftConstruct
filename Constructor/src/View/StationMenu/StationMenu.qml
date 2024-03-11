@@ -9,7 +9,7 @@ Rectangle
     id: station_menu_window
     //когда настрою все кнопки, переделать, чтобы сюда шли не тсатичные параметры, а высоты и ширины из главного окна и выделенного под окна соответствующе
     width: 1920
-    height: 1000
+    height: 1080
     property real swidth: width / 100
     property real sheight: height / 100
     property int number_zone_main: 1
@@ -123,10 +123,10 @@ Rectangle
         Button
         {
             id: add_color_button
-            width: swidth * 14.062
+            width: swidth * 14.063
             height: sheight * 5.556
-            y: sheight * 2.407
             x: swidth * 0.833
+            y: sheight * 2.407
             font.pointSize: 22 * swidth * 0.03
             text: "Добавить"
             visible: false
@@ -135,10 +135,10 @@ Rectangle
         Button
         {
             id: change_color_button
-            width: swidth * 14.062
+            width: swidth * 14.063
             height: sheight * 5.556
-            y: sheight * 2.407
             x: swidth * 0.833
+            y: sheight * 2.407
             font.pointSize: 22 * swidth * 0.03
             text: "Изменить"
             visible: false
@@ -147,10 +147,10 @@ Rectangle
         Button
         {
             id: delete_color_button
-            width: swidth * 14.062
+            width: swidth * 14.063
             height: sheight * 5.556
-            y: sheight * 9.815
             x: swidth * 0.833
+            y: sheight * 10.74
             font.pointSize: 22 * swidth * 0.03
             text: "Удалить"
             visible: false
@@ -171,8 +171,8 @@ Rectangle
             id: sm_name_station_rec
             width: swidth * 58.698
             height: sheight * 4.629
-            x: swidth * 2.864
-            y: sheight * 2.315
+            x: swidth * 4.323
+            y: sheight * 4.259
             color: "#D9D9D9"
             Rectangle
             {
@@ -211,8 +211,8 @@ Rectangle
             id: sm_interface_rec
             width: swidth * 58.698
             height: sheight * 4.629
-            x: swidth * 2.864
-            y: sheight * 9.722
+            x: swidth * 4.323
+            y: sheight * 12.5
             color: "#D9D9D9"
             Rectangle
             {
@@ -251,8 +251,8 @@ Rectangle
             id: sm_crc_ok_zone
             width: swidth * 58.698
             height: sheight * 2.963
-            x: swidth * 2.864
-            y: sheight * 17.5
+            x: swidth * 4.323
+            y: sheight * 20.74
             color: "#D9D9D9"
             Rectangle
             {
@@ -829,10 +829,10 @@ Rectangle
                     height: contentHeight
                     delegate: SM_one_zone_rec
                     {
+                        //property int number_zone: number_zone_main
+                        //property int number_lines: number_lines_main
                         width: parent.width
                         height: parent.height
-                        property int number_zone: number_zone_main
-                        property int number_lines: number_lines_main
                     }
                     model: ListModel
                     {

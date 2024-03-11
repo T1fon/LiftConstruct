@@ -10,7 +10,7 @@ Rectangle {
     height: 1000
     property real swidth: width / 100
     property real sheight: height / 100
-    color: "#F5F5F5"
+    color: "#D9D9D9"
     Rectangle
     {
         id: proects_menu
