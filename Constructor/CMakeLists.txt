@@ -23,7 +23,7 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageConstructMenu/PackageConstructMenu.qml
     QML_FILES src/View/TestConstructMenu/TestConstructMenu.qml
     QML_FILES src/View/EmulatorMenu/EmulatorMenu.qml
-    RESOURCES resources.qrc
+    resources.qrc
 )
 
 

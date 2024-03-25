@@ -12,6 +12,7 @@ Window
     visible: true
     property real swidth: this.width / 100
     property real sheight: this.height / 100
+
     Rectangle
     {
         id: help_and_fail_menu
@@ -19,46 +20,45 @@ Window
         height: sheight * 3.704
         anchors.top: parent.top
         color: "#E9E9E9"
-        ComboBox
+        MenuBar {
+            width: swidth * 10.813
+            height: sheight * 3.704
+               Menu {
+                   title: "File"
+                   MenuItem { text: "Открыть"; onTriggered: console.log("Открыть") }
+                   MenuItem { text: "Закрыть"; onTriggered: console.log("Закрыть") }
+                   MenuItem { text: "Сохранить"; onTriggered: console.log("Сохранить") }
+                   MenuItem { text: "Сохранить как"; onTriggered: console.log("Сохранить как") }
+                   MenuItem { text: "Экспортировать"; onTriggered: console.log("Экспортировать") }
+               }
+           }
+        Button
         {
+            id: construct_button;
             height: parent.height
             width: swidth * 7.813
-            anchors.left: parent.left
-            id: fail_box
-
+            x: swidth * 10.813
+            text: "Главная"
             background: Rectangle
             {
                 color: "#D9D9D9"
-                border.width: 1
                 border.color: "black"
+                border.width: 1
             }
-
-            model: ListModel
+            onClicked:
             {
-                id: fail_model
-                ListElement { text: "Файл" }
-                ListElement { text: "Открыть" }
-                ListElement { text: "Закрыть" }
-                ListElement { text: "Сохранить" }
-                ListElement { text: "Сохранить как" }
-                ListElement { text: "Экспортировать" }
+                loader.source = "View/ConstructMenu/ConstructMenu.qml"
+                packet_zone_button.enabled = true
+                station_zone_button.enabled = true
+                package_zone_button.enabled = true
+                test_zone_button.enabled = true
+                emulator_zone_button.enabled = true
 
-            }
-            onActivated:
-            {
-                   if (currentIndex !== 0) {
-                       console.log("Выбран элемент:", currentItem.text);
-                       fail_box.text = "Файл"; // Установка текста ComboBox обратно на "Файл"
-                   }
-               }
-
-            delegate: Text
-            {
-                text: model.text
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                padding: 5
+                packet_zone_button_rec.border.color = "black"
+                station_zone_button_rec.border.color = "black"
+                package_zone_button_rec.border.color = "black"
+                test_zone_button_rec.border.color = "black"
+                emulator_zone_button_rec.border.color = "black"
             }
         }
 
@@ -67,7 +67,7 @@ Window
             id: help_button;
             height: parent.height
             width: swidth * 7.813
-            x: swidth * 7.813
+            x: swidth * 18.626
             text: "Помощь"
             background: Rectangle
             {
@@ -85,48 +85,27 @@ Window
         y: sheight * 3.704
         anchors.left: parent.left
         color: "#E9E9E9"
-        Button
+        Rectangle
         {
             id:construct_menu_button
             height: parent.height
             width: swidth * 12.5
-
-            text: "Конструктор"
-            contentItem: Text
+            color: "#D9D9D9"
+            border.color: "#D9D9D9"
+            border.width: 1
+            radius: 2
+            Text
             {
-               text: construct_menu_button.text
-               font: construct_menu_button.font
+                width: parent.width
+                height: parent.height
+               font.pixelSize: 16 * 0.04 * swidth
+               text: qsTr("Конструкторы")
                color: "black"
                horizontalAlignment: Text.AlignHCenter
                verticalAlignment: Text.AlignVCenter
                elide: Text.ElideRight
            }
 
-               background: Rectangle
-               {
-                   id: construct_menu_button_rec
-                   color: "#D9D9D9"
-                   border.color: "black"
-                   border.width: 1
-                   radius: 2
-               }
-            onClicked:
-            {
-                loader.source = "View/ConstructMenu/ConstructMenu.qml";
-                construct_menu_button.enabled = false
-                packet_zone_button.enabled = true
-                station_zone_button.enabled = true
-                package_zone_button.enabled = true
-                test_zone_button.enabled = true
-                emulator_zone_button.enabled = true
-
-                construct_menu_button_rec.border.color = "#D9D9D9"
-                packet_zone_button_rec.border.color = "black"
-                station_zone_button_rec.border.color = "black"
-                package_zone_button_rec.border.color = "black"
-                test_zone_button_rec.border.color = "black"
-                emulator_zone_button_rec.border.color = "black"
-            }
         }
         Button
         {
@@ -162,14 +141,14 @@ Window
             onClicked:
             {
                 loader.source = "View/PackageZoneMenu/PackageZoneMenu.qml";
-                construct_menu_button.enabled = true
+                //construct_menu_button.enabled = true
                 packet_zone_button.enabled = false
                 station_zone_button.enabled = true
                 package_zone_button.enabled = true
                 test_zone_button.enabled = true
                 emulator_zone_button.enabled = true
 
-                construct_menu_button_rec.border.color = "black"
+                //construct_menu_button_rec.border.color = "black"
                 packet_zone_button_rec.border.color = "#D9D9D9"
                 station_zone_button_rec.border.color = "black"
                 package_zone_button_rec.border.color = "black"
@@ -206,14 +185,14 @@ Window
            onClicked:
            {
                loader.source = "View/StationMenu/StationMenu.qml";
-               construct_menu_button.enabled = true
+               //construct_menu_button.enabled = true
                packet_zone_button.enabled = true
                station_zone_button.enabled = false
                package_zone_button.enabled = true
                test_zone_button.enabled = true
                emulator_zone_button.enabled = true
 
-               construct_menu_button_rec.border.color = "black"
+               //construct_menu_button_rec.border.color = "black"
                packet_zone_button_rec.border.color = "black"
                station_zone_button_rec.border.color = "#D9D9D9"
                package_zone_button_rec.border.color = "black"
@@ -249,14 +228,14 @@ Window
               onClicked:
               {
                   loader.source = "View/PackageConstructMenu/PackageConstructMenu.qml";
-                  construct_menu_button.enabled = true
+                  //construct_menu_button.enabled = true
                   packet_zone_button.enabled = true
                   station_zone_button.enabled = true
                   package_zone_button.enabled = false
                   test_zone_button.enabled = true
                   emulator_zone_button.enabled = true
 
-                  construct_menu_button_rec.border.color = "black"
+                  //construct_menu_button_rec.border.color = "black"
                   packet_zone_button_rec.border.color = "black"
                   station_zone_button_rec.border.color = "black"
                   package_zone_button_rec.border.color = "#D9D9D9"
@@ -292,14 +271,14 @@ Window
               onClicked:
               {
                   loader.source = "View/TestConstructMenu/TestConstructMenu.qml";
-                  construct_menu_button.enabled = true
+                  //construct_menu_button.enabled = true
                   packet_zone_button.enabled = true
                   station_zone_button.enabled = true
                   package_zone_button.enabled = true
                   test_zone_button.enabled = false
                   emulator_zone_button.enabled = true
 
-                  construct_menu_button_rec.border.color = "black"
+                  //construct_menu_button_rec.border.color = "black"
                   packet_zone_button_rec.border.color = "black"
                   station_zone_button_rec.border.color = "black"
                   package_zone_button_rec.border.color = "black"
@@ -335,14 +314,14 @@ Window
            onClicked:
            {
                loader.source = "View/EmulatorMenu/EmulatorMenu.qml";
-               construct_menu_button.enabled = true
+               //construct_menu_button.enabled = true
                packet_zone_button.enabled = true
                station_zone_button.enabled = true
                package_zone_button.enabled = true
                test_zone_button.enabled = true
                emulator_zone_button.enabled = false
 
-               construct_menu_button_rec.border.color = "black"
+               //construct_menu_button_rec.border.color = "black"
                packet_zone_button_rec.border.color = "black"
                station_zone_button_rec.border.color = "black"
                package_zone_button_rec.border.color = "black"
@@ -362,7 +341,7 @@ Window
         {
             id: loader
             anchors.fill: parent
-            source:  ""
+            source:  "View/ConstructMenu/ConstructMenu.qml"
         }
     }
 }

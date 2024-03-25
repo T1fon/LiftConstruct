@@ -43,6 +43,37 @@ Rectangle {
             x: swidth * 2.604
             y: sheight * 12.037
             color: "#A4A4A4"
+            TableView
+            {
+                    anchors.fill: parent
+
+                    Row {
+                        spacing: 5
+
+                        Text {
+                            text: "Имя"
+                            width: table_zone_rec.width / 2
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Inter"
+                            font.pixelSize: 22 * 0.05 * swidth
+
+                        }
+
+                        Text {
+                            text: "Дата последнего изменения"
+                            width: table_zone_rec.width / 2
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Inter"
+                            font.pixelSize: 22 * 0.05 * swidth
+                        }
+                    }
+
+                    model: ListModel {
+                        id: tableModel
+
+                    }
+
+            }
 
         }
 
