@@ -1,11 +1,12 @@
 #include "Logger.h"
-QDir Logger::__directory;
-QFile Logger::__log_file;
-QTextStream Logger::__fout(&__log_file);
+
 const QString Logger::DEFAULT_PATH = "./";
 const QString Logger::DEFAULT_DIRECTORY = "Log";
 const QString Logger::DEFAULT_FILE_PREFIX = "log";
 const QString Logger::__DEFAULT_FILE_POSTFIX = ".log";
+QDir Logger::__directory = QDir(DEFAULT_PATH + DEFAULT_DIRECTORY);
+QFile Logger::__log_file = QFile(DEFAULT_FILE_PREFIX + QDate::currentDate().toString("dd_MM_yy_hh_mm_ss_zzz") + __DEFAULT_FILE_POSTFIX);
+QTextStream Logger::__fout(&__log_file);
 const size_t Logger::DEFAULT_MAX_FILESIZE = 1024*100; //100Kb
 const uint16_t Logger::__DEFAULT_DELTA_FILESIZE = 1024*2;
 size_t Logger::__max_filesize = DEFAULT_MAX_FILESIZE;
