@@ -13,26 +13,35 @@ Window
     property real swidth: this.width / 100
     property real sheight: this.height / 100
 
-    Rectangle
+
+    MenuBar
     {
         id: help_and_fail_menu
         width: parent.width
         height: sheight * 3.704
         anchors.top: parent.top
-        color: "#E9E9E9"
-        MenuBar {
-            width: swidth * 10.813
-            height: sheight * 3.704
-               Menu {
-                   title: "File"
-                   MenuItem { text: "Открыть"; onTriggered: console.log("Открыть") }
-                   MenuItem { text: "Закрыть"; onTriggered: console.log("Закрыть") }
-                   MenuItem { text: "Сохранить"; onTriggered: console.log("Сохранить") }
-                   MenuItem { text: "Сохранить как"; onTriggered: console.log("Сохранить как") }
-                   MenuItem { text: "Экспортировать"; onTriggered: console.log("Экспортировать") }
-               }
-           }
-        Button
+        //contentWidth: swidth * 7.813
+        //color: "#E9E9E9"
+            Menu {
+                id:main_menu
+                title: "Файл"
+                font.family: "Inter"
+                font.pixelSize: 15 * 0.04 * swidth
+                //contentWidth: swidth * 10.813
+                //implicitWidth: swidth * 10.813
+                //implicitBackgroundWidth: swidth * 10.813
+                width: swidth * 10.813
+                MenuItem { text: "Открыть"; onTriggered: console.log("Открыть") }
+                MenuItem { text: "Закрыть"; onTriggered: console.log("Закрыть") }
+                MenuItem { text: "Сохранить"; onTriggered: console.log("Сохранить") }
+                MenuItem { text: "Сохранить как"; onTriggered: console.log("Сохранить как") }
+                MenuItem { text: "Экспортировать"; onTriggered: console.log("Экспортировать") }
+                background: Rectangle
+                {
+                    width: swidth * 10.813
+                }
+            }
+        MenuBarItem
         {
             id: construct_button;
             height: parent.height
@@ -62,7 +71,7 @@ Window
             }
         }
 
-        Button
+        MenuBarItem
         {
             id: help_button;
             height: parent.height

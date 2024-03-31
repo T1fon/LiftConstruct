@@ -55,7 +55,7 @@ Rectangle
             width: swidth * 2.032
             height: sheight * 7.142
             anchors.verticalCenter: show_one_zone_rec.verticalCenter
-            source: show_packadge_view.checked ? "../../arrows_down.png" : "../../arrows_up.png"
+           // source: show_one_zone_rec.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_packadge_view.indeterminate || !show_packadge_view.checked
         }
     }

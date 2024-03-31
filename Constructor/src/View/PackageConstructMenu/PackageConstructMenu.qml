@@ -331,7 +331,7 @@ Rectangle
                 width: swidth * 1.302
                 height: sheight * 2.315
                 anchors.verticalCenter: show_packadge_view.verticalCenter
-                source: show_packadge_view.checked ? ":/arrows_down.png" : ":/arrows_up.png"
+                source: show_packadge_view.checked ? "arrows_down.png" : "arrows_up.png"
                 //visible: !show_packadge_view.indeterminate || !show_packadge_view.checked
             }
             Rectangle
@@ -517,7 +517,7 @@ Rectangle
                 width: swidth * 1.302
                 height: sheight * 2.315
                 anchors.verticalCenter: show_packadge_discript.verticalCenter
-                source: show_packadge_discript.checked ? ":../../../images/arrows_down.png" : ":../../../images/arrows_up.png"
+                source: show_packadge_discript.checked ? "../../../../arrows_down.png" : ":../../../images/arrows_up.png"
                 //visible: !show_packadge_discript.indeterminate || !show_packadge_view.checked
             }
         }

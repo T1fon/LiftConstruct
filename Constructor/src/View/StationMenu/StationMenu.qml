@@ -6,6 +6,7 @@ import QtQuick.Dialogs
 
 Rectangle
 {
+    property int row_pos
     id: station_menu_window
     //когда настрою все кнопки, переделать, чтобы сюда шли не тсатичные параметры, а высоты и ширины из главного окна и выделенного под окна соответствующе
     width: 1920
@@ -131,6 +132,10 @@ Rectangle
             text: "Добавить"
             visible: false
             enabled: false
+            onClicked:
+            {
+                    addSection.open()
+            }
         }
         Button
         {
@@ -165,6 +170,7 @@ Rectangle
         height: sheight * 87.315
         x: swidth * 17.188
         clip: true
+
 
         Rectangle
         {
@@ -726,22 +732,6 @@ Rectangle
                 onCheckedChanged:
                 {
                     package_templates_parametrs.state === "opened" ? package_templates_parametrs.state = "closed" : package_templates_parametrs.state = "opened";
-                    if(show_package_templates.checked === true)
-                    {
-                        add_color_button.visible = true;
-                        add_color_button.enabled = true;
-                        delete_color_button.visible = true;
-                        delete_color_button.enabled = true;
-                    }
-                    else
-                    {
-                        add_color_button.visible = false;
-                        add_color_button.enabled = false;
-                        delete_color_button.visible = false;
-                        delete_color_button.enabled = false;
-                        change_color_button.enabled = false;
-                        change_color_button.visible = false;
-                    }
                 }
             }
             Image
@@ -773,14 +763,20 @@ Rectangle
                         {
                             target: sm_zones_lv
                             height: contentHeight
+                            visible: true
                         }
                         PropertyChanges
                         {
                             target: add_zone_but
                             height: sheight * 5.37
-                            y: sm_zones_lv.height + sheight * 5
+                            y: sm_zones_lv.y + sm_zones_lv.height
                             visible: true
                             enabled: true
+                        }
+                        PropertyChanges
+                        {
+                            target: crc_templates
+                            y: package_templates_parametrs.y
                         }
                     },
                     State
@@ -795,6 +791,7 @@ Rectangle
                         {
                             target: sm_zones_lv
                             height: 0
+                            visible: false
                         }
                         PropertyChanges
                         {
@@ -803,6 +800,11 @@ Rectangle
                             y: 0
                             visible: false
                             enabled: false
+                        }
+                        PropertyChanges
+                        {
+                            target: crc_templates
+                            y: package_templates_parametrs.y
                         }
                     }
                 ]
@@ -822,381 +824,415 @@ Rectangle
                     }
 
                 }
-                ListView
-                {
+                ListView {
                     id: sm_zones_lv
                     width: parent.width
-                    height: contentHeight
+                    height: 0
+                    model: ListModel {
+                        //ListElement { number_zone: 1; number_lines: 1 }
+                    }
                     delegate: SM_one_zone_rec
                     {
-                        //property int number_zone: number_zone_main
-                        //property int number_lines: number_lines_main
                         width: parent.width
-                        height: parent.height
-                    }
-                    model: ListModel
-                    {
-                       id: sm_model
+                        //height: package_templates_parametrs.height
+                        //visible: false
+                        number_zone: model.number_zone
+                        number_lines: model.number_lines
+                        sendDataToSMfOZR: function(box_row, box_color)
+                        {
+                            console.log(" Цвет:",box_color, "строка ", box_row)
+                            row_pos = box_row
+                            if(box_row > 0)
+                            {
+                                if(box_color == "#ffffff")
+                                {
+                                    add_color_button.visible = true;
+                                    add_color_button.enabled = true;
+                                    delete_color_button.visible = false;
+                                    delete_color_button.enabled = false;
+                                    change_color_button.enabled = false;
+                                    change_color_button.visible = false;
+                                }
+                                else
+                                {
+                                    add_color_button.visible =false;
+                                    add_color_button.enabled = false;
+                                    delete_color_button.visible = true;
+                                    delete_color_button.enabled = true;
+                                    change_color_button.enabled = true;
+                                    change_color_button.visible = true;
+                                }
+                            }
+                            else if(box_row == 0)
+                            {
+                                add_color_button.visible = false;
+                                add_color_button.enabled = false;
+                                delete_color_button.visible = false;
+                                delete_color_button.enabled = false;
+                                change_color_button.enabled = false;
+                                change_color_button.visible = false;
+                            }
+                        }
                     }
                 }
-                Button
-                {
+
+                Button {
                     id: add_zone_but
                     width: swidth * 2.604
                     height: 0
+                    //visible: false
+                    //enabled: false
                     y: 0
-                    x: swidth * 47.917
+                    x: swidth * 45.859
                     text: "+"
                     font.pointSize: 48 * swidth * 0.03
-                    onClicked:
-                    {
-                        sm_model.append({ number_zone: number_zone_main, number_lines_main: number_lines_main })
-                        number_zone_main ++
-
+                    onClicked: {
+                        addNewZone.open()
                     }
                 }
+            }
 
-                //СРС
+            //СРС
+            Rectangle
+            {
+                id: crc_templates
+                height: sheight * 4.629
+                width: swidth * 64.063
+                anchors.top: package_templates_parametrs.bottom
+                color: "#A0A0A0"
+                border.width: 2
+                border.color: "black"
                 Rectangle
                 {
-                    id: crc_templates
-                    height: sheight * 4.629
-                    width: swidth * 64.063
-                    anchors.top: package_templates_parametrs.bottom
+                    height: sheight * 2.222
+                    width: swidth * 8.802
                     color: "#A0A0A0"
-                    border.width: 2
-                    border.color: "black"
+                    x: swidth * 2.396
+                    y: sheight * 1.204
+                    Text
+                    {
+                        font.family: "Inter"
+                        font.pixelSize: 22 * 0.04 * swidth
+                        text: qsTr("CRC")
+                    }
+                }
+                CheckBox
+                {
+                    id: show_crc
+                    width: swidth * 1.302
+                    height: sheight * 2.315
+                    x: swidth * 61.979
+                    y: sheight * 1.111
+                    enabled: false
+                    checked: false
+                    onCheckedChanged:
+                    {
+                        crc_parametrs.state === "opened" ? crc_parametrs.state = "closed" : crc_parametrs.state = "opened";
+                    }
+                }
+                Image
+                {
+                    width: swidth * 1.302
+                    height: sheight * 2.315
+                    anchors.verticalCenter: show_crc.verticalCenter
+                    source: show_crc.checked ? "../../arrows_down.png" : "../../arrows_up.png"
+                    //visible: !show_crc.indeterminate || !show_crc.checked
+                }
+                Rectangle
+                {
+                    id: crc_parametrs
+                    width: swidth * 64.063
+                    anchors.top: parent.bottom
+                    height: 0
+                    color: "#D9D9D9"
+                    states:
+                        [
+                        State
+                        {
+                            name: "opened"
+                            PropertyChanges
+                            {
+                                target: crc_parametrs;
+                                height: sheight * 85.533
+                            }
+                            PropertyChanges
+                            {
+                                target: byte_info_rec;
+                                y: sheight * 3.796
+                                height: sheight * 5.556
+                                enabled: true
+                                visible: true
+                            }
+                            PropertyChanges
+                            {
+                                target: start_count_rec;
+                                y: sheight * 11.667
+                                height: sheight * 5.556
+                                enabled: true
+                                visible: true
+                            }
+                            PropertyChanges
+                            {
+                                target: end_count_rec;
+                                y: sheight * 19.537
+                                height: sheight * 5.556
+                                enabled: true
+                                visible: true
+                            }
+                            PropertyChanges
+                            {
+                                target: code_rec;
+                                y: sheight * 28.056
+                                height: sheight * 2.5
+                                enabled: true
+                                visible: true
+                            }
+                            PropertyChanges
+                            {
+                                target: code_example_rec;
+                                y: sheight * 32.407
+                                height: sheight * 53.981
+                                enabled: true
+                                visible: true
+                            }
+                        },
+                        State {
+                            name: "closed"
+                            PropertyChanges
+                            {
+                                target: crc_parametrs;
+                                height: 0
+                            }
+                            PropertyChanges
+                            {
+                                target: byte_info_rec;
+                                y: 0
+                                height: 0
+                                enabled: false
+                                visible: false
+                            }
+                            PropertyChanges
+                            {
+                                target: start_count_rec;
+                                y: 0
+                                height: 0
+                                enabled: false
+                                visible: false
+                            }
+                            PropertyChanges
+                            {
+                                target: end_count_rec;
+                                y: 0
+                                height: 0
+                                enabled: false
+                                visible: false
+                            }
+                            PropertyChanges
+                            {
+                                target: code_rec;
+                                y: 0
+                                height: 0
+                                enabled: false
+                                visible: false
+                            }
+                            PropertyChanges
+                            {
+                                target: code_example_rec;
+                                y: 0
+                                height: 0
+                                enabled: false
+                                visible: false
+                            }
+                        }
+                    ]
+                    transitions: Transition
+                    {
+                        NumberAnimation
+                        {
+                            properties: "height"
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                        NumberAnimation
+                        {
+                            properties: "y"
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+
+                    }
                     Rectangle
                     {
-                        height: sheight * 2.222
-                        width: swidth * 8.802
-                        color: "#A0A0A0"
-                        x: swidth * 2.396
-                        y: sheight * 1.204
-                        Text
-                        {
-                            font.family: "Inter"
-                            font.pixelSize: 22 * 0.04 * swidth
-                            text: qsTr("CRC")
-                        }
-                    }
-                    CheckBox
-                    {
-                        id: show_crc
-                        width: swidth * 1.302
-                        height: sheight * 2.315
-                        x: swidth * 61.979
-                        y: sheight * 1.111
-                        enabled: false
-                        checked: false
-                        onCheckedChanged:
-                        {
-                            crc_parametrs.state === "opened" ? crc_parametrs.state = "closed" : crc_parametrs.state = "opened";
-                        }
-                    }
-                    Image
-                    {
-                        width: swidth * 1.302
-                        height: sheight * 2.315
-                        anchors.verticalCenter: show_crc.verticalCenter
-                        source: show_crc.checked ? "../../arrows_down.png" : "../../arrows_up.png"
-                        //visible: !show_crc.indeterminate || !show_crc.checked
-                    }
-                    Rectangle
-                    {
-                        id: crc_parametrs
-                        width: swidth * 64.063
-                        anchors.top: parent.bottom
+                        id: byte_info_rec
+                        width: swidth * 59.01
                         height: 0
+                        x: swidth * 2.604
+                        y: 0
+                        enabled: false
+                        visible: false
                         color: "#D9D9D9"
-                        states:
-                            [
-                            State
-                            {
-                                name: "opened"
-                                PropertyChanges
-                                {
-                                    target: crc_parametrs;
-                                    height: sheight * 85.533
-                                }
-                                PropertyChanges
-                                {
-                                    target: byte_info_rec;
-                                    y: sheight * 3.796
-                                    height: sheight * 5.556
-                                    enabled: true
-                                    visible: true
-                                }
-                                PropertyChanges
-                                {
-                                    target: start_count_rec;
-                                    y: sheight * 11.667
-                                    height: sheight * 5.556
-                                    enabled: true
-                                    visible: true
-                                }
-                                PropertyChanges
-                                {
-                                    target: end_count_rec;
-                                    y: sheight * 19.537
-                                    height: sheight * 5.556
-                                    enabled: true
-                                    visible: true
-                                }
-                                PropertyChanges
-                                {
-                                    target: code_rec;
-                                    y: sheight * 28.056
-                                    height: sheight * 2.5
-                                    enabled: true
-                                    visible: true
-                                }
-                                PropertyChanges
-                                {
-                                    target: code_example_rec;
-                                    y: sheight * 32.407
-                                    height: sheight * 53.981
-                                    enabled: true
-                                    visible: true
-                                }
-                            },
-                            State {
-                                name: "closed"
-                                PropertyChanges
-                                {
-                                    target: crc_parametrs;
-                                    height: 0
-                                }
-                                PropertyChanges
-                                {
-                                    target: byte_info_rec;
-                                    y: 0
-                                    height: 0
-                                    enabled: false
-                                    visible: false
-                                }
-                                PropertyChanges
-                                {
-                                    target: start_count_rec;
-                                    y: 0
-                                    height: 0
-                                    enabled: false
-                                    visible: false
-                                }
-                                PropertyChanges
-                                {
-                                    target: end_count_rec;
-                                    y: 0
-                                    height: 0
-                                    enabled: false
-                                    visible: false
-                                }
-                                PropertyChanges
-                                {
-                                    target: code_rec;
-                                    y: 0
-                                    height: 0
-                                    enabled: false
-                                    visible: false
-                                }
-                                PropertyChanges
-                                {
-                                    target: code_example_rec;
-                                    y: 0
-                                    height: 0
-                                    enabled: false
-                                    visible: false
-                                }
-                            }
-                        ]
-                        transitions: Transition
-                        {
-                            NumberAnimation
-                            {
-                                properties: "height"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
-                            }
-                            NumberAnimation
-                            {
-                                properties: "y"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
-                            }
-
-                        }
                         Rectangle
                         {
-                            id: byte_info_rec
-                            width: swidth * 59.01
-                            height: 0
-                            x: swidth * 2.604
-                            y: 0
-                            enabled: false
-                            visible: false
-                            color: "#D9D9D9"
-                            Rectangle
-                            {
-                                width: swidth * 14.409
-                                height: 5
-                                anchors.left: parent.left
-                                anchors.verticalCenter: parent.verticalCenter
-                                color: "#D9D9D9"
-                                Text
-                                {
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    text: qsTr("В какой байт поместить контрольную сумму")
-                                }
-                            }
-                            Rectangle
-                            {
-                                height: parent.height
-                                width: swidth * 3.125
-                                anchors.right: parent.right
-                                TextInput
-                                {
-
-                                    id: byte_info
-                                    height: parent.height
-                                    width: parent.width
-                                    anchors.right: parent.right
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    text: ""
-                                }
-                            }
-
-                        }
-                        Rectangle
-                        {
-                            id: start_count_rec
-                            width: swidth * 59.01
-                            height: 0
-                            x: swidth * 2.604
-                            y: 0
-                            enabled: false
-                            visible: false
-                            color: "#D9D9D9"
-                            Rectangle
-                            {
-                                width: swidth * 14.409
-                                height: 5
-                                anchors.left: parent.left
-                                anchors.verticalCenter: parent.verticalCenter
-                                color: "#D9D9D9"
-                                Text
-                                {
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    text: qsTr("Начало вычисления контрольной суммы")
-                                }
-                            }
-                            Rectangle
-                            {
-                                height: parent.height
-                                width: swidth * 3.125
-                                anchors.right: parent.right
-                                TextInput
-                                {
-                                    id: start_count
-                                    height: parent.height
-                                    width: parent.width
-                                    anchors.right: parent.right
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    text: ""
-                                }
-                            }
-                        }
-                        Rectangle
-                        {
-                            id: end_count_rec
-                            width: swidth * 59.01
-                            height: 0
-                            x: swidth * 2.604
-                            y: 0
-                            enabled: false
-                            visible: false
-                            color: "#D9D9D9"
-                            Rectangle
-                            {
-                                width: swidth * 14.409
-                                height: 5
-                                anchors.left: parent.left
-                                anchors.verticalCenter: parent.verticalCenter
-                                color: "#D9D9D9"
-                                Text
-                                {
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    text: qsTr("Конец вычисления контрольной суммы")
-                                }
-                            }
-                            Rectangle
-                            {
-                                height: parent.height
-                                width: swidth * 3.125
-                                anchors.right: parent.right
-                                TextInput
-                                {
-                                    id: end_count
-                                    height: parent.height
-                                    width: parent.width
-                                    anchors.right: parent.right
-                                    font.family: "Inter"
-                                    font.pixelSize: 22 * 0.04 * swidth
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    text: ""
-                                }
-                            }
-                        }
-                        Rectangle
-                        {
-                            id: code_rec
                             width: swidth * 14.409
-                            height: 0
-                            x: swidth * 2.604
-                            y: 0
+                            height: 5
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
                             color: "#D9D9D9"
-                            enabled: false
-                            visible: false
                             Text
                             {
                                 font.family: "Inter"
                                 font.pixelSize: 22 * 0.04 * swidth
-                                text: qsTr("Код")
+                                text: qsTr("В какой байт поместить контрольную сумму")
                             }
                         }
-
                         Rectangle
                         {
-                            id: code_example_rec
-                            width: swidth * 59.01
-                            height: 0
-                            x: swidth * 2.604
-                            y: 0
-                            enabled: false
-                            visible: false
-                            TextEdit
+                            height: parent.height
+                            width: swidth * 3.125
+                            anchors.right: parent.right
+                            TextInput
                             {
 
-                                id: code_example
-                                width: parent.width
+                                id: byte_info
                                 height: parent.height
+                                width: parent.width
                                 anchors.right: parent.right
                                 font.family: "Inter"
                                 font.pixelSize: 22 * 0.04 * swidth
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: ""
                             }
+                        }
+
+                    }
+                    Rectangle
+                    {
+                        id: start_count_rec
+                        width: swidth * 59.01
+                        height: 0
+                        x: swidth * 2.604
+                        y: 0
+                        enabled: false
+                        visible: false
+                        color: "#D9D9D9"
+                        Rectangle
+                        {
+                            width: swidth * 14.409
+                            height: 5
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: "#D9D9D9"
+                            Text
+                            {
+                                font.family: "Inter"
+                                font.pixelSize: 22 * 0.04 * swidth
+                                text: qsTr("Начало вычисления контрольной суммы")
+                            }
+                        }
+                        Rectangle
+                        {
+                            height: parent.height
+                            width: swidth * 3.125
+                            anchors.right: parent.right
+                            TextInput
+                            {
+                                id: start_count
+                                height: parent.height
+                                width: parent.width
+                                anchors.right: parent.right
+                                font.family: "Inter"
+                                font.pixelSize: 22 * 0.04 * swidth
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: ""
+                            }
+                        }
+                    }
+                    Rectangle
+                    {
+                        id: end_count_rec
+                        width: swidth * 59.01
+                        height: 0
+                        x: swidth * 2.604
+                        y: 0
+                        enabled: false
+                        visible: false
+                        color: "#D9D9D9"
+                        Rectangle
+                        {
+                            width: swidth * 14.409
+                            height: 5
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: "#D9D9D9"
+                            Text
+                            {
+                                font.family: "Inter"
+                                font.pixelSize: 22 * 0.04 * swidth
+                                text: qsTr("Конец вычисления контрольной суммы")
+                            }
+                        }
+                        Rectangle
+                        {
+                            height: parent.height
+                            width: swidth * 3.125
+                            anchors.right: parent.right
+                            TextInput
+                            {
+                                id: end_count
+                                height: parent.height
+                                width: parent.width
+                                anchors.right: parent.right
+                                font.family: "Inter"
+                                font.pixelSize: 22 * 0.04 * swidth
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: ""
+                            }
+                        }
+                    }
+                    Rectangle
+                    {
+                        id: code_rec
+                        width: swidth * 14.409
+                        height: 0
+                        x: swidth * 2.604
+                        y: 0
+                        color: "#D9D9D9"
+                        enabled: false
+                        visible: false
+                        Text
+                        {
+                            font.family: "Inter"
+                            font.pixelSize: 22 * 0.04 * swidth
+                            text: qsTr("Код")
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        id: code_example_rec
+                        width: swidth * 59.01
+                        height: 0
+                        x: swidth * 2.604
+                        y: 0
+                        enabled: false
+                        visible: false
+                        TextEdit
+                        {
+
+                            id: code_example
+                            width: parent.width
+                            height: parent.height
+                            anchors.right: parent.right
+                            font.family: "Inter"
+                            font.pixelSize: 22 * 0.04 * swidth
                         }
                     }
                 }
             }
+
         }
     }
     Rectangle
@@ -1249,6 +1285,58 @@ Rectangle
                         station_menu_listview.model.remove(selectedIdx)
                     }
                 }
+            }
+        }
+    }
+    Popup
+    {
+        id: addSection
+        width: 700
+        height: 500
+        x: swidth * 27.77
+        y: sheight * 14.851
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape
+        Rectangle
+        {
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+            SM_AddSection
+            {
+                width: parent.width
+                height: parent.height
+                onAddClose: {
+                    addSection.close()
+                }
+                sendDataToSM: function(start_section, length_section)
+                {
+                    console.log("Начальний бит: ", start_section,  " Длина: ", length_section)
+                    SM_one_zone_rec.sendDataToOZR(row_pos, start_section, length_section, "red")
+                }
+            }
+        }
+    }
+    Popup
+    {
+        id: addNewZone
+        width: 700
+        height: 500
+        x: swidth * 27.77
+        y: sheight * 14.851
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape
+        Rectangle
+        {
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+            SM_Package_View
+            {
+                width: parent.width
+                height: parent.height
             }
         }
     }

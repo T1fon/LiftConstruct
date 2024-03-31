@@ -6,6 +6,7 @@ import QtQuick.Dialogs
 
 Rectangle
 {
+    property var sendDataToSMfOZR: undefined
     id: sm_one_zone_main_rec
     width: 1230
     height: 700
@@ -14,6 +15,7 @@ Rectangle
     property int number_zone: 1
     property int number_lines: 1
     property int counter: 1
+    color: "#D9D9D9"
     Rectangle
     {
         id: package_viev_header_rec
@@ -26,8 +28,8 @@ Rectangle
             id: package_viev_delete_button
             width: swidth * 2.033
             height: sheight * 3.428
-            x: swidth * 0732
-            y: sheight * 1.143
+            x: swidth * 0.731
+            anchors.verticalCenter: parent.verticalCenter
             font.family: "Inter"
             font.pixelSize: 22 * 0.04 * swidth
             text: "-"
@@ -46,8 +48,8 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
-                text: qsTr("Вид пакета ") + number_zone.toString()
+                font.pixelSize: 20 * 0.08 * swidth
+                text: qsTr("Вид пакета ") + qsTr(number_zone.toString())
             }
         }
         Button
@@ -55,7 +57,7 @@ Rectangle
             id: package_viev_settings_button
             width: swidth * 2.033
             height: sheight * 3.428
-            x: swidth * 93.496
+            x: swidth * 95
             y: sheight * 1.143
             font.family: "Inter"
             font.pixelSize: 22 * 0.04 * swidth
@@ -71,7 +73,7 @@ Rectangle
             id: show_package_view_rec
             width: swidth * 2.033
             height: sheight * 3.571
-            x: swidth * 96.748
+            x: swidth * 98
             y: sheight * 1.143
             onCheckedChanged:
             {
@@ -83,7 +85,7 @@ Rectangle
             width: swidth * 1.302
             height: sheight * 2.315
             anchors.verticalCenter: show_package_view_rec.verticalCenter
-            source: show_package_templates.checked ? "../../arrows_down.png" : "../../arrows_up.png"
+            //source: show_package_view_rec.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_package_templates.indeterminate || !show_package_templates.checked
         }
         Rectangle
@@ -114,26 +116,26 @@ Rectangle
                     }
                     PropertyChanges {
                         target: ozr_section_scrolview;
-                        height: sheight * 27.857
-                        y: sheight * 8.857
+                        height: sheight * 24.083
+                        y: ozr_section_title.height + ozr_section_title.y + sheight * 3
                     }
                     PropertyChanges
                     {
                         target: ozr_line;
                         height: 1;
-                        y: sheight * 41.428
+                        y: ozr_section_scrolview.y + ozr_section_scrolview.height
                     }
                     PropertyChanges
                     {
                         target: ozr_description;
                         height: 0;
-                        y: 0
+                        y: ozr_line.height + ozr_line.y + sheight * 3;
                     }
                     PropertyChanges
                     {
-                        target: sm_one_zone_te;
+                        target: sm_one_zone_te_rec;
                         height: sheight * 37.857
-                        y: sheight * 51.143
+                        y: ozr_description.height + ozr_description.y + sheight * 3
                     }
                 },
                 State
@@ -170,7 +172,7 @@ Rectangle
                     }
                     PropertyChanges
                     {
-                        target: sm_one_zone_te;
+                        target: sm_one_zone_te_rec;
                         height: 0;
                         y: 0
                     }
@@ -203,7 +205,7 @@ Rectangle
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 20 * 0.04 * swidth
+                    font.pixelSize: 20 * 0.08 * swidth
                     text: qsTr("Секции пакета")
                 }
             }
@@ -219,10 +221,10 @@ Rectangle
                     id: table
                     anchors.top: parent.top
                     width: parent.width
-                    height: sheight * 9.142
+                    height: sheight * 7.142
                     color: "#D9D9D9"
                     property real squareWidth: width / 17
-                    property real squareHeight: height
+                    property real squareHeight: table.height
                     Grid
                     {
                         id: grid_1
@@ -243,7 +245,7 @@ Rectangle
                                     anchors.centerIn: parent
                                     text: index > 0 ? (index).toString() : ""
                                     font.family: "Inter"
-                                    font.pixelSize: 24 * 0.04 * swidth
+                                    font.pixelSize: 24 * 0.06 * swidth
                                 }
                             }
                         }
@@ -252,12 +254,13 @@ Rectangle
                 ListView
                 {
                     width: parent.width
-                    y: sheight * 18
+                    anchors.top: table.bottom
                     model: number_lines
+                    height: contentHeight
                     delegate: Rectangle
                     {
                         width: parent.width
-                        height: sheight * 9.142
+                        height: sheight * 7.142
                         Grid
                         {
                             anchors.fill: parent
@@ -268,6 +271,7 @@ Rectangle
                                 model: grid.columns
                                 Rectangle
                                 {
+                                    id: grid_rec
                                     width: parent.width / grid.columns
                                     height: parent.height
                                     color: "white"
@@ -285,7 +289,10 @@ Rectangle
                                         anchors.fill: parent
                                         onClicked:
                                         {
-                                            console.log("Квадрат", index + 1, "в элементе", index + 1, "был нажат.")
+                                            console.log("Квадрат", index, "в элементе", model.index, "был нажат.")
+
+                                            sendDataToSMfOZR(index, grid_rec.color)
+
                                         }
                                     }
                                 }
@@ -313,17 +320,24 @@ Rectangle
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 20 * 0.04 * swidth
-                    text: qsTr("Секции пакета")
+                    font.pixelSize: 20 * 0.08 * swidth
+                    text: qsTr("Описание")
                 }
             }
-            TextEdit
+            Rectangle
             {
-                id: sm_one_zone_te
+                id: sm_one_zone_te_rec
                 width: swidth * 90.813
-                height: 0
                 x: swidth * 3.821
                 y: 0
+                height: 0
+                TextEdit
+                {
+                    id: sm_one_zone_te
+                    width: parent.width
+                    height: parent.height
+                    anchors.centerIn: parent.Center
+                }
             }
         }
     }
@@ -341,6 +355,27 @@ Rectangle
             {
                 sm_one_model_rec.destroy()
             }
+        }
+    }
+    function sendDataToOZR(currentRowIndex, start_section, length_section, color)
+    {
+        var current_index = start_section;
+        var current_row = currentRowIndex;
+
+        while (length_section > 0) {
+            if (current_index >= grid_1.columns) {
+                current_index = 1;
+                current_row++;
+            }
+
+            if (current_row < number_lines.count) {
+                number_lines.set(current_row, {index: current_index, color: color});
+            } else {
+                number_lines.append({index: current_index, color: color});
+            }
+
+            current_index++;
+            length_section--;
         }
     }
 }

@@ -23,6 +23,9 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageConstructMenu/PackageConstructMenu.qml
     QML_FILES src/View/TestConstructMenu/TestConstructMenu.qml
     QML_FILES src/View/EmulatorMenu/EmulatorMenu.qml
+    QML_FILES src/View/StationMenu/SM_one_zone_rec.qml
+    QML_FILES src/View/StationMenu/SM_AddSection.qml
+    QML_FILES src/View/StationMenu/SM_Package_View.qml
     resources.qrc
 )
 

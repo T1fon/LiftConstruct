@@ -5,6 +5,8 @@ import QtQuick.Dialogs
 
 Rectangle
 {
+    signal addClose()
+    signal sendData(int start_section, int length_section)
     id: sm_AddSection_rec
     width: 800
     height: 600
@@ -29,7 +31,7 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 text: qsTr("Секция")
             }
         }
@@ -63,7 +65,7 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 text: qsTr("Начало секции(байт)")
             }
         }
@@ -79,7 +81,7 @@ Rectangle
                 height: parent.height
                 width: parent.width
                 font.family: "Inter"
-                font.pixelSize: 22 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 text: "0"
@@ -104,7 +106,7 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 text: qsTr("Длина секции(байт)")
             }
         }
@@ -120,7 +122,7 @@ Rectangle
                 height: parent.height
                 width: parent.width
                 font.family: "Inter"
-                font.pixelSize: 22 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 text: "0"
@@ -136,7 +138,7 @@ Rectangle
         }
         onAccepted:
         {
-
+            warning_dialog.close()
         }
     }
     Button
@@ -147,14 +149,19 @@ Rectangle
         width: swidth * 33.75
         height: sheight * 10
         font.family: "Inter"
-        font.pixelSize: 22 * 0.04 * swidth
+        font.pixelSize: 20 * 0.1 * swidth
         text: "Применить"
         onClicked:
         {
-            if(sm_AddSection_start_ti.text != "" && sm_AddSection_length_ti.text != "")
-                sm_AddSection_rec.close()
+            if(sm_AddSection_start_ti.text !== "" && sm_AddSection_length_ti.text !== "" &&
+                  parseInt(sm_AddSection_start_ti.text) !== 0 && parseInt(sm_AddSection_length_ti.text) !== 0
+                    && !isNaN(sm_AddSection_start_ti.text) && !isNaN(sm_AddSection_length_ti.text))
+            {
+                sendDataToSM(parseInt(sm_AddSection_start_ti.text), parseInt(sm_AddSection_length_ti.text))
+                addClose()
+            }
             else
-                sm_AddSection_rec.open()
+                warning_dialog.open()
 
         }
     }
@@ -166,11 +173,13 @@ Rectangle
         width: swidth * 33.75
         height: sheight * 10
         font.family: "Inter"
-        font.pixelSize: 22 * 0.04 * swidth
+        font.pixelSize: 20 * 0.1 * swidth
         text: "отменить"
         onClicked:
         {
-            sm_AddSection_rec.close()
+            addClose()
         }
     }
+
+    property var sendDataToSM: undefined
 }

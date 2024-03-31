@@ -29,7 +29,7 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 text: qsTr("Наименование")
             }
         }
@@ -70,7 +70,7 @@ Rectangle
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 text: qsTr("Размер пакета(байт)")
             }
         }
@@ -98,6 +98,7 @@ Rectangle
         title: "ошибка"
         standardButtons: Dialog.Ok
         Text {
+            font.pixelSize: 20 * 0.1 * swidth
             text:  "Измените наименование или размер пакета";
         }
         onAccepted:
@@ -113,7 +114,7 @@ Rectangle
         width: swidth * 33.75
         height: sheight * 10
         font.family: "Inter"
-        font.pixelSize: 22 * 0.04 * swidth
+        font.pixelSize: 20 * 0.1 * swidth
         text: "Применить"
         onClicked:
         {
@@ -131,7 +132,7 @@ Rectangle
         width: swidth * 33.75
         height: sheight * 10
         font.family: "Inter"
-        font.pixelSize: 22 * 0.04 * swidth
+        font.pixelSize: 20 * 0.1 * swidth
         text: "отменить"
         onClicked:
         {
