@@ -158,6 +158,8 @@ Rectangle
                     && !isNaN(sm_AddSection_start_ti.text) && !isNaN(sm_AddSection_length_ti.text))
             {
                 sendDataToSM(parseInt(sm_AddSection_start_ti.text), parseInt(sm_AddSection_length_ti.text))
+                sm_AddSection_start_ti.clear()
+                sm_AddSection_length_ti.clear()
                 addClose()
             }
             else

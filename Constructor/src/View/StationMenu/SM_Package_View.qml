@@ -5,11 +5,14 @@ import QtQuick.Dialogs
 
 Rectangle
 {
+    signal pvClosed()
+    property var sendDataToSMfPV: undefined
     id: sm_package_view_rec
     width: 800
     height: 600
     property real swidth: width/100
     property real sheight: height/100
+    property int number_zone: 1
     color: "#D9D9D9"
     Rectangle
     {
@@ -45,10 +48,10 @@ Rectangle
                 height: parent.height
                 width: parent.width
                 font.family: "Inter"
-                font.pixelSize: 22 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                text: ""
+                text: qsTr("Вид пакета ") + qsTr(number_zone.toString())
             }
         }
     }
@@ -86,7 +89,7 @@ Rectangle
                 height: parent.height
                 width: parent.width
                 font.family: "Inter"
-                font.pixelSize: 22 * 0.04 * swidth
+                font.pixelSize: 20 * 0.1 * swidth
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 text: ""
@@ -118,8 +121,14 @@ Rectangle
         text: "Применить"
         onClicked:
         {
-            if(sm_package_view_size_ti.text != "" && sm_package_view_name_ti.text != "")
-                sm_package_view_rec.close()
+            console.log(sm_package_view_name_ti.text, sm_package_view_size_ti.text)
+            if(sm_package_view_name_ti.text != "" && sm_package_view_size_ti != ""
+                    && parseInt(sm_package_view_size_ti.text) !== 0 && !isNaN(sm_package_view_size_ti.text) )
+            {
+                sendDataToSMfPV(sm_package_view_name_ti.text, parseInt(sm_package_view_size_ti.text))
+                pvClosed()
+                sm_package_view_size_ti.clear()
+            }
             else
                 warning_dialog.open()
         }
@@ -136,7 +145,7 @@ Rectangle
         text: "отменить"
         onClicked:
         {
-            sm_package_view_rec.close()
+            pvClosed()
         }
     }
 }

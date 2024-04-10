@@ -22,7 +22,7 @@ Rectangle
         Text
         {
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             text: qsTr("Примечание")
         }
     }
@@ -37,7 +37,7 @@ Rectangle
         Text
         {
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             text: qsTr("Действие")
         }
     }
@@ -52,7 +52,7 @@ Rectangle
         Text
         {
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             text: qsTr("Пакет")
         }
     }
@@ -62,10 +62,11 @@ Rectangle
         height: sheight * 25
         anchors.left: parent.left
         y: sheight * 60
+        color: "#D9D9D9"
         Text
         {
             font.family: "Inter"
-            font.pixelSize: 20 * 0.04 * swidth
+            font.pixelSize: 20 * 0.06 * swidth
             text: counter_zone.toString()
         }
     }
@@ -81,12 +82,13 @@ Rectangle
             width: parent.width
             height: parent.height
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.right: parent.right
         }
     }
+
     Rectangle
     {
         width: swidth * 16.487
@@ -99,7 +101,7 @@ Rectangle
             width: parent.width
             height: parent.height
             anchors.right: parent.right
-            model: ListElement
+            model: ListModel
             {
                 id: tcm_act_model
                 ListElement
@@ -117,6 +119,7 @@ Rectangle
             }
         }
     }
+
     Rectangle
     {
         width: swidth * 26.882
@@ -129,26 +132,26 @@ Rectangle
             width: parent.width
             height: parent.height
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors.right: parent.right
         }
     }
+
     Rectangle
     {
         width: swidth * 4.48
         height: sheight * 52.448
-        anchors.left: parent.left
-        y: sheight * 46.875
         anchors.right: parent.right
+        y: sheight * 46.875
         Button
         {
             id: tcm_del_but
             width: parent.width
             height: parent.height
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.06 * swidth
             anchors.right: parent.right
             text: "-"
             onClicked:

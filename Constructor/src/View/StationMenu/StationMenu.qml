@@ -14,7 +14,7 @@ Rectangle
     property real swidth: width / 100
     property real sheight: height / 100
     property int number_zone_main: 1
-    property int number_lines_main: 1
+    property string name_zone_main: ""
     color: "#D9D9D9"
     //левая панелька с названиями
     Rectangle
@@ -833,11 +833,13 @@ Rectangle
                     }
                     delegate: SM_one_zone_rec
                     {
-                        width: parent.width
+                        //width: parent.width
                         //height: package_templates_parametrs.height
                         //visible: false
-                        number_zone: model.number_zone
-                        number_lines: model.number_lines
+                        def_width: swidth * 80
+                        def_height: sheight * 70
+                        number_lines: number_zone_main
+                        name_zone: name_zone_main
                         sendDataToSMfOZR: function(box_row, box_color)
                         {
                             console.log(" Цвет:",box_color, "строка ", box_row)
@@ -883,7 +885,7 @@ Rectangle
                     //visible: false
                     //enabled: false
                     y: 0
-                    x: swidth * 45.859
+                    x: swidth * 30.859
                     text: "+"
                     font.pointSize: 48 * swidth * 0.03
                     onClicked: {
@@ -1337,6 +1339,17 @@ Rectangle
             {
                 width: parent.width
                 height: parent.height
+                number_zone: sm_zones_lv.count + 1
+                sendDataToSMfPV: function(zone_name, zone_size)
+                {
+                    console.log("Имя зоны: ", zone_name,  " Размер: ", Math.ceil(zone_size / 16))
+                    sm_zones_lv.model.append({ name_zone: zone_name, number_lines: Math.ceil(zone_size / 16)})
+                    number_zone_main++
+                }
+                onPvClosed:
+                {
+                    addNewZone.close()
+                }
             }
         }
     }

@@ -5,10 +5,13 @@ import QtQuick.Dialogs
 
 Rectangle
 {
-    width: 1230
-    height: 350
-    property real swidth: width / 100
-    property real sheight: height / 100
+    id: pcm_one_zone_window
+    property real def_width: 1230
+    property real def_height: 350
+    property real swidth: def_width / 100
+    property real sheight: def_height / 100
+    width: def_width
+    height: one_zone_title_rec.height
     property int counter_bytes: 1
     property string zone_name: "Префикс"
     property int counter: 1
@@ -33,7 +36,7 @@ Rectangle
             {
                 id: one_zone_title_rec_text
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.04 * swidth
+                font.pixelSize: 20 * 0.06 * swidth
                 text: qsTr("Зона: ") + zone_name
             }
         }
@@ -64,7 +67,7 @@ Rectangle
         id: one_zone_rec
         width: parent.width
         height: 0
-        anchors.top: pcm_packadge_view_title_rec.bottom
+        y: one_zone_title_rec.height
         state: "closed"
         color: "#D9D9D9"
         states:
@@ -74,15 +77,38 @@ Rectangle
                 name: "opened"
                 PropertyChanges
                 {
-                    target: pcm_packadge_view_rec; height: sheight * 85.714
+                    target: one_zone_rec;
+                    height: sheight * 85.714
                 }
+                PropertyChanges
+                {
+                    target: pcm_one_zone_window
+                    height: one_zone_title_rec.height + one_zone_rec.height
+                }
+                PropertyChanges
+                {
+                    target: one_zone_color_zone
+                    height: sheight  * 2
+                }
+
             },
             State {
                 name: "closed"
                 PropertyChanges
                 {
-                    target: pcm_packadge_view_rec; height: 0
+                    target: one_zone_rec;
+                    height: 0
 
+                }
+                PropertyChanges
+                {
+                    target: pcm_one_zone_window
+                    height: one_zone_title_rec.height
+                }
+                PropertyChanges
+                {
+                    target: one_zone_color_zone
+                    height: 0
                 }
             }
         ]
@@ -99,7 +125,7 @@ Rectangle
         {
             id: one_zone_color_zone
             width: parent.width
-            height: sheight * 7.429
+            height: 0
             anchors.top: parent.top
             color: "red"
         }
@@ -107,14 +133,14 @@ Rectangle
         {
             width: parent.width
             height: parent.height - one_zone_color_zone.height
-            y: one_zone_color_zone.y
+            y: one_zone_color_zone.y + one_zone_color_zone.height
             color: "#D9D9D9"
             Repeater
             {
                 model: counter_bytes
                 Rectangle
                 {
-                    id: numbers
+                    id: numbers_rec
                     anchors.top: parent.top
                     width: swidth * 41.626
                     height: sheight * 9.428
@@ -141,11 +167,12 @@ Rectangle
                                     anchors.centerIn: parent
                                     text: (grid_1.columns - index).toString()
                                     font.family: "Inter"
-                                    font.pixelSize: 20 * 0.04 * swidth
+                                    font.pixelSize: 20 * 0.06 * swidth
                                 }
                             }
                         }
                     }
+
                 }
                 Rectangle
                 {
@@ -153,7 +180,7 @@ Rectangle
                     width: swidth * 5.203
                     height: sheight * 18.285
                     color: "#D9D9D9"
-                    y: numbers.y + numbers.height
+                    y: sheight * 24.909
                     x: swidth * 2.857
                     Text
                     {
@@ -166,13 +193,13 @@ Rectangle
                         }
                     }
                 }
-                Rectangle
+                /*Rectangle
                 {
                     id: table_rec
                     width: swidth * 41.626
                     height: sheight * 18.285
                     x: count_rect.x + count_rect.width
-                    y: numbers.y + numbers.height
+                    y: numbers_rec.y + numbers_rec.height
                     function updateTotalValue()
                     {
                             totalValue = 0
@@ -223,12 +250,13 @@ Rectangle
                         }
                     }
                 }
-                Rectangle
+                /*Rectangle
                 {
+                    id: text_zone
                     width: swidth * 9.593
                     height: sheight * 18.285
                     x: swidth * 85.935
-                    y: numbers.y + numbers.height
+                    y: numbers_rec.y + numbers_rec.height
                     color: "#D9D9D9"
                     Rectangle
                     {
@@ -257,7 +285,7 @@ Rectangle
                             }
                         }
                     }
-                }
+                }*/
             }
         }
     }

@@ -250,10 +250,10 @@ Rectangle
                     anchors.top: parent.top
                     Rectangle
                     {
-                        id: tcm_sequence_listview_rect
+                        /*id: tcm_sequence_listview_rect
                         width: parent.width
                         height: sheight * 8.575
-                        color: "red"
+                        color: "#D9D9D9"*/
                         ListView
                         {
                             id: tcm_sequence_listview
@@ -264,7 +264,12 @@ Rectangle
                             //сюда вставлять файлы от количества
                             model: ListModel
                             {
-                                id: tcm_sequence_model
+                                ListElement{}
+                            }
+                            delegate: TCM_one_element
+                            {
+                                width: swidth * 85
+                                height: sheight * 45
                             }
                         }
                         Rectangle
@@ -273,7 +278,7 @@ Rectangle
                             width: parent.width
                             height: sheight * 0.3703
                             color: "white"
-                            y: tcm_sequence_listview_rect.y + tcm_sequence_listview_rect.height + 2.87 * sheight
+                            y: tcm_sequence_listview.y + tcm_sequence_listview.height + 4 * sheight
                         }
                         Button
                         {
@@ -290,7 +295,8 @@ Rectangle
                             }
                             onClicked:
                             {
-                                tcm_sequence_listview_rect.height += sheight * 8.575
+                                tcm_sequence_listview.model.append({})
+
                                 counter_seq ++;
                             }
                         }

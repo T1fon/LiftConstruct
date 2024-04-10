@@ -277,17 +277,31 @@ Rectangle
                 }
             }
         }
-        Rectangle
+        ScrollView
         {
             id: pcm_zones_menu_rec
+            height: contentHeight
             width: parent.width
-            height: sheight * 20
             y: sheight * 29.444
-            color: "red"
-            enabled: false
             visible: false
-            //здесь лежит listview в который пихнуть надо зоны от их кол-ва
+            enabled: false
+            ListView
+            {
+                id: pcm_zones_menu_lv
+                height: contentHeight
+                model: ListModel
+                {
+                    ListElement{}
+                }
+                delegate: PCM_one_zone_rec
+                {
+                    def_width: swidth * 82.15
+                    def_height: sheight * 60
+                }
+            }
         }
+
+            //здесь лежит listview в который пихнуть надо зоны от их кол-ва
         Rectangle
         {
             id: pcm_packadge_view_title_rec

@@ -26,6 +26,8 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/StationMenu/SM_one_zone_rec.qml
     QML_FILES src/View/StationMenu/SM_AddSection.qml
     QML_FILES src/View/StationMenu/SM_Package_View.qml
+    QML_FILES src/View/PackageConstructMenu/PCM_one_zone_rec.qml
+    QML_FILES src/View/TestConstructMenu/TCM_one_element.qml
     resources.qrc
 )
 
