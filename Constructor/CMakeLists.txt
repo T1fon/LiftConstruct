@@ -29,6 +29,9 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageConstructMenu/PCM_one_zone_rec.qml
     QML_FILES src/View/TestConstructMenu/TCM_one_element.qml
     resources.qrc
+    SOURCES src/Model/SectionModel/sectionmodel.hpp src/Model/SectionModel/sectionmodel.cpp
+    SOURCES src/Model/CRCModel/crcmodel.hpp src/Model/CRCModel/crcmodel.cpp
+    SOURCES src/Model/VirtualPortModel/virtualportmodel.hpp src/Model/VirtualPortModel/virtualportmodel.cpp
 )
 
 
