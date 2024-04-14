@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
+add_subdirectory(src)
+
 qt_standard_project_setup()
 
 qt_add_executable(appConstructor
@@ -44,3 +46,4 @@ install(TARGETS appConstructor
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
