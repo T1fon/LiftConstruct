@@ -32,6 +32,7 @@ qt_add_qml_module(appConstructor
     SOURCES src/Model/SectionModel/sectionmodel.hpp src/Model/SectionModel/sectionmodel.cpp
     SOURCES src/Model/CRCModel/crcmodel.hpp src/Model/CRCModel/crcmodel.cpp
     SOURCES src/Model/VirtualPortModel/virtualportmodel.hpp src/Model/VirtualPortModel/virtualportmodel.cpp
+    SOURCES src/Controller/SectionManager/sectionmanager.hpp src/Controller/SectionManager/sectionmanager.cpp
 )
 
 
