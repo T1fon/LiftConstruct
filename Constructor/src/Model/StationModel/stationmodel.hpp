@@ -11,6 +11,10 @@ public:
     StationModel(const QJsonObject& json);
     void ChangeCrc(const QJsonObject& json);
     void ChangeVirtualPort(const QJsonObject& json);
+    void ConstructFromJson(const QJsonObject& json);
+    QJsonObject DumpToJson();
+    void ChangeName(QString new_name);
+
 private:
     static size_t __id;
     QString __name;

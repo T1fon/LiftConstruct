@@ -24,7 +24,7 @@ public:
     QString GetName();
     QVector<uint8_t> GetData();
     QString GetDescription();
-    void SetByte();
+    void SetByte(int index, uint8_t value);
     void ConstructFromJson(const QJsonObject& json);
     QJsonObject DumpToJson();
 private:

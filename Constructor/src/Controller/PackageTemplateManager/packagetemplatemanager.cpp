@@ -62,3 +62,11 @@ void PackageTemplateManager::AddSample(const QJsonObject& json)
     }
     __models.emplaceBack(PackageTemplateModel(modifiedJson));
 }
+
+void PackageTemplateManager::ChangeElement(const QJsonObject& json)
+{
+    for(auto& model : __models)
+    {
+
+    }
+}

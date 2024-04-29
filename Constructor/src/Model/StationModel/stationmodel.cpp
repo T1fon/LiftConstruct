@@ -181,3 +181,8 @@ QJsonObject StationModel::DumpToJson()
     return json;
 }
 
+void StationModel::ChangeName(QString new_name)
+{
+    __name = new_name;
+}
+
