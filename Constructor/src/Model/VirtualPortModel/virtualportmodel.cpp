@@ -161,3 +161,66 @@ QJsonObject VirtualPortModel::toJson()
 
     return json;
 }
+
+void VirtualPortModel::ConstructFromJson(const QJsonObject& json)
+{
+    if (json.contains("physical_interface"))
+    {
+        __physical_interface = json["physical_interface"].toString();
+    }
+    else
+    {
+        __ErrorMsg("physical_interface");
+        return;
+    }
+
+    if (json.contains("bod"))
+    {
+        __bod = json["bod"].toInt();
+    }
+    else
+    {
+        __ErrorMsg("bod");
+        return;
+    }
+
+    if (json.contains("bit_of_data"))
+    {
+        __bit_of_data = static_cast<QSerialPort::DataBits>(json["bit_of_data"].toInt());
+    }
+    else
+    {
+        __ErrorMsg("bit_of_data");
+        return;
+    }
+
+    if (json.contains("parity"))
+    {
+        __parity = static_cast<QSerialPort::Parity>(json["parity"].toInt());
+    }
+    else
+    {
+        __ErrorMsg("parity");
+        return;
+    }
+
+    if (json.contains("stop_bits"))
+    {
+        __stop_bits = static_cast<QSerialPort::StopBits>(json["stop_bits"].toInt());
+    }
+    else
+    {
+        __ErrorMsg("stop_bits");
+        return;
+    }
+
+    if (json.contains("flow_control"))
+    {
+        __flow_control = static_cast<QSerialPort::FlowControl>(json["flow_control"].toInt());
+    }
+    else
+    {
+        __ErrorMsg("flow_control");
+        return;
+    }
+}

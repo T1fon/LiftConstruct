@@ -23,7 +23,7 @@ public:
     void ConstructFromJson(const QJsonObject& json);
 private:
     QVector<SectionModel> __sections;
-    int __total_size;
+    size_t __total_size;
     void __ErrorMsg(QString target);
     SectionModel __buf_model;
 signals:

@@ -29,6 +29,7 @@ public:
     QSerialPort::StopBits GetStopBits() const;
     QSerialPort::FlowControl GetFlowControl() const;
     QJsonObject toJson();
+    void ConstructFromJson(const QJsonObject& json);
 private:
     QString __physical_interface;
     int32_t __bod;
