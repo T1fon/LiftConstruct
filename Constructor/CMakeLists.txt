@@ -41,6 +41,7 @@ qt_add_qml_module(appConstructor
     SOURCES src/Controller/PackageManager/packagemanager.hpp src/Controller/PackageManager/packagemanager.cpp
     SOURCES src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.hpp src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.cpp
     SOURCES src/Model/TestModel/testmodel.hpp src/Model/TestModel/testmodel.cpp
+    SOURCES src/Controller/TestManager/testmanager.hpp src/Controller/TestManager/testmanager.cpp
 )
 
 
