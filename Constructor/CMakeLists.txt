@@ -39,6 +39,7 @@ qt_add_qml_module(appConstructor
     SOURCES src/Model/SequenceOfPackageModel/sequenceofpackagemodel.hpp src/Model/SequenceOfPackageModel/sequenceofpackagemodel.cpp
     SOURCES src/Model/PackageModel/packagemodel.hpp src/Model/PackageModel/packagemodel.cpp
     SOURCES src/Controller/PackageManager/packagemanager.hpp src/Controller/PackageManager/packagemanager.cpp
+    SOURCES src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.hpp src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.cpp
 )
 
 
