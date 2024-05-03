@@ -1,0 +1,8 @@
+add_subdirectory(CRCModel)
+add_subdirectory(PackageModel)
+add_subdirectory(PackageTemplateModel)
+add_subdirectory(SectionModel)
+add_subdirectory(SequenceOfPackageModel)
+add_subdirectory(StationModel)
+add_subdirectory(TestModel)
+add_subdirectory(VirtualPortModel)

@@ -9,7 +9,7 @@ PackageTemplateManager::PackageTemplateManager(const QJsonObject& json)
         for( const QJsonValue& one_model: array)
         {
             QJsonObject one_object = one_model.toObject();
-            __models.emplaceBack(PackageTemplateModel(one_object));
+            __models.emplace_back(PackageTemplateModel(one_object));
         }
     }
     else
@@ -28,7 +28,7 @@ void PackageTemplateManager::ConstructFromJson(const QJsonObject& json)
         for( const QJsonValue& one_model: array)
         {
             QJsonObject one_object = one_model.toObject();
-            __models.emplaceBack(PackageTemplateModel(one_object));
+            __models.emplace_back(PackageTemplateModel(one_object));
         }
     }
     else
@@ -60,7 +60,7 @@ void PackageTemplateManager::AddSample(const QJsonObject& json)
     {
         modifiedJson.remove("id");
     }
-    __models.emplaceBack(PackageTemplateModel(modifiedJson));
+    __models.emplace_back(PackageTemplateModel(modifiedJson));
 }
 
 void PackageTemplateManager::ChangeElement(const QJsonObject& json)

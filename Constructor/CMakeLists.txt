@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
+add_subdirectory(src)
+#add_subdirectory(tests/ConstructorTest)
+
 qt_standard_project_setup()
 
 qt_add_executable(appConstructor
@@ -29,19 +32,7 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageConstructMenu/PCM_one_zone_rec.qml
     QML_FILES src/View/TestConstructMenu/TCM_one_element.qml
     resources.qrc
-    SOURCES src/Model/SectionModel/sectionmodel.hpp src/Model/SectionModel/sectionmodel.cpp
-    SOURCES src/Model/CRCModel/crcmodel.hpp src/Model/CRCModel/crcmodel.cpp
-    SOURCES src/Model/VirtualPortModel/virtualportmodel.hpp src/Model/VirtualPortModel/virtualportmodel.cpp
-    SOURCES src/Controller/SectionManager/sectionmanager.hpp src/Controller/SectionManager/sectionmanager.cpp
-    SOURCES src/Controller/PackageTemplateManager/packagetemplatemanager.hpp src/Controller/PackageTemplateManager/packagetemplatemanager.cpp
-    SOURCES src/Model/PackageTemplateModel/packagetemplatemodel.hpp src/Model/PackageTemplateModel/packagetemplatemodel.cpp
-    SOURCES src/Model/StationModel/stationmodel.hpp src/Model/StationModel/stationmodel.cpp
-    SOURCES src/Model/SequenceOfPackageModel/sequenceofpackagemodel.hpp src/Model/SequenceOfPackageModel/sequenceofpackagemodel.cpp
-    SOURCES src/Model/PackageModel/packagemodel.hpp src/Model/PackageModel/packagemodel.cpp
-    SOURCES src/Controller/PackageManager/packagemanager.hpp src/Controller/PackageManager/packagemanager.cpp
-    SOURCES src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.hpp src/Controller/SequenceOfPackageManager/sequenceofpackagemanager.cpp
-    SOURCES src/Model/TestModel/testmodel.hpp src/Model/TestModel/testmodel.cpp
-    SOURCES src/Controller/TestManager/testmanager.hpp src/Controller/TestManager/testmanager.cpp
+
 )
 
 

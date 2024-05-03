@@ -1,0 +1,5 @@
+add_subdirectory(PackageManager)
+add_subdirectory(PackageTemplateManager)
+add_subdirectory(SectionManager)
+add_subdirectory(SequenceOfPackageManager)
+add_subdirectory(TestManager)
