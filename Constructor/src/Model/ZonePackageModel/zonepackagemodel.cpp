@@ -42,6 +42,9 @@ ZonePackageModel::ZonePackageModel(const QJsonObject &value)
 
 void ZonePackageModel::setName(const QString &name){__name = name;}
 void ZonePackageModel::setColor(const QColor &color){__color = color;}
+QString& ZonePackageModel::getName(){return __name;}
+QColor& ZonePackageModel::getColor(){return __color;}
+size_t& ZonePackageModel::getId(){return __id;}
 
 QString ZonePackageModel::name(){return __name;}
 QColor ZonePackageModel::color(){return __color;}

@@ -18,6 +18,9 @@ public:
 
     void setName(const QString &name);
     void setColor(const QColor &color);
+    QString& getName();
+    QColor& getColor();
+    size_t& getId();
 
     QString name();
     QColor color();
