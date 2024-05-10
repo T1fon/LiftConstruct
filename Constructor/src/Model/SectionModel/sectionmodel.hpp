@@ -4,24 +4,25 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QDebug>
+#include <QString>
 class SectionModel
 {
 public:
-    SectionModel(int package_zone_id, int start_position, int size_section);
+    SectionModel(const size_t& package_zone_id, const size_t& start_position, const size_t& size_section);
     SectionModel(const SectionModel& other);
     SectionModel(const QJsonObject& json);
-    int GetPackageZoneId();
-    int GetStartPosition();
-    int GetSizeStation();
-    void SetPackageZoneId(int package_zone_id);
-    void SetStartPosition(int start_position);
-    void SetSizeStation(int size_section);
+    size_t& GetPackageZoneId();
+    size_t& GetStartPosition();
+    size_t& GetSizeStation();
+    void SetPackageZoneId(const size_t& package_zone_id);
+    void SetStartPosition(const size_t& start_position);
+    void SetSizeStation(const size_t& size_section);
     QJsonObject toJson();
     void ConstructFromJson(const QJsonObject& json);
 private:
-    int __package_zone_id;
-    int __start_position;
-    int __size_section;
+    size_t __package_zone_id;
+    size_t __start_position;
+    size_t __size_section;
     void __ErrorMsg(QString target);
 };
 

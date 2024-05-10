@@ -8,7 +8,7 @@ class CRCModelTest : public QObject
 public:
     CRCModelTest();
     ~CRCModelTest();
-public slots:
+private slots:
     void testConstruct1();
     void testConstruct2();
     void testConstruct3();
@@ -171,3 +171,6 @@ void CRCModelTest::testSettersGetters()
     QCOMPARE(test_end,end_calculate_crc);
     QCOMPARE(test_code,code);
 }
+QTEST_APPLESS_MAIN(CRCModelTest)
+
+#include "CRCModelTest.moc"

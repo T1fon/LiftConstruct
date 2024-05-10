@@ -7,4 +7,4 @@ add_library(SectionModel STATIC ../../../../src/Model/SectionModel/SectionModel.
 target_link_libraries(SectionModel PRIVATE Qt6::Core)
 
 target_link_libraries(SectionModelTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(SectionModelTest PRIVATE Logger)
+target_link_libraries(SectionModelTest PRIVATE SectionModel)

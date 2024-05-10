@@ -13,8 +13,8 @@ public:
     TestManager(const QJsonObject& json);
     void ConstructFromJson(const QJsonObject& json);
     QJsonObject DumpFromJson();
-    const TestModel& GetTestById(int id);
-    const TestModel& GetTestByName(QString name);
+    const TestModel& GetTestById(const size_t& id);
+    const TestModel& GetTestByName(const QString& name);
 
 private:
     QVector<TestModel> __models;

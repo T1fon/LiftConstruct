@@ -49,7 +49,7 @@ QJsonObject SequenceOfPackageManager::DumpToJson()
 
     return json;
 }
-const SequenceOfPackageModel& SequenceOfPackageManager::ReturnByPosition(int position)
+const SequenceOfPackageModel& SequenceOfPackageManager::ReturnByPosition(const size_t& position)
 {
     for ( auto& model : __models)
     {
@@ -60,7 +60,7 @@ const SequenceOfPackageModel& SequenceOfPackageManager::ReturnByPosition(int pos
     }
     throw std::runtime_error("SequenceOfPackageModel with given id not found");
 }
-QVector<SequenceOfPackageModel> SequenceOfPackageManager::ReturnByPackageId(int package_id)
+QVector<SequenceOfPackageModel> SequenceOfPackageManager::ReturnByPackageId(const size_t& package_id)
 {
     QVector<SequenceOfPackageModel> res;
     for ( auto& model : __models)

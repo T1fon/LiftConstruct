@@ -13,11 +13,15 @@ class SectionManager : public QObject
     Q_OBJECT
 public:
     SectionManager(const QJsonObject& json);
+    SectionManager(const SectionManager& other);
+    SectionManager& operator=(const SectionManager& other);
     int GetTotalSize();
-    void AddSection(size_t pos, QJsonObject& json);
-    void ChangeSection(size_t pos, int package_zone_id, int start_position, int size_section);
-    void DeleteSection(size_t pos);
-    size_t SearchSection(size_t pos);
+    void AddSection(const size_t& pos, const QJsonObject& json);
+    void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section);
+    void DeleteSection(const size_t& pos);
+    size_t SearchSection(const size_t& pos);
+    SectionModel& getModel(const size_t& pos);
+    void setModel(const size_t& pos,  const SectionModel& model);
     const QVector<SectionModel>& GetSections() const;
     QJsonObject DumpToJson();
     void ConstructFromJson(const QJsonObject& json);
@@ -25,8 +29,8 @@ private:
     QVector<SectionModel> __sections;
     size_t __total_size;
     void __ErrorMsg(QString target);
-    SectionModel __buf_model;
 signals:
+    void SectionAdded(int size);
     void SectionChanged(int position);
     void SectionDeleted(int position);
 

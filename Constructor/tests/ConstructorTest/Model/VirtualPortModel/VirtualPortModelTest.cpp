@@ -211,3 +211,7 @@ void VirtualPortModeLTest::testDumpToJson()
     QCOMPARE(stop_bits, test_stop_bits);
     QCOMPARE(flow_control, test_flow_control);
 }
+
+QTEST_APPLESS_MAIN(VirtualPortModeLTest)
+
+#include "VirtualPortModelTest.moc"

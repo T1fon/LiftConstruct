@@ -8,7 +8,7 @@ class SequenceOfPackageModelTest : public QObject
 public:
     SequenceOfPackageModelTest();
     ~SequenceOfPackageModelTest();
-public slots:
+private slots:
     void testConstruct1();
     void testSettersGetters();
     void testDumpToJson();
@@ -122,3 +122,6 @@ void SequenceOfPackageModelTest::testDumpToJson()
     QCOMPARE(test_package_id,package_id);
     QCOMPARE(test_action,action);
 }
+QTEST_APPLESS_MAIN(SequenceOfPackageModelTest)
+
+#include "SequenceOfPackageModelTest.moc"

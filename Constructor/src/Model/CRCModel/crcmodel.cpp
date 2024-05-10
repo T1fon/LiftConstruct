@@ -1,6 +1,7 @@
 #include "crcmodel.hpp"
 
-CRCModel::CRCModel(int position_crc, int size_crc, int start_calculate_crc, int end_calculate_crc, QString code)
+CRCModel::CRCModel(const size_t& position_crc, const size_t& size_crc,
+                   const size_t& start_calculate_crc, const size_t& end_calculate_crc,  const QString& code)
 {
     __position_crc = position_crc;
     __size_crc = size_crc;
@@ -72,62 +73,62 @@ void CRCModel::__ErrorMsg(QString object)
 }
 
 
-void CRCModel::SetPositionCrc(int position_crc)
+void CRCModel::SetPositionCrc(const size_t& position_crc)
 {
     __position_crc = position_crc;
 }
 
-int CRCModel::GetPositionCrc()
+size_t& CRCModel::GetPositionCrc()
 {
     return __position_crc;
 }
 
-void CRCModel::SetSizeCrc(int size_crc)
+void CRCModel::SetSizeCrc(const size_t& size_crc)
 {
     __size_crc = size_crc;
 }
 
-int CRCModel::GetSizeCrc()
+size_t& CRCModel::GetSizeCrc()
 {
     return __size_crc;
 }
 
-void CRCModel::SetStartCalculateCrc(int start_calculate_crc)
+void CRCModel::SetStartCalculateCrc(const size_t& start_calculate_crc)
 {
     __start_calculate_crc = start_calculate_crc;
 }
 
-int CRCModel::GetStartCalculateCrc()
+size_t& CRCModel::GetStartCalculateCrc()
 {
     return __start_calculate_crc;
 }
 
-void CRCModel::SetEndCalculateCrc(int end_calculate_crc)
+void CRCModel::SetEndCalculateCrc(const size_t& end_calculate_crc)
 {
     __end_calculate_crc = end_calculate_crc;
 }
 
-int CRCModel::GetEndCalculateCrc()
+size_t& CRCModel::GetEndCalculateCrc()
 {
     return __end_calculate_crc;
 }
 
-void CRCModel::SetCode(QString code)
+void CRCModel::SetCode(const QString& code)
 {
     __code = code;
 }
 
-QString CRCModel::GetCode()
+QString& CRCModel::GetCode()
 {
     return __code;
 }
 QJsonObject CRCModel::toJson()
 {
     QJsonObject json;
-    json["position_crc"] = __position_crc;
-    json["size_crc"] = __size_crc;
-    json["start_calculate_crc"] = __start_calculate_crc;
-    json["end_calculate_crc"] = __end_calculate_crc;
+    json["position_crc"] = static_cast<int>(__position_crc);
+    json["size_crc"] = static_cast<int>(__size_crc);
+    json["start_calculate_crc"] = static_cast<int>(__start_calculate_crc);
+    json["end_calculate_crc"] = static_cast<int>(__end_calculate_crc);
     json["code"] = __code;
     return json;
 }

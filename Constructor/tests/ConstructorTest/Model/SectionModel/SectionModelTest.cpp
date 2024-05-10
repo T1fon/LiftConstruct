@@ -8,7 +8,7 @@ class SectionModelTest : public QObject
 public:
     SectionModelTest();
     ~SectionModelTest();
-public slots:
+private slots:
     void testConstruct1();
     void testConstruct2();
     void testConstruct3();
@@ -132,3 +132,6 @@ void SectionModelTest::testDumpToJson()
     QCOMPARE(test_start, start_position);
     QCOMPARE(test_size, size_section);
 }
+QTEST_APPLESS_MAIN(SectionModelTest)
+
+#include "SectionModelTest.moc"

@@ -7,4 +7,4 @@ add_library(VirtualPortModel STATIC ../../../../src/Model/VirtualPortModel/virtu
 target_link_libraries(VirtualPortModel PRIVATE Qt6::Core)
 
 target_link_libraries(VirtualPortModelTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(VirtualPortModelTest PRIVATE Logger)
+target_link_libraries(VirtualPortModelTest PRIVATE VirtualPortModel)

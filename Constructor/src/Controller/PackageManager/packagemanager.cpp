@@ -50,7 +50,7 @@ QJsonObject PackageManager::DumpFromJson()
 
     return json;
 }
-const PackageModel& PackageManager::ReturnById(int id)
+const PackageModel& PackageManager::ReturnById(const size_t& id)
 {
     for ( auto& model : __models)
     {
@@ -63,7 +63,7 @@ const PackageModel& PackageManager::ReturnById(int id)
     throw std::runtime_error("PackageModel with given id not found");
 }
 
-const PackageModel& PackageManager::ReturnByName(QString name)
+const PackageModel& PackageManager::ReturnByName(const QString& name)
 {
     for ( auto& model : __models)
     {

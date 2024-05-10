@@ -14,8 +14,8 @@ public:
     PackageManager(const QJsonObject& json);
     void ConstructFromJson(const QJsonObject& json);
     QJsonObject DumpFromJson();
-    const PackageModel& ReturnById(int id);
-    const PackageModel& ReturnByName(QString name);
+    const PackageModel& ReturnById(const size_t& id);
+    const PackageModel& ReturnByName(const QString& name);
 private:
     QVector<PackageModel> __models;
 };

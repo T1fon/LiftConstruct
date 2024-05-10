@@ -12,15 +12,25 @@ class PackageTemplateModel
 {
 public:
     PackageTemplateModel(const QJsonObject& json);
-    void SetSize(size_t size);
-    size_t GetSize();
-    void AddSection(size_t pos, QJsonObject& json);
-    void ChangeSection(size_t pos, int package_zone_id, int start_position, int size_section);
-    void DeleteSection(size_t pos);
+    void SetSize(const size_t& size);
+    const size_t& GetSize();
+    void AddSection(const size_t& pos, const QJsonObject& json);
+    void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
+                                             const size_t& size_section);
+    void ChangeSection(const size_t& size, const QString& description, const QString& name);
+    void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
+                       const size_t& size, const QString& description, const QString& name);
+    void DeleteSection(const size_t& pos);
     QJsonObject DumpToJson();
     void ConstructFromJson(const QJsonObject& json);
-    void SetDescriotion(QString description);
-    QString GetDescription();
+    void SetDescriotion(const QString& description);
+    QString& GetDescription();
+    void SetName(const QString& name);
+    QString& GetName();
+    size_t& getId();
+    SectionManager& getSection();
+    void setSection(const SectionManager& section);
+
 
 private:
     size_t __id;

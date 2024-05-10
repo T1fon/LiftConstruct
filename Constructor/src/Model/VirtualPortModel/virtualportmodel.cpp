@@ -1,7 +1,8 @@
 #include "virtualportmodel.hpp"
 
-VirtualPortModel::VirtualPortModel(QString physical_interface, int32_t bod, QSerialPort::DataBits bit_of_data, QSerialPort::Parity parity,
-                                   QSerialPort::StopBits stop_bits, QSerialPort::FlowControl flow_control)
+VirtualPortModel::VirtualPortModel(const QString& physical_interface, const int32_t& bod, const QSerialPort::DataBits& bit_of_data,
+                                   const QSerialPort::Parity& parity, const QSerialPort::StopBits& stop_bits,
+                                   const QSerialPort::FlowControl& flow_control)
 {
     __physical_interface = physical_interface;
     __bod = bod;
@@ -139,7 +140,7 @@ QSerialPort::StopBits VirtualPortModel::GetStopBits() const
     return __stop_bits;
 }
 
-void VirtualPortModel::SetFlowControl(QSerialPort::FlowControl& flow_control)
+void VirtualPortModel::SetFlowControl(const QSerialPort::FlowControl& flow_control)
 {
     __flow_control = flow_control;
 }

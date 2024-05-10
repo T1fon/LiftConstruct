@@ -7,4 +7,4 @@ add_library(SequenceOfPackageModel STATIC ../../../../src/Model/SequenceOfPackag
 target_link_libraries(SequenceOfPackageModel PRIVATE Qt6::Core)
 
 target_link_libraries(SequenceOfPackageModelTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(SequenceOfPackageModelTest PRIVATE Logger)
+target_link_libraries(SequenceOfPackageModelTest PRIVATE SequenceOfPackageModel)

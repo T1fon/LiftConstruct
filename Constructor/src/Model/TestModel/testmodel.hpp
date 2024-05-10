@@ -11,24 +11,25 @@ class TestModel
 {
 public:
     TestModel(const QJsonObject& json);
-    TestModel(QString name, int station_id, QVector<SequenceOfPackageManager> sequence_of_packages, QString description);
-    void SetName(QString name);
-    void SetStationId(int station_id);
-    void SetSequenceOfPackages(QVector<SequenceOfPackageManager> sequence_of_packages);
-    void SetDescription(QString description);
-    int GetId();
+    TestModel(const QString& name, const size_t& station_id,
+              const QVector<SequenceOfPackageManager>& sequence_of_packages, const QString& description);
+    void SetName(const QString& name);
+    void SetStationId(const size_t& station_id);
+    void SetSequenceOfPackages(const QVector<SequenceOfPackageManager>& sequence_of_packages);
+    void SetDescription(const QString& description);
+    size_t GetId();
     QString GetName();
-    int GetStationId();
+    size_t GetStationId();
     QVector<SequenceOfPackageManager> GetSequenceOfPackages();
     QString GetDescription();
     void ConstructFromJson(const QJsonObject& json);
     QJsonObject DumpToJson();
 
 private:
-    int __id;
+    size_t __id;
     static size_t __last_id;
     QString __name;
-    int __station_id;
+    size_t __station_id;
     QVector<SequenceOfPackageManager> __sequence_of_packages;
     QString __description;
 };

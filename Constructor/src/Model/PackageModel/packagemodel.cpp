@@ -64,7 +64,8 @@ PackageModel::PackageModel(const QJsonObject& json)
     }
 
 }
-PackageModel::PackageModel(int station_id, int p_t_id, QString name, QVector<uint8_t> data, QString description)
+PackageModel::PackageModel(const size_t& station_id, const size_t& p_t_id, const QString& name,
+                           const QVector<uint8_t>& data, const QString& description)
 {
     __id = __last_id;
     __last_id++;
@@ -74,35 +75,35 @@ PackageModel::PackageModel(int station_id, int p_t_id, QString name, QVector<uin
     __data = data;
     __description = description;
 }
-void PackageModel::SetStationId(int station_id)
+void PackageModel::SetStationId(const size_t& station_id)
 {
     __station_id = station_id;
 }
-void PackageModel::SetPackageTamplateId(int package_tamplate_id)
+void PackageModel::SetPackageTamplateId(const size_t& package_tamplate_id)
 {
     __package_template_id = package_tamplate_id;
 }
-void PackageModel::SetName(QString name)
+void PackageModel::SetName(const QString& name)
 {
     __name = name;
 }
-void PackageModel::SetData(QVector<uint8_t> data)
+void PackageModel::SetData(const QVector<uint8_t>& data)
 {
     __data = data;
 }
-void PackageModel::SetDescription(QString description)
+void PackageModel::SetDescription(const QString& description)
 {
     __description = description;
 }
-int PackageModel::GetId()
+size_t PackageModel::GetId()
 {
     return __id;
 }
-int PackageModel::GetStationId()
+size_t PackageModel::GetStationId()
 {
     return __station_id;
 }
-int PackageModel::GetPackageTemplateId()
+size_t PackageModel::GetPackageTemplateId()
 {
     return __package_template_id;
 }
@@ -118,7 +119,7 @@ QString PackageModel::GetDescription()
 {
     return __description;
 }
-void PackageModel::SetByte(int index, uint8_t value)
+void PackageModel::SetByte(const size_t& index, const uint8_t& value)
 {
     if (index >= 0 && index < __data.size())
     {
@@ -203,9 +204,9 @@ void PackageModel::ConstructFromJson(const QJsonObject& json)
 QJsonObject PackageModel::DumpToJson()
 {
     QJsonObject json;
-    json["id"] = __id;
-    json["station_id"] = __station_id;
-    json["package_template_id"] = __package_template_id;
+    json["id"] = static_cast<int>(__id);
+    json["station_id"] = static_cast<int>(__station_id);
+    json["package_template_id"] = static_cast<int>(__package_template_id);
     json["name"] = __name;
     QString data_string;
     for(uint8_t byte : __data)
@@ -214,4 +215,5 @@ QJsonObject PackageModel::DumpToJson()
     }
     json["data"] = data_string;
     json["description"] = __description;
+    return json;
 }

@@ -1,6 +1,6 @@
 #include "sectionmodel.hpp"
 
-SectionModel::SectionModel(int package_zone_id, int start_position, int size_section)
+SectionModel::SectionModel(const size_t& package_zone_id, const size_t& start_position, const size_t& size_section)
 {
     __package_zone_id = package_zone_id;
     __start_position = start_position;
@@ -51,41 +51,41 @@ void SectionModel::__ErrorMsg(QString target)
      qDebug() << "Ошибка, json не считал строчку " << target;
 }
 
-void SectionModel::SetPackageZoneId(int package_zone_id)
+void SectionModel::SetPackageZoneId(const size_t& package_zone_id)
 {
     __package_zone_id = package_zone_id;
 }
 
-int SectionModel::GetPackageZoneId()
+size_t& SectionModel::GetPackageZoneId()
 {
     return __package_zone_id;
 }
 
-void SectionModel::SetStartPosition(int start_position)
+void SectionModel::SetStartPosition(const size_t& start_position)
 {
     __start_position = start_position;
 }
 
-int SectionModel::GetStartPosition()
+size_t& SectionModel::GetStartPosition()
 {
     return __start_position;
 }
 
-void SectionModel::SetSizeStation(int size_section)
+void SectionModel::SetSizeStation(const size_t& size_section)
 {
     __size_section = size_section;
 }
 
-int SectionModel::GetSizeStation()
+size_t& SectionModel::GetSizeStation()
 {
     return __size_section;
 }
 QJsonObject SectionModel::toJson()
 {
     QJsonObject json;
-    json["package_zone_id"] = __package_zone_id;
-    json["start_position"] = __start_position;
-    json["size_section"] = __size_section;
+    json["package_zone_id"] = static_cast<int>(__package_zone_id);
+    json["start_position"] = static_cast<int>(__start_position);
+    json["size_section"] = static_cast<int>(__size_section);
     return json;
 }
 

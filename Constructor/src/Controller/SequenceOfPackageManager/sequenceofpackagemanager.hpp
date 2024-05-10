@@ -15,8 +15,8 @@ public:
     SequenceOfPackageManager(const QJsonObject& json);
     void ConstructFromJson(const QJsonObject& json);
     QJsonObject DumpToJson() ;
-    const SequenceOfPackageModel& ReturnByPosition(int position);
-    QVector<SequenceOfPackageModel> ReturnByPackageId(int package_id);
+    const SequenceOfPackageModel& ReturnByPosition(const size_t& position);
+    QVector<SequenceOfPackageModel> ReturnByPackageId(const size_t& package_id);
 private:
     std::set<SequenceOfPackageModel> __models;
 };

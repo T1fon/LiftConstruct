@@ -52,8 +52,8 @@ TestModel::TestModel(const QJsonObject& json)
         return;
     }
 }
-TestModel::TestModel(QString name, int station_id,
-                     QVector<SequenceOfPackageManager> sequence_of_packages = QVector<SequenceOfPackageManager>(), QString description = "")
+TestModel::TestModel(const QString& name, const size_t& station_id,
+                     const QVector<SequenceOfPackageManager>& sequence_of_packages, const QString& description)
 {
     __id = __last_id;
     __last_id++;
@@ -62,23 +62,23 @@ TestModel::TestModel(QString name, int station_id,
     __sequence_of_packages = sequence_of_packages;
     __description = description;
 }
-void TestModel::SetName(QString name)
+void TestModel::SetName(const QString& name)
 {
     __name = name;
 }
-void TestModel::SetStationId(int station_id)
+void TestModel::SetStationId(const size_t& station_id)
 {
     __station_id = station_id;
 }
-void TestModel::SetSequenceOfPackages(QVector<SequenceOfPackageManager> sequence_of_packages)
+void TestModel::SetSequenceOfPackages(const QVector<SequenceOfPackageManager>& sequence_of_packages)
 {
     __sequence_of_packages = sequence_of_packages;
 }
-void TestModel::SetDescription(QString description)
+void TestModel::SetDescription(const QString& description)
 {
     __description = description;
 }
-int TestModel::GetId()
+size_t TestModel::GetId()
 {
     return __id;
 }
@@ -86,7 +86,7 @@ QString TestModel::GetName()
 {
     return __name;
 }
-int TestModel::GetStationId()
+size_t TestModel::GetStationId()
 {
     return __station_id;
 }
@@ -162,9 +162,9 @@ void TestModel::ConstructFromJson(const QJsonObject& json)
 QJsonObject TestModel::DumpToJson()
 {
     QJsonObject json;
-    json["id"] = __id;
+    json["id"] = static_cast<int>(__id);
     json["name"] = __name;
-    json["station_id"] = __station_id;
+    json["station_id"] = static_cast<int>(__station_id);
     QJsonArray array;
     for(auto it = __sequence_of_packages.begin(); it != __sequence_of_packages.end(); ++it)
     {

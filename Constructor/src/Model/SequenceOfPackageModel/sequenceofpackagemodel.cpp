@@ -46,16 +46,21 @@ SequenceOfPackageModel::SequenceOfPackageModel(const QJsonObject& json)
     }
 }
 
-void SequenceOfPackageModel::SetPosition(int position)
+SequenceOfPackageModel::SequenceOfPackageModel(const SequenceOfPackageModel& other)
+    : QObject(other.parent()), __position(other.__position), __package_id(other.__package_id), __action(other.__action)
+{
+}
+
+void SequenceOfPackageModel::SetPosition(const size_t& position)
 {
     __position = position;
 }
 
-void SequenceOfPackageModel::SetPackageId(int package_id)
+void SequenceOfPackageModel::SetPackageId(const size_t& package_id)
 {
     __package_id = package_id;
 }
-void SequenceOfPackageModel::SetAction(int act)
+void SequenceOfPackageModel::SetAction(const size_t& act)
 {
     if(act == 0)
     {
@@ -72,17 +77,17 @@ void SequenceOfPackageModel::SetAction(int act)
     }
 }
 
-int SequenceOfPackageModel::GetPosition() const
+size_t SequenceOfPackageModel::GetPosition() const
 {
     return __position;
 }
 
-int SequenceOfPackageModel::GetPackageId() const
+size_t SequenceOfPackageModel::GetPackageId() const
 {
     return __package_id;
 }
 
-int SequenceOfPackageModel::GetAction()
+size_t SequenceOfPackageModel::GetAction() const
 {
     if(__action == SequenceOfPackageModel::SEND)
     {
@@ -142,15 +147,15 @@ void SequenceOfPackageModel::ConstructFromJson(const QJsonObject& json)
 QJsonObject SequenceOfPackageModel::DumpToJson() const
 {
     QJsonObject json;
-    json["position"] = __position;
-    json["package_id"] = __package_id;
+    json["position"] = static_cast<int>(__position);
+    json["package_id"] = static_cast<int>(__package_id);
     if(__action == SequenceOfPackageModel::SEND)
     {
-        json["action"] = 1;
+        json["action"] = 0;
     }
     else
     {
-        json["action"] = 0;
+        json["action"] = 1;
     }
     return json;
 }

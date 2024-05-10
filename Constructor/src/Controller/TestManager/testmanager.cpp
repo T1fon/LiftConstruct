@@ -49,7 +49,7 @@ QJsonObject TestManager::DumpFromJson()
 
     return json;
 }
-const TestModel& TestManager::GetTestById(int id)
+const TestModel& TestManager::GetTestById(const size_t& id)
 {
     for ( auto& model : __models)
     {
@@ -60,7 +60,7 @@ const TestModel& TestManager::GetTestById(int id)
     }
     throw std::runtime_error("TestModel with given id not found");
 }
-const TestModel& TestManager::GetTestByName(QString name)
+const TestModel& TestManager::GetTestByName(const QString& name)
 {
     for ( auto& model : __models)
     {

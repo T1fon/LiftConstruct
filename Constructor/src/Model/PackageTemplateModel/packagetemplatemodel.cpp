@@ -42,14 +42,13 @@ PackageTemplateModel::PackageTemplateModel(const QJsonObject& json) : __sections
         __ErrorMsg("name");
         return;
     }
-
 }
 void PackageTemplateModel::__ErrorMsg(QString target)
 {
     qDebug() << "Ошибка, json не не содержит поле " << target;
 }
 
-void PackageTemplateModel::SetSize(size_t size)
+void PackageTemplateModel::SetSize(const size_t& size)
 {
     if(size < __sections.GetTotalSize())
     {
@@ -62,12 +61,12 @@ void PackageTemplateModel::SetSize(size_t size)
     }
 }
 
-size_t PackageTemplateModel::GetSize()
+const size_t& PackageTemplateModel::GetSize()
 {
     return __size;
 }
 
-void PackageTemplateModel::AddSection(size_t pos, QJsonObject& json)
+void PackageTemplateModel::AddSection(const size_t& pos, const QJsonObject& json)
 {
     if(pos + 1 > __size)
     {
@@ -80,20 +79,61 @@ void PackageTemplateModel::AddSection(size_t pos, QJsonObject& json)
     }
 }
 
-void PackageTemplateModel::ChangeSection(size_t pos, int package_zone_id, int start_position, int size_section)
+void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
+                                         const size_t& size_section)
 {
-    if(pos > __size)
+    if(pos < __size)
     {
-        qDebug() << "Невозможно выполнить изменение, превышен допустимый размер пакета";
-        return;
+        __sections.ChangeSection(pos,package_zone_id,start_position, size_section);
     }
     else
     {
-        __sections.ChangeSection(pos, package_zone_id, start_position, size_section);
+        qDebug() << "Выбрана несуществующая позиция";
+        return;
     }
 }
+void PackageTemplateModel::ChangeSection(const size_t& size, const QString& description, const QString& name)
+{
+    try
+    {
+        SetSize(size);
+        SetDescriotion(description);
+        SetName(name);
+    }
+    catch(std::bad_function_call)
+    {
+        qDebug() << "Ошибка при изменении";
+        return;
+    }
+}
+void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
+                   const size_t& size, const QString& description, const QString& name)
+{
+    if(pos < __size)
+    {
+        __sections.ChangeSection(pos,package_zone_id,start_position, size_section);
+    }
+    else
+    {
+        qDebug() << "Выбрана несуществующая позиция";
+        return;
+    }
+    try
+    {
+        SetSize(size);
+        SetDescriotion(description);
+        SetName(name);
+    }
+    catch(std::bad_function_call)
+    {
+        qDebug() << "Ошибка при изменении";
+        return;
+    }
 
-void PackageTemplateModel::DeleteSection(size_t pos)
+}
+
+
+void PackageTemplateModel::DeleteSection(const size_t& pos)
 {
     if(pos > __size)
     {
@@ -159,12 +199,32 @@ QJsonObject PackageTemplateModel::DumpToJson()
     return json;
 }
 
-void PackageTemplateModel::SetDescriotion(QString description)
+void PackageTemplateModel::SetDescriotion(const QString& description)
 {
     __description = description;
 }
 
-QString PackageTemplateModel::GetDescription()
+QString& PackageTemplateModel::GetDescription()
 {
     return __description;
+}
+SectionManager& PackageTemplateModel::getSection()
+{
+    return __sections;
+}
+void PackageTemplateModel::setSection(const SectionManager& section)
+{
+    __sections = section;
+}
+void PackageTemplateModel::SetName(const QString& name)
+{
+    __name = name;
+}
+QString& PackageTemplateModel::GetName()
+{
+    return __name;
+}
+size_t& PackageTemplateModel::getId()
+{
+    return __id;
 }

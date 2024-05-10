@@ -12,8 +12,9 @@
 class VirtualPortModel
 {
 public:
-    VirtualPortModel(QString physical_interface, int32_t bod, QSerialPort::DataBits bit_of_data, QSerialPort::Parity parity,
-            QSerialPort::StopBits stop_bits, QSerialPort::FlowControl flow_control);
+    VirtualPortModel(const QString& physical_interface, const int32_t& bod, const QSerialPort::DataBits& bit_of_data,
+                     const QSerialPort::Parity& parity, const QSerialPort::StopBits& stop_bits,
+                     const QSerialPort::FlowControl& flow_control);
     VirtualPortModel(const VirtualPortModel& other);
     VirtualPortModel(const QJsonObject& json);
     void SetPhysicalInterface(const QString& physical_interface);
@@ -21,7 +22,7 @@ public:
     void SetBitOfData(const QSerialPort::DataBits& bit_of_data);
     void SetParity(const QSerialPort::Parity& parity);
     void SetStopBits(const QSerialPort::StopBits& stop_bits);
-    void SetFlowControl(QSerialPort::FlowControl& flow_control);
+    void SetFlowControl(const QSerialPort::FlowControl& flow_control);
     QString GetPhysicalInterface() const;
     int32_t GetBod() const;
     QSerialPort::DataBits GetBitOfData() const;

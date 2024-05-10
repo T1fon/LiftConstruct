@@ -25,77 +25,31 @@ StationModel::StationModel(const QJsonObject& json) : __crc(json), __package_tem
     }
 }
 
-void StationModel::ChangeCrc(const QJsonObject& json)
+void StationModel::ChangeCrc( const size_t& pos_crc,  const size_t& size_crc,
+                              const size_t& start_crc,  const size_t& end_crc,  const QString& code)
 {
-    if(json.contains("calculate_crc"))
-    {
-        __calculate_crc = json["caclulate_crc"].toBool();
-    }
-
-    if(json.contains("position_crc"))
-    {
-        __crc.SetPositionCrc(json["position_crc"].toInt());
-    }
-
-    if(json.contains("size_crc"))
-    {
-        __crc.SetSizeCrc(json["size_crc"].toInt());
-    }
-
-    if(json.contains("start_calculate_crc"))
-    {
-        __crc.SetStartCalculateCrc(json["start_calculate_crc"].toInt());
-    }
-
-    if(json.contains("end_calculate_crc"))
-    {
-        __crc.SetEndCalculateCrc(json["end_calculate_crc"].toInt());
-    }
-
-    if(json.contains("end_calculate_crc"))
-    {
-        __crc.SetEndCalculateCrc(json["end_calculate_crc"].toInt());
-    }
-    if(json.contains("code"))
-    {
-        __crc.SetCode(json["code"].toString());
-    }
+    __crc.SetPositionCrc(pos_crc);
+    __crc.SetSizeCrc(size_crc);
+    __crc.SetStartCalculateCrc(start_crc);
+    __crc.SetEndCalculateCrc(end_crc);
+    __crc.SetCode(code);
 }
-void StationModel::ChangeVirtualPort(const QJsonObject& json)
+void StationModel::ChangeVirtualPort(const QString& physical_interface, const int32_t& bod,
+                                     const QSerialPort::DataBits& bit_of_data, const QSerialPort::Parity& parity,
+                                     const QSerialPort::StopBits& stop_bits, const QSerialPort::FlowControl& flow_control)
 {
-    if(json.contains("physical_interface"))
-    {
-        __virtual_port.SetPhysicalInterface(json["physical_interface"].toString());
-    }
+    __virtual_port.SetPhysicalInterface(physical_interface);
+    __virtual_port.SetBod(bod);
+    __virtual_port.SetBitOfData(bit_of_data);
+    __virtual_port.SetParity(parity);
+    __virtual_port.SetStopBits(stop_bits);
+    __virtual_port.SetFlowControl(flow_control);
+}
 
-    if(json.contains("bod"))
-    {
-        __virtual_port.SetBod(json["bod"].toInt());
-    }
-
-    if(json.contains("bit_of_data"))
-    {
-        QSerialPort::DataBits bit_of_data = static_cast<QSerialPort::DataBits>(json["bit_of_data"].toInt());
-        __virtual_port.SetBitOfData(bit_of_data);
-    }
-
-    if(json.contains("parity"))
-    {
-        QSerialPort::Parity parity = static_cast<QSerialPort::Parity>(json["parity"].toInt());
-        __virtual_port.SetParity(parity);
-    }
-
-    if(json.contains("stop_bits"))
-    {
-        QSerialPort::StopBits stop_bits = static_cast<QSerialPort::StopBits>(json["stop_bits"].toInt());
-        __virtual_port.SetStopBits(stop_bits);
-    }
-
-    if(json.contains("flow_control"))
-    {
-        QSerialPort::FlowControl flow_control = static_cast<QSerialPort::FlowControl>(json["flow_control"].toInt());
-        __virtual_port.SetFlowControl(flow_control);
-    }
+void StationModel::ChangePackageTemplate(size_t& id, size_t size, QString description, QString name,
+                                         size_t pos, size_t pac_zone_id, size_t start_pos, size_t size_sect)
+{
+    __package_template.ChangeElement(id,name,size,description,pos,pac_zone_id,start_pos,size_sect);
 }
 
 void StationModel::ConstructFromJson(const QJsonObject& json)
@@ -181,7 +135,7 @@ QJsonObject StationModel::DumpToJson()
     return json;
 }
 
-void StationModel::ChangeName(QString new_name)
+void StationModel::ChangeName(const QString& new_name)
 {
     __name = new_name;
 }
