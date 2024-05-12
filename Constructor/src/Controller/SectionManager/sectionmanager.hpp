@@ -16,7 +16,8 @@ public:
     SectionManager(const SectionManager& other);
     SectionManager& operator=(const SectionManager& other);
     int GetTotalSize();
-    void AddSection(const size_t& pos, const QJsonObject& json);
+    void addSection(const size_t& pos, const QJsonObject& json);
+    void addSection(const size_t& package_zone_id, const size_t& start_postition, const size_t& size_section);
     void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section);
     void DeleteSection(const size_t& pos);
     size_t SearchSection(const size_t& pos);

@@ -11,12 +11,17 @@
 class PackageManager
 {
 public:
-    PackageManager(const QJsonObject& json);
+    //PackageManager(const QJsonObject& json);
+
+    static PackageManager& getInstance(const QJsonObject& json);
     void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpFromJson();
+    QJsonObject DumpToJson();
     const PackageModel& ReturnById(const size_t& id);
     const PackageModel& ReturnByName(const QString& name);
 private:
+    PackageManager(const QJsonObject& json);
+    PackageManager(const PackageManager&) = delete;
+    PackageManager& operator=(const PackageManager&) = delete;
     QVector<PackageModel> __models;
 };
 

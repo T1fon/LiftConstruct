@@ -42,9 +42,6 @@ ZonePackageModel::ZonePackageModel(const QJsonObject &value)
 
 void ZonePackageModel::setName(const QString &name){__name = name;}
 void ZonePackageModel::setColor(const QColor &color){__color = color;}
-QString& ZonePackageModel::getName(){return __name;}
-QColor& ZonePackageModel::getColor(){return __color;}
-size_t& ZonePackageModel::getId(){return __id;}
 
 QString ZonePackageModel::name(){return __name;}
 QColor ZonePackageModel::color(){return __color;}
@@ -59,18 +56,18 @@ QJsonObject ZonePackageModel::toJsonObject()
     return result;
 }
 
-ZonePackageModel& ZonePackageModel::operator=(ZonePackageModel& value)
+ZonePackageModel& ZonePackageModel::operator=(const ZonePackageModel& value)
 {
     __id = value.__id;
     __name = value.__name;
     __color = value.__color;
     return *this;
 }
-bool ZonePackageModel::operator<(ZonePackageModel& value)
+bool ZonePackageModel::operator<(const ZonePackageModel& value)
 {
     return __id < value.__id;
 }
-bool ZonePackageModel::operator==(ZonePackageModel& value)
+bool ZonePackageModel::operator==(const ZonePackageModel& value)
 {
     return __id == value.__id && __name == value.__name && __color == value.__color;
 }

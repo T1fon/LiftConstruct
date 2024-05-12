@@ -13,17 +13,20 @@ class PackageTemplateManager
 {
 public:
     PackageTemplateManager(const QJsonObject& json);
+    PackageTemplateManager();
     QJsonObject DumpToJson();
     void ConstructFromJson(const QJsonObject& json);
     void AddSample(const QJsonObject& json);
     void ChangeElement(const QString& name, const size_t& size, const QString& description);
-    void ChangeElement(const QString& name, const size_t& size, const QString& description, const size_t& pos_section,
+    void ChangeElement(const QString& name,const size_t& pos_section,
            const size_t& package_sone_id, const size_t& start_postition, const size_t& size_section);
     void ChangeElement(const size_t& id, const QString& name, const size_t& size, const QString& description);
-    void ChangeElement(const size_t& id, const QString& name, const size_t& size, const QString& description, const size_t& pos_section,
+    void ChangeElement(const size_t& id, const size_t& pos_section,
             const size_t& package_sone_id, const size_t& start_postition, const size_t& size_section);
     void DeleteElement(const size_t& id);
     void DeleteElement(const QString& name);
+    size_t getSize();
+    PackageTemplateModel& getModel(const size_t& id);
 private:
     QVector<PackageTemplateModel> __models;
 signals:

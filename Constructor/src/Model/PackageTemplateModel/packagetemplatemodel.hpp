@@ -14,7 +14,9 @@ public:
     PackageTemplateModel(const QJsonObject& json);
     void SetSize(const size_t& size);
     const size_t& GetSize();
-    void AddSection(const size_t& pos, const QJsonObject& json);
+    void addSection(const size_t& pos, const QJsonObject& json);
+    void addSection(const size_t& pos,const size_t& package_zone_id, const size_t& start_position,
+                    const size_t& size_section);
     void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
                                              const size_t& size_section);
     void ChangeSection(const size_t& size, const QString& description, const QString& name);

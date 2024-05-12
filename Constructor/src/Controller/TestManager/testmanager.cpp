@@ -18,6 +18,13 @@ TestManager::TestManager(const QJsonObject& json)
         return;
     }
 }
+
+TestManager& TestManager::getInstance(const QJsonObject& json)
+{
+    static TestManager instance(json);
+    return instance;
+}
+
 void TestManager::ConstructFromJson(const QJsonObject& json)
 {
     if(json.contains("tests"))
@@ -36,7 +43,7 @@ void TestManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonObject TestManager::DumpFromJson()
+QJsonObject TestManager::DumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)

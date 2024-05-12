@@ -17,6 +17,7 @@ public:
                      const QSerialPort::FlowControl& flow_control);
     VirtualPortModel(const VirtualPortModel& other);
     VirtualPortModel(const QJsonObject& json);
+    VirtualPortModel();
     void SetPhysicalInterface(const QString& physical_interface);
     void SetBod(const int32_t& bod);
     void SetBitOfData(const QSerialPort::DataBits& bit_of_data);

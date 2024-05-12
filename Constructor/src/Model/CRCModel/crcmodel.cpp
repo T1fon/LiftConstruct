@@ -18,6 +18,14 @@ CRCModel::CRCModel(const CRCModel& other)
     __end_calculate_crc = other.__end_calculate_crc;
     __code = other.__code;
 }
+CRCModel::CRCModel()
+{
+    __position_crc = 0;
+    __size_crc = 0;
+    __start_calculate_crc = 0;
+    __end_calculate_crc = 0;
+    __code = 0;
+}
 
 CRCModel::CRCModel(const QJsonObject& json)
 {

@@ -18,6 +18,7 @@ PackageTemplateManager::PackageTemplateManager(const QJsonObject& json)
         return;
     }
 }
+PackageTemplateManager::PackageTemplateManager(){}
 
 void PackageTemplateManager::ConstructFromJson(const QJsonObject& json)
 {
@@ -118,11 +119,11 @@ void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name
     }
 }
 
-void PackageTemplateManager::ChangeElement(const QString& name, const size_t& size, const QString& description,
+void PackageTemplateManager::ChangeElement(const QString& name,
                                             const size_t& pos_section,const size_t& package_sone_id,
                                            const size_t& start_postition, const size_t& size_section)
 {
-    if(size == 0 && description == "" && pos_section == -1 && package_sone_id == 0 && start_postition == 0 && size_section == 0)
+    if( pos_section == -1 && package_sone_id == 0 && start_postition == 0 && size_section == 0)
     {
         qDebug() << "Нет данных для изменения";
         return;
@@ -136,14 +137,7 @@ void PackageTemplateManager::ChangeElement(const QString& name, const size_t& si
     {
         if(model.GetName() == name)
         {
-            if(size != 0)
-            {
-                model.SetSize(size);
-            }
-            if(description != "")
-            {
-                model.SetDescriotion(description);
-            }
+
             SectionManager manager = model.getSection();
             manager.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
             PackageTempalteChange(model.getId());
@@ -152,12 +146,10 @@ void PackageTemplateManager::ChangeElement(const QString& name, const size_t& si
     }
 
 }
-void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name, const size_t& size,
-                                           const QString& description, const size_t& pos_section,
+void PackageTemplateManager::ChangeElement(const size_t& id,const size_t& pos_section,
                                            const size_t& package_sone_id, const size_t& start_postition, const size_t& size_section)
 {
-    if(name == "" && size == 0 && description == ""
-        && pos_section == -1 && package_sone_id == 0 && start_postition == 0 && size_section == 0)
+    if(pos_section == -1 && package_sone_id == 0 && start_postition == 0 && size_section == 0)
     {
         qDebug() << "Нет данных для изменения";
         return;
@@ -167,28 +159,15 @@ void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name
         qDebug() << "Не выбрана секция для изменения";
         return;
     }
-    for(auto& model : __models)
+    if(id >= __models.size())
     {
-        if(model.GetName() == name)
-        {
-            if(size != 0)
-            {
-                model.SetSize(size);
-            }
-            if(description != "")
-            {
-                model.SetDescriotion(description);
-            }
-            if(name != "")
-            {
-                model.SetName(name);
-            }
-            SectionManager manager = model.getSection();
-            manager.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
-            PackageTempalteChange(model.getId());
-            return;
-        }
+        qDebug() << "Несуществующий id";
+        return;
     }
+
+    __models[id].ChangeSection(pos_section, package_sone_id, start_postition, size_section);
+    PackageTempalteChange(__models[id].getId());
+    return;
 
 }
 
@@ -213,4 +192,14 @@ void PackageTemplateManager::DeleteElement(const QString& name)
             return;
         }
     }
+}
+
+size_t PackageTemplateManager::getSize()
+{
+    return __models.size();
+}
+
+PackageTemplateModel& PackageTemplateManager::getModel(const size_t& id)
+{
+    return __models[id];
 }

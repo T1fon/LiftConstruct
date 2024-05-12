@@ -66,7 +66,7 @@ const size_t& PackageTemplateModel::GetSize()
     return __size;
 }
 
-void PackageTemplateModel::AddSection(const size_t& pos, const QJsonObject& json)
+void PackageTemplateModel::addSection(const size_t& pos, const QJsonObject& json)
 {
     if(pos + 1 > __size)
     {
@@ -75,8 +75,19 @@ void PackageTemplateModel::AddSection(const size_t& pos, const QJsonObject& json
     }
     else
     {
-        __sections.AddSection(pos, json);
+        __sections.addSection(pos, json);
     }
+}
+
+void PackageTemplateModel::addSection(const size_t& pos,const size_t& package_zone_id, const size_t& start_position,
+                                      const size_t& size_section)
+{
+    if(pos + 1 > __size)
+    {
+        qDebug() << "Невозможно выполнить добавление, будет превышен допустимый размер пакета";
+        return;
+    }
+    __sections.addSection(package_zone_id, start_position, size_section);
 }
 
 void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,

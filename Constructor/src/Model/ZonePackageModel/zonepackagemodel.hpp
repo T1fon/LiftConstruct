@@ -18,9 +18,6 @@ public:
 
     void setName(const QString &name);
     void setColor(const QColor &color);
-    QString& getName();
-    QColor& getColor();
-    size_t& getId();
 
     QString name();
     QColor color();
@@ -28,9 +25,9 @@ public:
 
     QJsonObject toJsonObject();
 
-    ZonePackageModel& operator=(ZonePackageModel& value);
-    bool operator<(ZonePackageModel& value);
-    bool operator==(ZonePackageModel& value);
+    ZonePackageModel& operator=(const ZonePackageModel& value);
+    bool operator<(const ZonePackageModel& value);
+    bool operator==(const ZonePackageModel& value);
 private:
     size_t __id;
     QString __name;

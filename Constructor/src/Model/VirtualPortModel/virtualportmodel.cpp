@@ -11,7 +11,15 @@ VirtualPortModel::VirtualPortModel(const QString& physical_interface, const int3
     __stop_bits = stop_bits;
     __flow_control = flow_control;
 }
-
+VirtualPortModel::VirtualPortModel()
+{
+    __physical_interface = "";
+    __bod = 0;
+    __bit_of_data = QSerialPort::Data8;
+    __parity = QSerialPort::NoParity;
+    __stop_bits = QSerialPort::OneStop;
+    __flow_control = QSerialPort::NoFlowControl;
+}
 
 VirtualPortModel::VirtualPortModel(const VirtualPortModel& other)
 {

@@ -14,6 +14,7 @@ public:
              const size_t& start_calculate_crc, const size_t& end_calculate_crc,  const QString& code);
     CRCModel(const CRCModel& other);
     CRCModel(const QJsonObject& json);
+    CRCModel();
     void SetPositionCrc(const size_t& position_crc);
     void SetSizeCrc(const size_t& size_crc);
     void SetStartCalculateCrc(const size_t& start_calculate_crc);

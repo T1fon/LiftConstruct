@@ -1,10 +1,11 @@
 #include "stationmodel.hpp"
 
-size_t StationModel::__id = 0;
+size_t StationModel::__last_id = 0;
 
 StationModel::StationModel(const QJsonObject& json) : __crc(json), __package_template(json), __virtual_port(json)
 {
-    __id++;
+    __id = __last_id;
+    __last_id++;
     if(json.contains("name"))
     {
         __name = json["name"].toString();
@@ -23,6 +24,11 @@ StationModel::StationModel(const QJsonObject& json) : __crc(json), __package_tem
         qDebug() << "Ошибка чтения json (нет такого поля calculate_crc)";
         return;
     }
+}
+StationModel::StationModel(const QString& name, const bool& calculate_crc) : __crc(), __package_template(), __virtual_port()
+{
+    __name = name;
+    __calculate_crc = calculate_crc;
 }
 
 void StationModel::ChangeCrc( const size_t& pos_crc,  const size_t& size_crc,
@@ -46,10 +52,9 @@ void StationModel::ChangeVirtualPort(const QString& physical_interface, const in
     __virtual_port.SetFlowControl(flow_control);
 }
 
-void StationModel::ChangePackageTemplate(size_t& id, size_t size, QString description, QString name,
-                                         size_t pos, size_t pac_zone_id, size_t start_pos, size_t size_sect)
+void StationModel::ChangePackageTemplate(const size_t& id, const size_t& size, const QString& description, const QString& name)
 {
-    __package_template.ChangeElement(id,name,size,description,pos,pac_zone_id,start_pos,size_sect);
+    __package_template.ChangeElement(id,name,size,description);
 }
 
 void StationModel::ConstructFromJson(const QJsonObject& json)
@@ -140,3 +145,43 @@ void StationModel::ChangeName(const QString& new_name)
     __name = new_name;
 }
 
+void StationModel::ChangeSection(const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
+                                 const size_t& start_pos, const size_t& size_sect)
+{
+    __package_template.ChangeElement(pac_id, sect_id, package_zone_id, start_pos, size_sect);
+}
+void StationModel::addSection(const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
+                              const size_t& start_pos, const size_t& size_sect)
+{
+    PackageTemplateModel& model = __package_template.getModel(pac_id);
+    model.addSection(sect_id, package_zone_id, start_pos, size_sect);
+}
+
+void StationModel::deleteSection(const size_t& pac_id, const size_t& sect_id)
+{
+    PackageTemplateModel& model = __package_template.getModel(pac_id);
+    model.DeleteSection(sect_id);
+}
+
+PackageTemplateModel& StationModel::getModel(const size_t& id)
+{
+    if( id >= __package_template.getSize())
+    {
+        throw std::invalid_argument("Invalid Id");
+    }
+    return __package_template.getModel(id);
+}
+
+void StationModel::changeFlag(const bool& calculate_crc)
+{
+    __calculate_crc = calculate_crc;
+}
+
+QString StationModel::getName()
+{
+    return __name;
+}
+size_t StationModel::getId()
+{
+    return __id;
+}

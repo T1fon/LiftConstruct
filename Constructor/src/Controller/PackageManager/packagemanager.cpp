@@ -18,6 +18,13 @@ PackageManager::PackageManager(const QJsonObject& json)
         return;
     }
 }
+
+PackageManager& PackageManager::getInstance(const QJsonObject& json)
+{
+    static PackageManager instance(json);
+    return instance;
+}
+
 void PackageManager::ConstructFromJson(const QJsonObject& json)
 //нужно ли чистить вектор ?
 {
@@ -37,7 +44,7 @@ void PackageManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonObject PackageManager::DumpFromJson()
+QJsonObject PackageManager::DumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)

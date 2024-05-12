@@ -35,9 +35,16 @@ void SectionManager::__ErrorMsg(QString target)
     qDebug() << "Ошибка, json не не содержит поле " << target;
 }
 
-void SectionManager::AddSection(const size_t& pos, const QJsonObject& json)
+void SectionManager::addSection(const size_t& pos, const QJsonObject& json)
 {
     __sections.emplace_back(SectionModel(json));
+    __total_size = __sections.size();
+    emit SectionAdded(__total_size);
+}
+
+void SectionManager::addSection(const size_t& package_zone_id, const size_t& start_postition, const size_t& size_section)
+{
+    __sections.emplace_back(SectionModel(package_zone_id, start_postition, size_section));
     __total_size = __sections.size();
     emit SectionAdded(__total_size);
 }
