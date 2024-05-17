@@ -11,4 +11,4 @@ target_link_libraries(SectionModel PRIVATE Qt6::Core)
 target_link_libraries(SectionManagerTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
 target_link_libraries(SectionManagerTest PRIVATE SectionManager)
 
-#target_link
+target_link_libraries(SectionManagerTest PRIVATE SectionModel)

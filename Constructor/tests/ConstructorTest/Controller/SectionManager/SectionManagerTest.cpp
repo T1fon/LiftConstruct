@@ -16,7 +16,6 @@ private slots:
     void testAddSection();
     void testChangeSection();
     void testDeleteSection();
-    void testSearchSection();
     void testGetSections();
     void testDumpToJson();
 };
@@ -104,7 +103,7 @@ void SectionManagerTest::testAddSection()
 
     //act
     SectionManager manager(json_obj);
-    manager.AddSection(0, package2);
+    manager.addSection(0, package2);
 
     //assert
     QCOMPARE(manager.GetTotalSize(), act_size);
@@ -240,6 +239,7 @@ void SectionManagerTest::testDumpToJson()
     QCOMPARE(test_pos, act_pos);
     QCOMPARE(test_size, act_size);
 }
+
 
 QTEST_APPLESS_MAIN(SectionManagerTest)
 

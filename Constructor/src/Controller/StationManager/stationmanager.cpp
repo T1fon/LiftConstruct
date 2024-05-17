@@ -1,26 +1,23 @@
 #include "stationmanager.hpp"
 
-StationManager::StationManager(const QJsonObject& json)
-{
-    if (json.contains("station"))
-    {
+StationManager::StationManager(const QJsonObject& json, QObject* parent)
+    : QObject(parent) {
+    if (json.contains("station")) {
         QJsonArray array = json["station"].toArray();
 
-        for( const QJsonValue& one_section_box: array)
-        {
+        for (const QJsonValue& one_section_box : array) {
             QJsonObject one_section = one_section_box.toObject();
-            __models.emplace_back(StationModel(one_section));
+            std::unique_ptr<StationModel> model = std::make_unique<StationModel>(one_section);
+            __models.push_back(std::move(model));
         }
-    }
-    else
-    {
-        qDebug() <<"Нет поля station";
-        return;
+    } else {
+        qDebug() << "Нет поля station";
     }
 }
 
-StationManager& StationManager::getInstance(const QJsonObject& json)
-{
+StationManager::~StationManager() {}
+
+StationManager& StationManager::getInstance(const QJsonObject& json) {
     static StationManager instance(json);
     return instance;
 }
@@ -29,32 +26,30 @@ void StationManager::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("station"))
     {
+        __models.clear();
         QJsonArray array = json["station"].toArray();
 
-        for( const QJsonValue& one_section_box: array)
+        for (const QJsonValue& one_section_box : array)
         {
             QJsonObject one_section = one_section_box.toObject();
-            __models.emplace_back(StationModel(one_section));
+            std::unique_ptr<StationModel> modelPtr = std::make_unique<StationModel>(one_section);
+            __models.push_back(std::move(modelPtr));
         }
     }
     else
     {
-        qDebug() <<"Нет поля station";
+        qDebug() << "Нет поля station";
         return;
     }
 }
-QJsonObject StationManager::DumpToJson()
+QJsonArray StationManager::DumpToJson()
 {
-    QJsonObject sections_json;
     QJsonArray array;
-    QJsonObject one_section;
-    for(auto& model : __models)
+    for(auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        one_section = model.DumpToJson();
-        array.append(one_section);
+        array.append((*it)->DumpToJson());
     }
-    sections_json["station"] = array;
-    return sections_json;
+    return array;
 }
 void StationManager::addModel(const QString& name, const bool& calculate_crc)
 {
@@ -62,103 +57,148 @@ void StationManager::addModel(const QString& name, const bool& calculate_crc)
 }
 void StationManager::changeModel(const size_t& id, const QString& name, const bool& calculate_crc)
 {
-    if(id > __models.size())
+    for(auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if( (*it)->getId() == id)
+        {
+            (*it)->ChangeName(name);
+            (*it)->changeFlag(calculate_crc);
+            emit modelChanged(id);
+        }
     }
-    __models[id].ChangeName(name);
-    __models[id].changeFlag(calculate_crc);
-    emit modelChanged(id);
+
 }
 void StationManager::changeModel(const QString& name, const bool& calculate_crc)
 {
-    for(auto& model : __models)
+   for(auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        if(model.getName() == name)
+        if((*it)->getName() == name)
         {
-            model.changeFlag(calculate_crc);
-            emit modelChanged(model.getId());
+            (*it)->changeFlag(calculate_crc);
+            emit modelChanged((*it)->getId());
             return;
         }
     }
+    throw std::invalid_argument("Incorrect id");
 }
-void StationManager::deleteModel(const QString& name)
-{
-    for (auto it = __models.begin(); it != __models.end(); ++it)
-    {
-        if (it->getName() == name) {
-            size_t id = it->getId();
-            it = __models.erase(it);
-            emit modelDeleted(__models.size());
+void StationManager::deleteModel(const QString& name) {
+    for (auto it = __models.begin(); it != __models.end(); ) {
+        if ((*it)->getName() == name) {
+            size_t id = (*it)->getId();
+            it = __models.erase(it);  // erase возвращает следующий итератор
+            emit modelDeleted(id);
             return;
+        } else {
+            ++it;  // Инкремент только если элемент не был удален
         }
     }
+    throw std::invalid_argument("Incorrect name");
 }
 void StationManager::deleteModel(const size_t& pos)
 {
-    for (auto it = __models.begin(); it != __models.end(); ++it)
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        if (it->getId() == pos) {
+        if ((*it)->getId() == pos) {
             it = __models.erase(it);
             emit modelDeleted(pos);
             return;
         }
     }
+    throw std::invalid_argument("Incorrect id");
 }
 
 void StationManager::changeCrc(const size_t& id,const size_t& pos_crc,  const size_t& size_crc,
                const size_t& start_crc,  const size_t& end_crc,  const QString& code)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->ChangeCrc(pos_crc, size_crc, start_crc, end_crc, code);
+            emit modelChanged(id);
+            return;
+        }
     }
-    __models[id].ChangeCrc(pos_crc, size_crc, start_crc, end_crc, code);
-    emit modelChanged(id);
+    throw std::invalid_argument("Incorrect id");
 }
 void StationManager::changeVirtualPort(const size_t& id, const QString& physical_interface, const int32_t& bod,
                        const QSerialPort::DataBits& bit_of_data, const QSerialPort::Parity& parity,
                        const QSerialPort::StopBits& stop_bits, const QSerialPort::FlowControl& flow_control)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->ChangeVirtualPort(physical_interface, bod, bit_of_data, parity, stop_bits, flow_control);
+            return;
+        }
     }
-    __models[id].ChangeVirtualPort(physical_interface, bod, bit_of_data, parity, stop_bits, flow_control);
+    throw std::invalid_argument("Incorrect id");
 }
 void StationManager::changePackageTemplate(const size_t& id, const size_t& pac_id, const size_t& size, const QString& description, const QString& name)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->ChangePackageTemplate(pac_id, size, description,name);
+            return;
+        }
     }
-    __models[id].ChangePackageTemplate(pac_id, size, description,name);
+    throw std::invalid_argument("Incorrect id");
 }
 
 void StationManager::changePackageTemplateSection(const size_t& id, const size_t& pac_temp_id, const size_t& sect_id, const size_t& package_zone_id,
                                   const size_t& start_pos, const size_t& size_sect)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->ChangeSection(pac_temp_id,sect_id, package_zone_id, start_pos, size_sect);
+            return;
+        }
     }
-    __models[id].ChangeSection(pac_temp_id,sect_id, package_zone_id, start_pos, size_sect);
+    throw std::invalid_argument("Incorrect id");
 }
 void StationManager::addPackageTemplateSection(const size_t& id, const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
                                const size_t& start_pos, const size_t& size_sect)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->addSection(pac_id, sect_id, package_zone_id, start_pos, size_sect);
+            return;
+        }
     }
-    __models[id].addSection(pac_id, sect_id, package_zone_id, start_pos, size_sect);
+    throw std::invalid_argument("Incorrect id");
+
 }
 void StationManager::deletePackageTemplateSection(const size_t& id,const size_t& pac_id, const size_t& sect_id)
 {
-    if(id > __models.size())
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        throw std::invalid_argument("Incorrect id");
+        if((*it)->getId() == id)
+        {
+            (*it)->deleteSection(pac_id, sect_id);
+            return;
+        }
     }
-    __models[id].deleteSection(pac_id, sect_id);
+    throw std::invalid_argument("Incorrect id");
 }
+
+StationModel& StationManager::getModel(const size_t& id)
+{
+    for (auto it = __models.cbegin(); it != __models.cend(); ++it)
+    {
+        if((*it)->getId() == id)
+        {
+            return *(*it);
+        }
+    }
+    throw std::invalid_argument("Incorrect id");
+}
+
+size_t StationManager::getSize(){return __models.size();}
 

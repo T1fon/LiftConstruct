@@ -1,10 +1,18 @@
 #include "testmodel.hpp"
 size_t TestModel::__last_id = 0;
 
-TestModel::TestModel(const QJsonObject& json)
+TestModel::TestModel(const QJsonObject& json): __sequence_of_packages(json)
 {
-    __id = __last_id;
-    __last_id++;
+    if(json.contains("id"))
+    {
+        __id = json["id"].toInteger(__last_id);
+        if(__last_id < __id){__last_id = __id;}
+    }
+    else
+    {
+        qDebug() << "остутствует поле id";
+        return;
+    }
     if(json.contains("name"))
     {
         __name = json["name"].toString();
@@ -12,7 +20,6 @@ TestModel::TestModel(const QJsonObject& json)
     else
     {
         qDebug() << "остутствует поле name";
-        __last_id--;
         return;
     }
     if(json.contains("station_id"))
@@ -22,25 +29,9 @@ TestModel::TestModel(const QJsonObject& json)
     else
     {
         qDebug() << "остутствует поле station_id";
-        __last_id--;
         return;
     }
-    if(json.contains("sequence_of_packages"))
-    {
-        QJsonArray sequence_array = json["sequence_of_packages"].toArray();
 
-        for(const auto& item : sequence_array)
-        {
-            const QJsonObject buf_json = item.toObject();
-            __sequence_of_packages.emplace_back(SequenceOfPackageManager(buf_json));
-        }
-    }
-    else
-    {
-        qDebug() << "остутствует поле sequence_of_packages";
-        __last_id--;
-        return;
-    }
     if(json.contains("description"))
     {
         __description = json["description"].toString();
@@ -53,13 +44,12 @@ TestModel::TestModel(const QJsonObject& json)
     }
 }
 TestModel::TestModel(const QString& name, const size_t& station_id,
-                     const QVector<SequenceOfPackageManager>& sequence_of_packages, const QString& description)
+                     const QVector<SequenceOfPackageModel>& sequence_of_packages, const QString& description) : __sequence_of_packages(sequence_of_packages)
 {
     __id = __last_id;
     __last_id++;
     __name = name;
     __station_id = station_id;
-    __sequence_of_packages = sequence_of_packages;
     __description = description;
 }
 void TestModel::SetName(const QString& name)
@@ -70,9 +60,9 @@ void TestModel::SetStationId(const size_t& station_id)
 {
     __station_id = station_id;
 }
-void TestModel::SetSequenceOfPackages(const QVector<SequenceOfPackageManager>& sequence_of_packages)
+void TestModel::SetSequenceOfPackages(const QVector<SequenceOfPackageModel>& sequence_of_packages)
 {
-    __sequence_of_packages = sequence_of_packages;
+    __sequence_of_packages.setPackages(sequence_of_packages);
 }
 void TestModel::SetDescription(const QString& description)
 {
@@ -90,9 +80,13 @@ size_t TestModel::GetStationId()
 {
     return __station_id;
 }
-QVector<SequenceOfPackageManager> TestModel::GetSequenceOfPackages()
+QVector<SequenceOfPackageModel> TestModel::GetSequenceOfPackagesById(const size_t& id)
 {
-    return __sequence_of_packages;
+    return __sequence_of_packages.ReturnByPackageId(id);
+}
+SequenceOfPackageModel TestModel::GetSequenceOfPackagesModelByPos(const size_t& pos)
+{
+    return __sequence_of_packages.ReturnByPosition(pos);
 }
 QString TestModel::GetDescription()
 {
@@ -134,13 +128,8 @@ void TestModel::ConstructFromJson(const QJsonObject& json)
     }
     if(json.contains("sequence_of_packages"))
     {
-        QJsonArray sequence_array = json["sequence_of_packages"].toArray();
 
-        for(const auto& item : sequence_array)
-        {
-            const QJsonObject buf_json = item.toObject();
-            __sequence_of_packages.emplace_back(SequenceOfPackageManager(buf_json));
-        }
+        __sequence_of_packages.ConstructFromJson(json["sequence_of_packages"].toObject());
     }
     else
     {
@@ -165,13 +154,10 @@ QJsonObject TestModel::DumpToJson()
     json["id"] = static_cast<int>(__id);
     json["name"] = __name;
     json["station_id"] = static_cast<int>(__station_id);
-    QJsonArray array;
-    for(auto it = __sequence_of_packages.begin(); it != __sequence_of_packages.end(); ++it)
-    {
-        array.append(it->DumpToJson());
+    // Получаем JSON-массив для sequence_of_packages
+    QJsonValue sequenceValue = __sequence_of_packages.DumpToJson();
 
-    }
-    json["packages"] = array;
+    json["sequence_of_packages"] = __sequence_of_packages.DumpToJson();
     json["description"] = __description;
 
     return json;

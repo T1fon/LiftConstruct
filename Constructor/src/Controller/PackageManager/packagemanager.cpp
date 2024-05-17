@@ -30,6 +30,7 @@ void PackageManager::ConstructFromJson(const QJsonObject& json)
 {
     if(json.contains("packages"))
     {
+        __models.clear();
         QJsonArray packages_array = json["packages"].toArray();
 
         for(const auto& item : packages_array)
@@ -44,7 +45,7 @@ void PackageManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonObject PackageManager::DumpToJson()
+QJsonArray PackageManager::DumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)
@@ -52,10 +53,8 @@ QJsonObject PackageManager::DumpToJson()
         array.append(it->DumpToJson());
 
     }
-    QJsonObject json;
-    json["packages"] = array;
 
-    return json;
+    return array;
 }
 const PackageModel& PackageManager::ReturnById(const size_t& id)
 {

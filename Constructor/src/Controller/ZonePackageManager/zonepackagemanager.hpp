@@ -7,8 +7,9 @@
 #include "../../Model/ZonePackageModel/zonepackagemodel.hpp"
 
 
-class ZonePackageManager
+class ZonePackageManager : public QObject
 {
+    Q_OBJECT
 public:
     //ZonePackageManager(const QJsonObject& json);
     static ZonePackageManager& getInstance(const QJsonObject& json);
@@ -24,7 +25,7 @@ public:
     void addElement(const QString& name, const QColor& color);
 
     void constructFromJson(const QJsonObject& json);
-    QJsonObject dumpToJson();
+    QJsonArray dumpToJson();
 
 signals:
     void modelChanged(const size_t& pos);

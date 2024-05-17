@@ -2,19 +2,17 @@
 
 PackageTemplateManager::PackageTemplateManager(const QJsonObject& json)
 {
-    if(json.contains("package_tempalte"))
-    {
-        QJsonArray array = json["package_tempalte"].toArray();
+    if (json.contains("package_template")) {
+        QJsonArray array = json["package_template"].toArray();
+        qDebug() << "Found package_template, count:" << array.size();  // Логируем количество найденных элементов
 
-        for( const QJsonValue& one_model: array)
-        {
+        for (const QJsonValue& one_model : array) {
             QJsonObject one_object = one_model.toObject();
+            qDebug() << "Adding model:" << one_object;  // Логируем объект, который добавляем
             __models.emplace_back(PackageTemplateModel(one_object));
         }
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json";
+    } else {
+        qDebug() << "Ошибка чтения json в PackageTemplateManager: package_template not found";
         return;
     }
 }
@@ -22,6 +20,7 @@ PackageTemplateManager::PackageTemplateManager(){}
 
 void PackageTemplateManager::ConstructFromJson(const QJsonObject& json)
 {
+    __models.clear();
     if(json.contains("package_tempalte"))
     {
         QJsonArray array = json["package_tempalte"].toArray();
@@ -39,18 +38,19 @@ void PackageTemplateManager::ConstructFromJson(const QJsonObject& json)
     }
 }
 
-QJsonObject PackageTemplateManager::DumpToJson()
+QJsonArray PackageTemplateManager::DumpToJson()
 {
-    QJsonObject models_json;
+
     QJsonArray array;
     QJsonObject one_model;
     for(auto& model : __models)
     {
         one_model = model.DumpToJson();
+        qDebug() << one_model;
         array.append(one_model);
     }
-    models_json["package_tempalte"] = array;
-    return models_json;
+
+    return array;
 }
 
 void PackageTemplateManager::AddSample(const QJsonObject& json)
@@ -62,7 +62,7 @@ void PackageTemplateManager::AddSample(const QJsonObject& json)
         modifiedJson.remove("id");
     }
     __models.emplace_back(PackageTemplateModel(modifiedJson));
-    PackageTemplateAdded(__models.size());
+    emit PackageTemplateAdded(__models.size());
 }
 
 void PackageTemplateManager::ChangeElement(const QString& name, const size_t& size, const QString& description)
@@ -84,7 +84,7 @@ void PackageTemplateManager::ChangeElement(const QString& name, const size_t& si
             {
                 model.SetDescriotion(description);
             }
-            PackageTempalteChange(model.getId());
+            emit PackageTempalteChange(model.getId());
             break;
         }
     }
@@ -113,7 +113,7 @@ void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name
             {
                 model.SetDescriotion(description);
             }
-            PackageTempalteChange(model.getId());
+            emit PackageTempalteChange(model.getId());
             break;
         }
     }
@@ -140,7 +140,7 @@ void PackageTemplateManager::ChangeElement(const QString& name,
 
             SectionManager manager = model.getSection();
             manager.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
-            PackageTempalteChange(model.getId());
+            emit PackageTempalteChange(model.getId());
             return;
         }
     }
@@ -159,14 +159,17 @@ void PackageTemplateManager::ChangeElement(const size_t& id,const size_t& pos_se
         qDebug() << "Не выбрана секция для изменения";
         return;
     }
-    if(id >= __models.size())
+    for(auto& model : __models)
     {
-        qDebug() << "Несуществующий id";
-        return;
+        if(model.getId() == id)
+        {
+            model.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
+            emit PackageTempalteChange(model.getId());
+            return;
+        }
     }
 
-    __models[id].ChangeSection(pos_section, package_sone_id, start_postition, size_section);
-    PackageTempalteChange(__models[id].getId());
+    qDebug() << "Неверный id";
     return;
 
 }
@@ -201,5 +204,10 @@ size_t PackageTemplateManager::getSize()
 
 PackageTemplateModel& PackageTemplateManager::getModel(const size_t& id)
 {
-    return __models[id];
+    for(auto& model : __models)
+    {
+        if(model.getId() == id)
+            return model;
+    }
+    throw std::invalid_argument("no such id");
 }

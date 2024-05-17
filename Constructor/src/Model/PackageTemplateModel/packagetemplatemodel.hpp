@@ -12,6 +12,7 @@ class PackageTemplateModel
 {
 public:
     PackageTemplateModel(const QJsonObject& json);
+    PackageTemplateModel(const size_t& size, const QString& description, const QString& name);
     void SetSize(const size_t& size);
     const size_t& GetSize();
     void addSection(const size_t& pos, const QJsonObject& json);

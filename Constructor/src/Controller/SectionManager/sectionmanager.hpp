@@ -24,7 +24,7 @@ public:
     SectionModel& getModel(const size_t& pos);
     void setModel(const size_t& pos,  const SectionModel& model);
     const QVector<SectionModel>& GetSections() const;
-    QJsonObject DumpToJson();
+    QJsonArray DumpToJson();
     void ConstructFromJson(const QJsonObject& json);
 private:
     QVector<SectionModel> __sections;

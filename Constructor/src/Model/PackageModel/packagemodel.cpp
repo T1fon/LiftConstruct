@@ -3,8 +3,16 @@ int PackageModel::__last_id = 0;
 
 PackageModel::PackageModel(const QJsonObject& json)
 {
-    __id = __last_id;
-    __last_id++;
+    if(json.contains("id"))
+    {
+        __id = json["id"].toInteger(__last_id);
+        if(__last_id < __id){__last_id = __id;}
+    }
+    else
+    {
+        qDebug() << "остутствует поле id";
+        return;
+    }
     if(json.contains("station_id"))
     {
         __station_id = json["station_id"].toInt();
@@ -35,14 +43,20 @@ PackageModel::PackageModel(const QJsonObject& json)
         __last_id--;
         return;
     }
-    if(json.contains("data"))
+    if (json.contains("data"))
     {
-        QString buffer = json["data"].toString();
-        QByteArray data_bytes = buffer.toUtf8();
+        QString data_str = json["data"].toString();
         QVector<uint8_t> data_vector;
-        for (char byte : data_bytes)
+        for (const QChar &ch : data_str)
         {
-            data_vector.append(static_cast<uint8_t>(byte));
+            if (ch == QLatin1Char('0'))
+                data_vector.append(0);
+            else if (ch == QLatin1Char('1'))
+                data_vector.append(1);
+            else {
+                qDebug() << "Неверный символ в поле данных";
+                return;
+            }
         }
         __data = data_vector;
     }
@@ -54,7 +68,7 @@ PackageModel::PackageModel(const QJsonObject& json)
     }
     if(json.contains("description"))
     {
-        __name = json["description"].toString();
+        __description = json["description"].toString();
     }
     else
     {
@@ -211,7 +225,15 @@ QJsonObject PackageModel::DumpToJson()
     QString data_string;
     for(uint8_t byte : __data)
     {
-        data_string.append(static_cast<char>(byte));
+        if (byte == 0)
+            data_string.append('0');
+        else if (byte == 1)
+            data_string.append('1');
+        else
+        {
+            qDebug() << "Неверное значение байта в векторе данных";
+            break;
+        }
     }
     json["data"] = data_string;
     json["description"] = __description;

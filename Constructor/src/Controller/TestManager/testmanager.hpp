@@ -15,7 +15,7 @@ public:
 
 
     void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpToJson();
+    QJsonArray DumpToJson();
 
     const TestModel& GetTestById(const size_t& id);
     const TestModel& GetTestByName(const QString& name);

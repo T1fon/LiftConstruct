@@ -18,6 +18,14 @@ SequenceOfPackageManager::SequenceOfPackageManager(const QJsonObject& json)
         return;
     }
 }
+
+SequenceOfPackageManager::SequenceOfPackageManager(const QVector<SequenceOfPackageModel>& models)
+{
+    for(auto& model: models)
+    {
+        __models.insert(model);
+    }
+}
 void SequenceOfPackageManager::ConstructFromJson(const QJsonObject& json)
 {
     if(json.contains("sequence_of_packages"))
@@ -36,7 +44,7 @@ void SequenceOfPackageManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonObject SequenceOfPackageManager::DumpToJson()
+QJsonArray SequenceOfPackageManager::DumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)
@@ -44,12 +52,9 @@ QJsonObject SequenceOfPackageManager::DumpToJson()
         array.append(it->DumpToJson());
     }
 
-    QJsonObject json;
-    json["packages"] = array;
-
-    return json;
+    return array;
 }
-const SequenceOfPackageModel& SequenceOfPackageManager::ReturnByPosition(const size_t& position)
+SequenceOfPackageModel SequenceOfPackageManager::ReturnByPosition(const size_t& position)
 {
     for ( auto& model : __models)
     {
@@ -71,4 +76,11 @@ QVector<SequenceOfPackageModel> SequenceOfPackageManager::ReturnByPackageId(cons
         }
     }
     return res;
+}
+void SequenceOfPackageManager::setPackages(const QVector<SequenceOfPackageModel>& sequence_of_packages)
+{
+    for(auto& model: sequence_of_packages)
+    {
+        __models.insert(model);
+    }
 }

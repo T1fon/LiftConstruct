@@ -13,9 +13,9 @@ class PackageManager
 public:
     //PackageManager(const QJsonObject& json);
 
-    static PackageManager& getInstance(const QJsonObject& json);
+    static PackageManager& getInstance(const QJsonObject& json = QJsonObject());
     void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpToJson();
+    QJsonArray DumpToJson();
     const PackageModel& ReturnById(const size_t& id);
     const PackageModel& ReturnByName(const QString& name);
 private:

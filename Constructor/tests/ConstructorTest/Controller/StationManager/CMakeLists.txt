@@ -1,0 +1,37 @@
+find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS SerialPort)
+
+add_executable(StationManagerTest StationManagerTest.cpp)
+add_test(NAME StationManagerTest COMMAND StationManagerTest)
+
+add_library(StationManager STATIC ../../../../src/Controller/StationManager/stationmanager.cpp)
+add_library(StationModel STATIC ../../../../src/Model/StationModel/stationmodel.cpp)
+add_library(PackageTemplateManager STATIC ../../../../src/Controller/PackageTemplateManager/packagetemplatemanager.cpp)
+add_library(PackageTemplateModel STATIC ../../../../src/Model/PackageTemplateModel/packagetemplatemodel.cpp)
+add_library(SectionManager STATIC ../../../../src/Controller/SectionManager/sectionmanager.cpp)
+add_library(SectionModel STATIC ../../../../src/Model/SectionModel/sectionmodel.cpp)
+add_library(CRCModel STATIC ../../../../src/Model/CRCModel/crcmodel.cpp)
+add_library (VirtualPortModel STATIC ../../../../src/Model/VirtualPortModel/virtualportmodel.cpp)
+
+target_link_libraries(StationManager PRIVATE Qt6::Core)
+target_link_libraries(StationModel PRIVATE Qt6::Core)
+target_link_libraries(PackageTemplateManager PRIVATE Qt6::Core)
+target_link_libraries(PackageTemplateModel PRIVATE Qt6::Core)
+target_link_libraries(SectionManager PRIVATE Qt6::Core)
+target_link_libraries(SectionModel PRIVATE Qt6::Core)
+target_link_libraries(CRCModel PRIVATE Qt6::Core)
+target_link_libraries(VirtualPortModel PRIVATE Qt6::Core)
+target_link_libraries(VirtualPortModel PRIVATE Qt6::SerialPort)
+
+
+target_link_libraries(StationManagerTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(StationManagerTest PRIVATE StationManager)
+target_link_libraries(StationManagerTest PRIVATE StationModel)
+target_link_libraries(StationManagerTest PRIVATE PackageTemplateManager)
+target_link_libraries(StationManagerTest PRIVATE PackageTemplateModel)
+target_link_libraries(StationManagerTest PRIVATE SectionManager)
+target_link_libraries(StationManagerTest PRIVATE SectionModel)
+target_link_libraries(StationManagerTest PRIVATE VirtualPortModel)
+target_link_libraries(StationManagerTest PRIVATE CRCModel)
+target_link_libraries(StationManagerTest PRIVATE Qt6::Core)
+

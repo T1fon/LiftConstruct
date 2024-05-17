@@ -9,12 +9,13 @@
 #include "../../Model/PackageTemplateModel/packagetemplatemodel.hpp"
 
 
-class PackageTemplateManager
+class PackageTemplateManager : public QObject
 {
+    Q_OBJECT
 public:
     PackageTemplateManager(const QJsonObject& json);
     PackageTemplateManager();
-    QJsonObject DumpToJson();
+    QJsonArray DumpToJson();
     void ConstructFromJson(const QJsonObject& json);
     void AddSample(const QJsonObject& json);
     void ChangeElement(const QString& name, const size_t& size, const QString& description);

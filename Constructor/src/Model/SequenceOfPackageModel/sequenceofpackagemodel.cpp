@@ -51,6 +51,22 @@ SequenceOfPackageModel::SequenceOfPackageModel(const SequenceOfPackageModel& oth
 {
 }
 
+SequenceOfPackageModel::SequenceOfPackageModel(const size_t& position, const size_t& package_id, const size_t& action)
+{
+    __position = position;
+    __package_id = package_id;
+    if(action == 0)
+    {
+        __action = SequenceOfPackageModel::SEND;
+    }
+    else if(action == 1)
+    {
+        __action = SequenceOfPackageModel::RECEIVE;
+    }
+    else
+        return;
+}
+
 void SequenceOfPackageModel::SetPosition(const size_t& position)
 {
     __position = position;

@@ -17,6 +17,7 @@ public:
     };
 
     SequenceOfPackageModel(const QJsonObject& json);
+    SequenceOfPackageModel(const size_t& position, const size_t& package_id, const size_t& action);
     SequenceOfPackageModel(const SequenceOfPackageModel& other);
     SequenceOfPackageModel& operator=(const SequenceOfPackageModel& other)
     {

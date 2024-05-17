@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QDebug>

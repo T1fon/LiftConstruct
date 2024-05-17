@@ -13,10 +13,12 @@ class SequenceOfPackageManager
 {
 public:
     SequenceOfPackageManager(const QJsonObject& json);
+    SequenceOfPackageManager(const QVector<SequenceOfPackageModel>& models);
     void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpToJson() ;
-    const SequenceOfPackageModel& ReturnByPosition(const size_t& position);
+    QJsonArray DumpToJson() ;
+    SequenceOfPackageModel ReturnByPosition(const size_t& position);
     QVector<SequenceOfPackageModel> ReturnByPackageId(const size_t& package_id);
+    void setPackages(const QVector<SequenceOfPackageModel>& sequence_of_packages);
 private:
     std::set<SequenceOfPackageModel> __models;
 };

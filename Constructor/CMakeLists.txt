@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
-add_subdirectory(src)
-#add_subdirectory(tests/ConstructorTest)
+#add_subdirectory(src)
+add_subdirectory(tests/ConstructorTest)
 
 qt_standard_project_setup()
 

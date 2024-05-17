@@ -100,9 +100,8 @@ void SectionManager::DeleteSection(const size_t& pos)
     }
 }
 
-QJsonObject SectionManager::DumpToJson()
+QJsonArray SectionManager::DumpToJson()
 {
-    QJsonObject sections_json;
     QJsonArray array;
     QJsonObject one_section;
     for(auto& section : __sections)
@@ -110,8 +109,7 @@ QJsonObject SectionManager::DumpToJson()
         one_section = section.toJson();
         array.append(one_section);
     }
-    sections_json["sections"] = array;
-    return sections_json;
+    return array;
 }
 
 void SectionManager::ConstructFromJson(const QJsonObject& json)

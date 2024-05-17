@@ -4,6 +4,7 @@
 #include "../CRCModel/crcmodel.hpp"
 #include "../VirtualPortModel/virtualportmodel.hpp"
 #include"../../Controller/PackageTemplateManager/packagetemplatemanager.hpp"
+#include <memory>
 
 
 class StationModel
@@ -29,17 +30,22 @@ public:
     void ChangeName(const QString& new_name);
     void changeFlag(const bool& calculate_crc);
     PackageTemplateModel& getModel(const size_t& id);
+    CRCModel& getCRC();
+    VirtualPortModel& getVirtualPort();
 
     QString getName();
     size_t getId();
+    bool getFlag();
+
+    ~StationModel();
 
 private:
     size_t __id;
     QString __name;
     bool __calculate_crc;
-    VirtualPortModel __virtual_port;
-    PackageTemplateManager __package_template;
-    CRCModel __crc;
+    std::unique_ptr<CRCModel> __crc;
+    std::unique_ptr<VirtualPortModel> __virtual_port;
+    std::unique_ptr<PackageTemplateManager> __package_template;
     static size_t __last_id;
 };
 

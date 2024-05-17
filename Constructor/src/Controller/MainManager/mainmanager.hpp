@@ -10,7 +10,7 @@ class MainManager
 {
 public:
 
-    static MainManager& getInstance(const QJsonObject& json);
+    static MainManager& getInstance(const QJsonObject& json = QJsonObject());
 
     QJsonObject dumpToJson();
 

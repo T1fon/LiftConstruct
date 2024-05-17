@@ -19,6 +19,12 @@ ZonePackageManager::ZonePackageManager(const QJsonObject& json)
     }
 }
 
+ZonePackageManager& ZonePackageManager::getInstance(const QJsonObject& json) {
+    static ZonePackageManager instance(json);
+    return instance;
+}
+
+
 QVector<QString> ZonePackageManager::getAllNames()
 {
     QVector<QString> names;
@@ -111,6 +117,7 @@ void ZonePackageManager::constructFromJson(const QJsonObject& json)
 {
     if(json.contains("package_zones"))
     {
+        __models.clear();
         QJsonArray packages_array = json["package_zones"].toArray();
 
         for(const auto& item : packages_array)
@@ -126,9 +133,8 @@ void ZonePackageManager::constructFromJson(const QJsonObject& json)
     }
 }
 
-QJsonObject ZonePackageManager::dumpToJson()
+QJsonArray ZonePackageManager::dumpToJson()
 {
-    QJsonObject models_json;
     QJsonArray array;
     QJsonObject one_model;
     for(auto& model : __models)
@@ -136,6 +142,5 @@ QJsonObject ZonePackageManager::dumpToJson()
         one_model = model.toJsonObject();
         array.append(one_model);
     }
-    models_json["package_tempalte"] = array;
-    return models_json;
+    return array;
 }

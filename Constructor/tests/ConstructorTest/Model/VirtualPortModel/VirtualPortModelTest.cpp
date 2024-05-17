@@ -9,7 +9,7 @@ class VirtualPortModeLTest : public QObject
 public:
     VirtualPortModeLTest();
     ~VirtualPortModeLTest();
-public slots:
+private slots:
     void testConstructor1();
     void testConstructor2();
     void testConstructor3();

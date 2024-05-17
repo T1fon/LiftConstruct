@@ -4,17 +4,17 @@ size_t PackageTemplateModel::__last_id = 0;
 
 PackageTemplateModel::PackageTemplateModel(const QJsonObject& json) : __sections(json)
 {
-    /*if (json.contains("id"))
+    if(json.contains("id"))
     {
-        __id = json["id"].toInt();
+        __id = json["id"].toInteger(__last_id);
+        if(__last_id < __id){__last_id = __id;};
     }
     else
     {
         __ErrorMsg("id");
         return;
-    }*/
-    __id = __last_id;
-    __last_id++;
+    }
+
     if (json.contains("size"))
     {
         __size = json["size"].toInt();
