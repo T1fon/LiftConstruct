@@ -81,52 +81,52 @@ void CRCModel::__ErrorMsg(QString object)
 }
 
 
-void CRCModel::SetPositionCrc(const size_t& position_crc)
+void CRCModel::setPositionCrc(const size_t& position_crc)
 {
     __position_crc = position_crc;
 }
 
-size_t& CRCModel::GetPositionCrc()
+size_t& CRCModel::getPositionCrc()
 {
     return __position_crc;
 }
 
-void CRCModel::SetSizeCrc(const size_t& size_crc)
+void CRCModel::setSizeCrc(const size_t& size_crc)
 {
     __size_crc = size_crc;
 }
 
-size_t& CRCModel::GetSizeCrc()
+size_t& CRCModel::getSizeCrc()
 {
     return __size_crc;
 }
 
-void CRCModel::SetStartCalculateCrc(const size_t& start_calculate_crc)
+void CRCModel::setStartCalculateCrc(const size_t& start_calculate_crc)
 {
     __start_calculate_crc = start_calculate_crc;
 }
 
-size_t& CRCModel::GetStartCalculateCrc()
+size_t& CRCModel::getStartCalculateCrc()
 {
     return __start_calculate_crc;
 }
 
-void CRCModel::SetEndCalculateCrc(const size_t& end_calculate_crc)
+void CRCModel::setEndCalculateCrc(const size_t& end_calculate_crc)
 {
     __end_calculate_crc = end_calculate_crc;
 }
 
-size_t& CRCModel::GetEndCalculateCrc()
+size_t& CRCModel::getEndCalculateCrc()
 {
     return __end_calculate_crc;
 }
 
-void CRCModel::SetCode(const QString& code)
+void CRCModel::setCode(const QString& code)
 {
     __code = code;
 }
 
-QString& CRCModel::GetCode()
+QString& CRCModel::getCode()
 {
     return __code;
 }
@@ -141,7 +141,7 @@ QJsonObject CRCModel::toJson()
     return json;
 }
 
-void CRCModel::ConstructFromJson(const QJsonObject& json)
+void CRCModel::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("position_crc"))
     {

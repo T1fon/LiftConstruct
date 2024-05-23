@@ -67,16 +67,16 @@ SequenceOfPackageModel::SequenceOfPackageModel(const size_t& position, const siz
         return;
 }
 
-void SequenceOfPackageModel::SetPosition(const size_t& position)
+void SequenceOfPackageModel::setPosition(const size_t& position)
 {
     __position = position;
 }
 
-void SequenceOfPackageModel::SetPackageId(const size_t& package_id)
+void SequenceOfPackageModel::setPackageId(const size_t& package_id)
 {
     __package_id = package_id;
 }
-void SequenceOfPackageModel::SetAction(const size_t& act)
+void SequenceOfPackageModel::setAction(const size_t& act)
 {
     if(act == 0)
     {
@@ -93,17 +93,17 @@ void SequenceOfPackageModel::SetAction(const size_t& act)
     }
 }
 
-size_t SequenceOfPackageModel::GetPosition() const
+size_t SequenceOfPackageModel::getPosition() const
 {
     return __position;
 }
 
-size_t SequenceOfPackageModel::GetPackageId() const
+size_t SequenceOfPackageModel::getPackageId() const
 {
     return __package_id;
 }
 
-size_t SequenceOfPackageModel::GetAction() const
+size_t SequenceOfPackageModel::getAction() const
 {
     if(__action == SequenceOfPackageModel::SEND)
     {
@@ -114,7 +114,7 @@ size_t SequenceOfPackageModel::GetAction() const
         return 1;
     }
 }
-void SequenceOfPackageModel::ConstructFromJson(const QJsonObject& json)
+void SequenceOfPackageModel::constructFromJson(const QJsonObject& json)
 {
     if(json.contains("position"))
     {
@@ -160,7 +160,7 @@ void SequenceOfPackageModel::ConstructFromJson(const QJsonObject& json)
     }
 }
 
-QJsonObject SequenceOfPackageModel::DumpToJson() const
+QJsonObject SequenceOfPackageModel::dumpToJson() const
 {
     QJsonObject json;
     json["position"] = static_cast<int>(__position);

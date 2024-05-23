@@ -48,9 +48,9 @@ void PackageTemplateModel::__ErrorMsg(QString target)
     qDebug() << "Ошибка, json не не содержит поле " << target;
 }
 
-void PackageTemplateModel::SetSize(const size_t& size)
+void PackageTemplateModel::setSize(const size_t& size)
 {
-    if(size < __sections.GetTotalSize())
+    if(size < __sections.getTotalSize())
     {
         qDebug() << "Устанавливаемый размер меньше фактического ";
         return;
@@ -61,7 +61,7 @@ void PackageTemplateModel::SetSize(const size_t& size)
     }
 }
 
-const size_t& PackageTemplateModel::GetSize()
+const size_t& PackageTemplateModel::getSize()
 {
     return __size;
 }
@@ -90,12 +90,12 @@ void PackageTemplateModel::addSection(const size_t& pos,const size_t& package_zo
     __sections.addSection(package_zone_id, start_position, size_section);
 }
 
-void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
+void PackageTemplateModel::changeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
                                          const size_t& size_section)
 {
     if(pos < __size)
     {
-        __sections.ChangeSection(pos,package_zone_id,start_position, size_section);
+        __sections.changeSection(pos,package_zone_id,start_position, size_section);
     }
     else
     {
@@ -103,13 +103,13 @@ void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& packag
         return;
     }
 }
-void PackageTemplateModel::ChangeSection(const size_t& size, const QString& description, const QString& name)
+void PackageTemplateModel::changeSection(const size_t& size, const QString& description, const QString& name)
 {
     try
     {
-        SetSize(size);
-        SetDescriotion(description);
-        SetName(name);
+        setSize(size);
+        setDescriotion(description);
+        setName(name);
     }
     catch(std::bad_function_call)
     {
@@ -117,12 +117,12 @@ void PackageTemplateModel::ChangeSection(const size_t& size, const QString& desc
         return;
     }
 }
-void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
+void PackageTemplateModel::changeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
                    const size_t& size, const QString& description, const QString& name)
 {
     if(pos < __size)
     {
-        __sections.ChangeSection(pos,package_zone_id,start_position, size_section);
+        __sections.changeSection(pos,package_zone_id,start_position, size_section);
     }
     else
     {
@@ -131,9 +131,9 @@ void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& packag
     }
     try
     {
-        SetSize(size);
-        SetDescriotion(description);
-        SetName(name);
+        setSize(size);
+        setDescriotion(description);
+        setName(name);
     }
     catch(std::bad_function_call)
     {
@@ -144,7 +144,7 @@ void PackageTemplateModel::ChangeSection(const size_t& pos, const size_t& packag
 }
 
 
-void PackageTemplateModel::DeleteSection(const size_t& pos)
+void PackageTemplateModel::deleteSection(const size_t& pos)
 {
     if(pos > __size)
     {
@@ -153,10 +153,10 @@ void PackageTemplateModel::DeleteSection(const size_t& pos)
     }
     else
     {
-        __sections.DeleteSection(pos);
+        __sections.deleteSection(pos);
     }
 }
-void PackageTemplateModel::ConstructFromJson(const QJsonObject& json)
+void PackageTemplateModel::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("id"))
     {
@@ -195,27 +195,27 @@ void PackageTemplateModel::ConstructFromJson(const QJsonObject& json)
         return;
     }
 
-    __sections.ConstructFromJson(json);
+    __sections.constructFromJson(json);
 
 }
 
-QJsonObject PackageTemplateModel::DumpToJson()
+QJsonObject PackageTemplateModel::dumpToJson()
 {
     QJsonObject json;
     json["id"] = static_cast<int>(__id);
     json["name"] = __name;
     json["size"] = static_cast<int>(__size);
-    json["sections"] = __sections.DumpToJson();
+    json["sections"] = __sections.dumpToJson();
     json["description"] = __description;
     return json;
 }
 
-void PackageTemplateModel::SetDescriotion(const QString& description)
+void PackageTemplateModel::setDescriotion(const QString& description)
 {
     __description = description;
 }
 
-QString& PackageTemplateModel::GetDescription()
+QString& PackageTemplateModel::getDescription()
 {
     return __description;
 }
@@ -227,11 +227,11 @@ void PackageTemplateModel::setSection(const SectionManager& section)
 {
     __sections = section;
 }
-void PackageTemplateModel::SetName(const QString& name)
+void PackageTemplateModel::setName(const QString& name)
 {
     __name = name;
 }
-QString& PackageTemplateModel::GetName()
+QString& PackageTemplateModel::getName()
 {
     return __name;
 }

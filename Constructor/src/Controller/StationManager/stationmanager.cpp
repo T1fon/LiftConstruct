@@ -47,7 +47,7 @@ QJsonArray StationManager::DumpToJson()
     QJsonArray array;
     for(auto it = __models.cbegin(); it != __models.cend(); ++it)
     {
-        array.append((*it)->DumpToJson());
+        array.append((*it)->dumpToJson());
     }
     return array;
 }
@@ -61,7 +61,7 @@ void StationManager::changeModel(const size_t& id, const QString& name, const bo
     {
         if( (*it)->getId() == id)
         {
-            (*it)->ChangeName(name);
+            (*it)->changeName(name);
             (*it)->changeFlag(calculate_crc);
             emit modelChanged(id);
         }
@@ -114,7 +114,7 @@ void StationManager::changeCrc(const size_t& id,const size_t& pos_crc,  const si
     {
         if((*it)->getId() == id)
         {
-            (*it)->ChangeCrc(pos_crc, size_crc, start_crc, end_crc, code);
+            (*it)->changeCrc(pos_crc, size_crc, start_crc, end_crc, code);
             emit modelChanged(id);
             return;
         }
@@ -129,7 +129,7 @@ void StationManager::changeVirtualPort(const size_t& id, const QString& physical
     {
         if((*it)->getId() == id)
         {
-            (*it)->ChangeVirtualPort(physical_interface, bod, bit_of_data, parity, stop_bits, flow_control);
+            (*it)->changeVirtualPort(physical_interface, bod, bit_of_data, parity, stop_bits, flow_control);
             return;
         }
     }
@@ -141,7 +141,7 @@ void StationManager::changePackageTemplate(const size_t& id, const size_t& pac_i
     {
         if((*it)->getId() == id)
         {
-            (*it)->ChangePackageTemplate(pac_id, size, description,name);
+            (*it)->changePackageTemplate(pac_id, size, description,name);
             return;
         }
     }
@@ -155,7 +155,7 @@ void StationManager::changePackageTemplateSection(const size_t& id, const size_t
     {
         if((*it)->getId() == id)
         {
-            (*it)->ChangeSection(pac_temp_id,sect_id, package_zone_id, start_pos, size_sect);
+            (*it)->changeSection(pac_temp_id,sect_id, package_zone_id, start_pos, size_sect);
             return;
         }
     }

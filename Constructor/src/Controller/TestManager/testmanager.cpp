@@ -25,7 +25,7 @@ TestManager& TestManager::getInstance(const QJsonObject& json)
     return instance;
 }
 
-void TestManager::ConstructFromJson(const QJsonObject& json)
+void TestManager::constructFromJson(const QJsonObject& json)
 {
     __models.clear();
     if(json.contains("tests"))
@@ -44,32 +44,32 @@ void TestManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonArray TestManager::DumpToJson()
+QJsonArray TestManager::dumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)
     {
-        array.append(it->DumpToJson());
+        array.append(it->dumpToJson());
     }
 
     return array;
 }
-const TestModel& TestManager::GetTestById(const size_t& id)
+const TestModel& TestManager::getTestById(const size_t& id)
 {
     for ( auto& model : __models)
     {
-        if (model.GetId() == id)
+        if (model.getId() == id)
         {
             return model;
         }
     }
     throw std::runtime_error("TestModel with given id not found");
 }
-const TestModel& TestManager::GetTestByName(const QString& name)
+const TestModel& TestManager::getTestByName(const QString& name)
 {
     for ( auto& model : __models)
     {
-        if (model.GetName() == name)
+        if (model.getName() == name)
         {
             return model;
         }

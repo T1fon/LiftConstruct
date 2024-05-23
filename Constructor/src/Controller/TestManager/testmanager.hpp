@@ -14,11 +14,11 @@ public:
     static TestManager& getInstance(const QJsonObject& json);
 
 
-    void ConstructFromJson(const QJsonObject& json);
-    QJsonArray DumpToJson();
+    void constructFromJson(const QJsonObject& json);
+    QJsonArray dumpToJson();
 
-    const TestModel& GetTestById(const size_t& id);
-    const TestModel& GetTestByName(const QString& name);
+    const TestModel& getTestById(const size_t& id);
+    const TestModel& getTestByName(const QString& name);
 
 private:
     QVector<TestModel> __models;

@@ -13,7 +13,7 @@ SectionManager::SectionManager(const QJsonObject& json)
         }
     }
     else
-        __ErrorMsg("sections");
+        __errorMsg("sections");
     __total_size = __sections.size();
 }
 SectionManager::SectionManager(const SectionManager& other)
@@ -30,7 +30,7 @@ SectionManager& SectionManager::operator=(const SectionManager& other)
     return *this;
 }
 
-void SectionManager::__ErrorMsg(QString target)
+void SectionManager::__errorMsg(QString target)
 {
     qDebug() << "Ошибка, json не не содержит поле " << target;
 }
@@ -49,15 +49,15 @@ void SectionManager::addSection(const size_t& package_zone_id, const size_t& sta
     emit SectionAdded(__total_size);
 }
 
-void SectionManager::ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
+void SectionManager::changeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
                                    const size_t& size_section)
 {
     if(pos < __total_size)
     {
         SectionModel& model = getModel(pos);
-        model.SetPackageZoneId(package_zone_id);
-        model.SetStartPosition(start_position);
-        model.SetSizeStation(size_section);
+        model.setPackageZoneId(package_zone_id);
+        model.setStartPosition(start_position);
+        model.setSizeStation(size_section);
     }
     else
     {
@@ -66,11 +66,11 @@ void SectionManager::ChangeSection(const size_t& pos, const size_t& package_zone
     }
 }
 //или здесь искать по id ?
-size_t SectionManager::SearchSection(const size_t& pos)
+size_t SectionManager::searchSection(const size_t& pos)
 {
     try
     {
-        __sections[pos].GetPackageZoneId();
+        __sections[pos].getPackageZoneId();
         return pos;
     }
     catch (const std::out_of_range&)
@@ -85,7 +85,7 @@ const QVector<SectionModel>& SectionManager::GetSections() const
     return __sections;
 }
 
-void SectionManager::DeleteSection(const size_t& pos)
+void SectionManager::deleteSection(const size_t& pos)
 {
     if(pos < __total_size)
     {
@@ -100,7 +100,7 @@ void SectionManager::DeleteSection(const size_t& pos)
     }
 }
 
-QJsonArray SectionManager::DumpToJson()
+QJsonArray SectionManager::dumpToJson()
 {
     QJsonArray array;
     QJsonObject one_section;
@@ -112,7 +112,7 @@ QJsonArray SectionManager::DumpToJson()
     return array;
 }
 
-void SectionManager::ConstructFromJson(const QJsonObject& json)
+void SectionManager::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("sections"))
     {
@@ -125,16 +125,16 @@ void SectionManager::ConstructFromJson(const QJsonObject& json)
         }
     }
     else
-        __ErrorMsg("sections");
+        __errorMsg("sections");
     if (json.contains("size"))
     {
         __total_size = json["size"].toInt();
     }
     else
-        __ErrorMsg("size");
+        __errorMsg("size");
 }
 
-int SectionManager::GetTotalSize()
+int SectionManager::getTotalSize()
 {
     return __total_size;
 }

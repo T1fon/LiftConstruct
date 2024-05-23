@@ -79,33 +79,33 @@ StationModel::StationModel(const QString& name, const bool& calculate_crc) : __c
     __calculate_crc = calculate_crc;
 }
 
-void StationModel::ChangeCrc( const size_t& pos_crc,  const size_t& size_crc,
+void StationModel::changeCrc( const size_t& pos_crc,  const size_t& size_crc,
                               const size_t& start_crc,  const size_t& end_crc,  const QString& code)
 {
-    __crc->SetPositionCrc(pos_crc);
-    __crc->SetSizeCrc(size_crc);
-    __crc->SetStartCalculateCrc(start_crc);
-    __crc->SetEndCalculateCrc(end_crc);
-    __crc->SetCode(code);
+    __crc->setPositionCrc(pos_crc);
+    __crc->setSizeCrc(size_crc);
+    __crc->setStartCalculateCrc(start_crc);
+    __crc->setEndCalculateCrc(end_crc);
+    __crc->setCode(code);
 }
-void StationModel::ChangeVirtualPort(const QString& physical_interface, const int32_t& bod,
+void StationModel::changeVirtualPort(const QString& physical_interface, const int32_t& bod,
                                      const QSerialPort::DataBits& bit_of_data, const QSerialPort::Parity& parity,
                                      const QSerialPort::StopBits& stop_bits, const QSerialPort::FlowControl& flow_control)
 {
-    __virtual_port->SetPhysicalInterface(physical_interface);
-    __virtual_port->SetBod(bod);
-    __virtual_port->SetBitOfData(bit_of_data);
-    __virtual_port->SetParity(parity);
-    __virtual_port->SetStopBits(stop_bits);
-    __virtual_port->SetFlowControl(flow_control);
+    __virtual_port->setPhysicalInterface(physical_interface);
+    __virtual_port->setBod(bod);
+    __virtual_port->setBitOfData(bit_of_data);
+    __virtual_port->setParity(parity);
+    __virtual_port->setStopBits(stop_bits);
+    __virtual_port->setFlowControl(flow_control);
 }
 
-void StationModel::ChangePackageTemplate(const size_t& id, const size_t& size, const QString& description, const QString& name)
+void StationModel::changePackageTemplate(const size_t& id, const size_t& size, const QString& description, const QString& name)
 {
-    __package_template->ChangeElement(id,name,size,description);
+    __package_template->changeElement(id,name,size,description);
 }
 
-void StationModel::ConstructFromJson(const QJsonObject& json)
+void StationModel::constructFromJson(const QJsonObject& json)
 {
     if(json.contains("name"))
     {
@@ -133,7 +133,7 @@ void StationModel::ConstructFromJson(const QJsonObject& json)
         crc_json["start_calculate_crc"] = json["start_calculate_crc"];
         crc_json["end_calculate_crc"] = json["end_calculate_crc"];
         crc_json["code"] = json["code"];
-        __crc->ConstructFromJson(crc_json);
+        __crc->constructFromJson(crc_json);
     }
     else
     {
@@ -149,7 +149,7 @@ void StationModel::ConstructFromJson(const QJsonObject& json)
         vp_json["parity"] = json["parity"];
         vp_json["stop_bits"] = json["stop_bits"];
         vp_json["flow_control"] = json["flow_control"];
-        __virtual_port->ConstructFromJson(vp_json);
+        __virtual_port->constructFromJson(vp_json);
     }
     else
     {
@@ -160,7 +160,7 @@ void StationModel::ConstructFromJson(const QJsonObject& json)
     {
         QJsonObject pt_object;
         pt_object["package_tempalte"] = json["package_template"];
-        __package_template->ConstructFromJson(pt_object);
+        __package_template->constructFromJson(pt_object);
     }
     else
     {
@@ -169,7 +169,7 @@ void StationModel::ConstructFromJson(const QJsonObject& json)
     }
 }
 
-QJsonObject StationModel::DumpToJson()
+QJsonObject StationModel::dumpToJson()
 {
     QJsonObject json;
     json["id"] = static_cast<qint64>(__id);
@@ -188,15 +188,15 @@ QJsonObject StationModel::DumpToJson()
     return json;
 }
 
-void StationModel::ChangeName(const QString& new_name)
+void StationModel::changeName(const QString& new_name)
 {
     __name = new_name;
 }
 
-void StationModel::ChangeSection(const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
+void StationModel::changeSection(const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
                                  const size_t& start_pos, const size_t& size_sect)
 {
-    __package_template->ChangeElement(pac_id, sect_id, package_zone_id, start_pos, size_sect);
+    __package_template->changeElement(pac_id, sect_id, package_zone_id, start_pos, size_sect);
 }
 void StationModel::addSection(const size_t& pac_id, const size_t& sect_id, const size_t& package_zone_id,
                               const size_t& start_pos, const size_t& size_sect)
@@ -208,7 +208,7 @@ void StationModel::addSection(const size_t& pac_id, const size_t& sect_id, const
 void StationModel::deleteSection(const size_t& pac_id, const size_t& sect_id)
 {
     PackageTemplateModel& model = __package_template->getModel(pac_id);
-    model.DeleteSection(sect_id);
+    model.deleteSection(sect_id);
 }
 
 PackageTemplateModel& StationModel::getModel(const size_t& id)

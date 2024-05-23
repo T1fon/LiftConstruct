@@ -25,7 +25,7 @@ PackageManager& PackageManager::getInstance(const QJsonObject& json)
     return instance;
 }
 
-void PackageManager::ConstructFromJson(const QJsonObject& json)
+void PackageManager::constructFromJson(const QJsonObject& json)
 //нужно ли чистить вектор ?
 {
     if(json.contains("packages"))
@@ -45,22 +45,22 @@ void PackageManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonArray PackageManager::DumpToJson()
+QJsonArray PackageManager::dumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)
     {
-        array.append(it->DumpToJson());
+        array.append(it->dumpToJson());
 
     }
 
     return array;
 }
-const PackageModel& PackageManager::ReturnById(const size_t& id)
+const PackageModel& PackageManager::returnById(const size_t& id)
 {
     for ( auto& model : __models)
     {
-        if (model.GetId() == id)
+        if (model.getId() == id)
         {
             return model;
         }
@@ -69,11 +69,11 @@ const PackageModel& PackageManager::ReturnById(const size_t& id)
     throw std::runtime_error("PackageModel with given id not found");
 }
 
-const PackageModel& PackageManager::ReturnByName(const QString& name)
+const PackageModel& PackageManager::returnByName(const QString& name)
 {
     for ( auto& model : __models)
     {
-        if (model.GetName() == name)
+        if (model.getName() == name)
         {
             return model;
         }

@@ -14,20 +14,20 @@ public:
     TestModel(const QString& name, const size_t& station_id,
               const QVector<SequenceOfPackageModel>& sequence_of_packages, const QString& description);
 
-    void SetName(const QString& name);
-    void SetStationId(const size_t& station_id);
-    void SetSequenceOfPackages(const QVector<SequenceOfPackageModel>& sequence_of_packages);
-    void SetDescription(const QString& description);
+    void setName(const QString& name);
+    void setStationId(const size_t& station_id);
+    void setSequenceOfPackages(const QVector<SequenceOfPackageModel>& sequence_of_packages);
+    void setDescription(const QString& description);
 
-    size_t GetId();
-    QString GetName();
-    size_t GetStationId();
-    QVector<SequenceOfPackageModel> GetSequenceOfPackagesById(const size_t& id);
-    SequenceOfPackageModel GetSequenceOfPackagesModelByPos(const size_t& pos);
-    QString GetDescription();
+    size_t getId();
+    QString getName();
+    size_t getStationId();
+    QVector<SequenceOfPackageModel> getSequenceOfPackagesById(const size_t& id);
+    SequenceOfPackageModel getSequenceOfPackagesModelByPos(const size_t& pos);
+    QString getDescription();
 
-    void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpToJson();
+    void constructFromJson(const QJsonObject& json);
+    QJsonObject dumpToJson();
 
 private:
     size_t __id;

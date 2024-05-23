@@ -18,7 +18,7 @@ PackageTemplateManager::PackageTemplateManager(const QJsonObject& json)
 }
 PackageTemplateManager::PackageTemplateManager(){}
 
-void PackageTemplateManager::ConstructFromJson(const QJsonObject& json)
+void PackageTemplateManager::constructFromJson(const QJsonObject& json)
 {
     __models.clear();
     if(json.contains("package_tempalte"))
@@ -45,7 +45,7 @@ QJsonArray PackageTemplateManager::DumpToJson()
     QJsonObject one_model;
     for(auto& model : __models)
     {
-        one_model = model.DumpToJson();
+        one_model = model.dumpToJson();
         qDebug() << one_model;
         array.append(one_model);
     }
@@ -53,7 +53,7 @@ QJsonArray PackageTemplateManager::DumpToJson()
     return array;
 }
 
-void PackageTemplateManager::AddSample(const QJsonObject& json)
+void PackageTemplateManager::addSample(const QJsonObject& json)
 {
     QJsonObject modifiedJson = json;
 
@@ -65,7 +65,7 @@ void PackageTemplateManager::AddSample(const QJsonObject& json)
     emit PackageTemplateAdded(__models.size());
 }
 
-void PackageTemplateManager::ChangeElement(const QString& name, const size_t& size, const QString& description)
+void PackageTemplateManager::changeElement(const QString& name, const size_t& size, const QString& description)
 {
     if(size == 0 && description == "")
     {
@@ -74,22 +74,22 @@ void PackageTemplateManager::ChangeElement(const QString& name, const size_t& si
     }
     for(auto& model : __models)
     {
-        if(model.GetName() == name)
+        if(model.getName() == name)
         {
             if(size != 0)
             {
-                model.SetSize(size);
+                model.setSize(size);
             }
             if(description != "")
             {
-                model.SetDescriotion(description);
+                model.setDescriotion(description);
             }
             emit PackageTempalteChange(model.getId());
             break;
         }
     }
 }
-void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name,
+void PackageTemplateManager::changeElement(const size_t& id, const QString& name,
                                            const size_t& size, const QString& description)
 {
     if(name == "" && size == 0 && description == "")
@@ -103,15 +103,15 @@ void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name
         {
             if(name != "")
             {
-                model.SetName(name);
+                model.setName(name);
             }
             if(size != 0)
             {
-                model.SetSize(size);
+                model.setSize(size);
             }
             if(description != "")
             {
-                model.SetDescriotion(description);
+                model.setDescriotion(description);
             }
             emit PackageTempalteChange(model.getId());
             break;
@@ -119,7 +119,7 @@ void PackageTemplateManager::ChangeElement(const size_t& id, const QString& name
     }
 }
 
-void PackageTemplateManager::ChangeElement(const QString& name,
+void PackageTemplateManager::changeElement(const QString& name,
                                             const size_t& pos_section,const size_t& package_sone_id,
                                            const size_t& start_postition, const size_t& size_section)
 {
@@ -135,18 +135,18 @@ void PackageTemplateManager::ChangeElement(const QString& name,
     }
     for(auto& model : __models)
     {
-        if(model.GetName() == name)
+        if(model.getName() == name)
         {
 
             SectionManager manager = model.getSection();
-            manager.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
+            manager.changeSection(pos_section, package_sone_id, start_postition, size_section);
             emit PackageTempalteChange(model.getId());
             return;
         }
     }
 
 }
-void PackageTemplateManager::ChangeElement(const size_t& id,const size_t& pos_section,
+void PackageTemplateManager::changeElement(const size_t& id,const size_t& pos_section,
                                            const size_t& package_sone_id, const size_t& start_postition, const size_t& size_section)
 {
     if(pos_section == -1 && package_sone_id == 0 && start_postition == 0 && size_section == 0)
@@ -163,7 +163,7 @@ void PackageTemplateManager::ChangeElement(const size_t& id,const size_t& pos_se
     {
         if(model.getId() == id)
         {
-            model.ChangeSection(pos_section, package_sone_id, start_postition, size_section);
+            model.changeSection(pos_section, package_sone_id, start_postition, size_section);
             emit PackageTempalteChange(model.getId());
             return;
         }
@@ -174,7 +174,7 @@ void PackageTemplateManager::ChangeElement(const size_t& id,const size_t& pos_se
 
 }
 
-void PackageTemplateManager::DeleteElement(const size_t& id)
+void PackageTemplateManager::deleteElement(const size_t& id)
 {
     for (auto it = __models.begin(); it != __models.end(); ++it) {
         if (it->getId() == id) {
@@ -184,11 +184,11 @@ void PackageTemplateManager::DeleteElement(const size_t& id)
         }
     }
 }
-void PackageTemplateManager::DeleteElement(const QString& name)
+void PackageTemplateManager::deleteElement(const QString& name)
 {
     for (auto it = __models.begin(); it != __models.end(); ++it)
     {
-        if (it->GetName() == name) {
+        if (it->getName() == name) {
             size_t id = it->getId();
             it = __models.erase(it);
             emit PackageTemplateDeleted(id);

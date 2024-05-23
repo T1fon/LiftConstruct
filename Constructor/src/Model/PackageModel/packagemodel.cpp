@@ -89,51 +89,51 @@ PackageModel::PackageModel(const size_t& station_id, const size_t& p_t_id, const
     __data = data;
     __description = description;
 }
-void PackageModel::SetStationId(const size_t& station_id)
+void PackageModel::setStationId(const size_t& station_id)
 {
     __station_id = station_id;
 }
-void PackageModel::SetPackageTamplateId(const size_t& package_tamplate_id)
+void PackageModel::setPackageTamplateId(const size_t& package_tamplate_id)
 {
     __package_template_id = package_tamplate_id;
 }
-void PackageModel::SetName(const QString& name)
+void PackageModel::setName(const QString& name)
 {
     __name = name;
 }
-void PackageModel::SetData(const QVector<uint8_t>& data)
+void PackageModel::setData(const QVector<uint8_t>& data)
 {
     __data = data;
 }
-void PackageModel::SetDescription(const QString& description)
+void PackageModel::setDescription(const QString& description)
 {
     __description = description;
 }
-size_t PackageModel::GetId()
+size_t PackageModel::getId()
 {
     return __id;
 }
-size_t PackageModel::GetStationId()
+size_t PackageModel::getStationId()
 {
     return __station_id;
 }
-size_t PackageModel::GetPackageTemplateId()
+size_t PackageModel::getPackageTemplateId()
 {
     return __package_template_id;
 }
-QString PackageModel::GetName()
+QString PackageModel::getName()
 {
     return __name;
 }
-QVector<uint8_t> PackageModel::GetData()
+QVector<uint8_t> PackageModel::getData()
 {
     return __data;
 }
-QString PackageModel::GetDescription()
+QString PackageModel::getDescription()
 {
     return __description;
 }
-void PackageModel::SetByte(const size_t& index, const uint8_t& value)
+void PackageModel::setByte(const size_t& index, const uint8_t& value)
 {
     if (index >= 0 && index < __data.size())
     {
@@ -144,7 +144,7 @@ void PackageModel::SetByte(const size_t& index, const uint8_t& value)
         qDebug() << "Неверный индекс для установки байта";
     }
 }
-void PackageModel::ConstructFromJson(const QJsonObject& json)
+void PackageModel::constructFromJson(const QJsonObject& json)
 {
     /*__id = __last_id;
     __last_id++;*/
@@ -215,7 +215,7 @@ void PackageModel::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonObject PackageModel::DumpToJson()
+QJsonObject PackageModel::dumpToJson()
 {
     QJsonObject json;
     json["id"] = static_cast<int>(__id);

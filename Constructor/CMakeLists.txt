@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
-#add_subdirectory(src)
-add_subdirectory(tests/ConstructorTest)
+add_subdirectory(src)
+#add_subdirectory(tests/ConstructorTest)
 
 qt_standard_project_setup()
 
@@ -32,6 +32,7 @@ qt_add_qml_module(appConstructor
     QML_FILES src/View/PackageConstructMenu/PCM_one_zone_rec.qml
     QML_FILES src/View/TestConstructMenu/TCM_one_element.qml
     resources.qrc
+    QML_FILES
 
 )
 

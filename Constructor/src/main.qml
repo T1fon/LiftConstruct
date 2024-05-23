@@ -4,6 +4,7 @@ import QtQuick.Controls
 import "View/ConstructMenu"
 import "View/PackageZoneMenu"
 import "View/StationMenu"
+import MainManager 1.0
 
 Window
 {
@@ -12,7 +13,6 @@ Window
     visible: true
     property real swidth: this.width / 100
     property real sheight: this.height / 100
-
 
     MenuBar
     {
@@ -351,6 +351,46 @@ Window
             id: loader
             anchors.fill: parent
             source:  "View/ConstructMenu/ConstructMenu.qml"
+            onLoaded:
+            {
+                if( loader.sourse == "View/ConstructMenu/ConstructMenu.qml")
+                {
+                    var component1 = item
+                    var component2 = item
+                    component1.projectCreate.connect(onProjectCreate)
+                    component2.projectOpen.connect(onProjectOpened)
+                }
+            }
         }
+    }
+    function onProjectCreate(name, last_date)
+    {
+        loader.source = "View/PackageZoneMenu/PackageZoneMenu.qml";
+        packet_zone_button.enabled = false
+        station_zone_button.enabled = true
+        package_zone_button.enabled = true
+        test_zone_button.enabled = true
+        emulator_zone_button.enabled = true
+
+        packet_zone_button_rec.border.color = "#D9D9D9"
+        station_zone_button_rec.border.color = "black"
+        package_zone_button_rec.border.color = "black"
+        test_zone_button_rec.border.color = "black"
+        emulator_zone_button_rec.border.color = "black"
+    }
+    function onProjectOpened(json, last_date)
+    {
+        loader.source = "View/PackageZoneMenu/PackageZoneMenu.qml";
+        packet_zone_button.enabled = false
+        station_zone_button.enabled = true
+        package_zone_button.enabled = true
+        test_zone_button.enabled = true
+        emulator_zone_button.enabled = true
+
+        packet_zone_button_rec.border.color = "#D9D9D9"
+        station_zone_button_rec.border.color = "black"
+        package_zone_button_rec.border.color = "black"
+        test_zone_button_rec.border.color = "black"
+        emulator_zone_button_rec.border.color = "black"
     }
 }

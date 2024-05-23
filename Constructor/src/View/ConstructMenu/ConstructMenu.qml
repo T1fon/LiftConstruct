@@ -2,15 +2,23 @@ import QtQuick 2.15
 import QtQuick.Window
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import ProjectManager 1.0
 
 Rectangle {
+
     id: construct_menu_window
-    //когда настрою все кнопки, переделать, чтобы сюда шли не тсатичные параметры, а высоты и ширины из главного окна и выделенного под окна соответствующе ваня лох
     width: 1920
     height: 1000
     property real swidth: width / 100
     property real sheight: height / 100
+    signal projectCreate(string name, string last_date, string path)
+    signal projectOpen(string path, string last_date)
     color: "#D9D9D9"
+    ProjectManager
+    {
+        id: project_manager
+    }
+
     Rectangle
     {
         id: proects_menu
@@ -43,50 +51,48 @@ Rectangle {
             x: swidth * 2.604
             y: sheight * 12.037
             color: "#A4A4A4"
-            TableView
+            ListView
             {
-                    anchors.fill: parent
+                id: list_view
+                anchors.fill: parent
+                model: project_manager.projectModel()
+                delegate: ItemDelegate {
+                    width: list_view.width
+                    height: 40
+                    onClicked: {
+                        selectedRow = index
+                    }
 
                     Row {
-                        spacing: 5
-
-                        Text {
-                            text: "Имя"
-                            width: table_zone_rec.width / 2
-                            horizontalAlignment: Text.AlignHCenter
-                            font.family: "Inter"
-                            font.pixelSize: 22 * 0.05 * swidth
-
-                        }
-
-                        Text {
-                            text: "Дата последнего изменения"
-                            width: table_zone_rec.width / 2
-                            horizontalAlignment: Text.AlignHCenter
-                            font.family: "Inter"
-                            font.pixelSize: 22 * 0.05 * swidth
-                        }
+                        spacing: 10
+                        Text { text: model.name }
+                        Text { text: model.date }
+                        Text { text: model.path }
                     }
 
-                    model: ListModel {
-                        id: tableModel
-
+                    Rectangle {
+                        width: parent.width
+                        height: 1
+                        color: "lightgray"
                     }
-
+                }
             }
 
-        }
 
-
-        Button
-        {
-            id: add_proect
-            width: swidth * 10.417
-            height: sheight * 3.703
-            x: swidth * 60.5
-            y: sheight * 12.037
-            text: "Создать"
-        }
+            Button
+            {
+                id: add_proect
+                width: swidth * 10.417
+                height: sheight * 3.703
+                x: swidth * 57.91
+                y: sheight * 12.037
+                text: "Создать"
+                onClicked:
+                {
+                    create_project_dialog.visible = true;
+                }
+            }
+            }
         Button
         {
             id: open_proect
@@ -95,7 +101,41 @@ Rectangle {
             x: swidth * 60.5
             y: sheight * 18.889
             text: "Открыть"
+            onClicked:
+            {
+                if (selectedRow >= 0)
+                {
+                    project_manager.openProject(selectedRow)
+                    projectOpen(project_manager.getPath(), project_manager.getDate())
+                }
+            }
         }
     }
+    Dialog {
+        id: create_project_dialog
+        modal: true
+        visible: false
+        title: "Создать проект"
+        anchors.centerIn: parent.Center
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        onAccepted: {
+            project_manager.createProject(projectNameInput.text)
+            create_project_dialog.visible = false
+            projectCreate(projectNameInput.text,project_manager.getDate(), project_manager.getPath())
+        }
+        onRejected: {
+            create_project_dialog.visible = false
+        }
 
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 10
+
+            TextField {
+                id: project_name_input
+                placeholderText: "Введите имя проекта"
+                Layout.fillWidth: true
+            }
+        }
+    }
 }

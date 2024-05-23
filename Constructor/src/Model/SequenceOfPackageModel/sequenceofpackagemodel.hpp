@@ -49,14 +49,14 @@ public:
         }
         return false;
     }
-    void SetPosition(const size_t& position);
-    void SetPackageId(const size_t& package_id);
-    void SetAction(const size_t& act);
-    size_t GetPosition() const;
-    size_t GetPackageId() const;
-    size_t GetAction() const;
-    void ConstructFromJson(const QJsonObject& json);
-    QJsonObject DumpToJson() const;
+    void setPosition(const size_t& position);
+    void setPackageId(const size_t& package_id);
+    void setAction(const size_t& act);
+    size_t getPosition() const;
+    size_t getPackageId() const;
+    size_t getAction() const;
+    void constructFromJson(const QJsonObject& json);
+    QJsonObject dumpToJson() const;
 private:
     size_t __position;
     size_t __package_id;

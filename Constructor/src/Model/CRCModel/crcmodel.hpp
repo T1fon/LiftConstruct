@@ -15,18 +15,18 @@ public:
     CRCModel(const CRCModel& other);
     CRCModel(const QJsonObject& json);
     CRCModel();
-    void SetPositionCrc(const size_t& position_crc);
-    void SetSizeCrc(const size_t& size_crc);
-    void SetStartCalculateCrc(const size_t& start_calculate_crc);
-    void SetEndCalculateCrc(const size_t& end_calculate_crc);
-    void SetCode(const QString& code);
-    size_t& GetPositionCrc();
-    size_t& GetSizeCrc();
-    size_t& GetStartCalculateCrc();
-    size_t& GetEndCalculateCrc();
-    QString&GetCode();
+    void setPositionCrc(const size_t& position_crc);
+    void setSizeCrc(const size_t& size_crc);
+    void setStartCalculateCrc(const size_t& start_calculate_crc);
+    void setEndCalculateCrc(const size_t& end_calculate_crc);
+    void setCode(const QString& code);
+    size_t& getPositionCrc();
+    size_t& getSizeCrc();
+    size_t& getStartCalculateCrc();
+    size_t& getEndCalculateCrc();
+    QString& getCode();
     QJsonObject toJson();
-    void ConstructFromJson(const QJsonObject& json);
+    void constructFromJson(const QJsonObject& json);
 private:
 
     size_t __position_crc;

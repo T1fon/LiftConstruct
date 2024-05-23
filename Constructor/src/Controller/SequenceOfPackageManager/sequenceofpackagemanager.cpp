@@ -26,7 +26,7 @@ SequenceOfPackageManager::SequenceOfPackageManager(const QVector<SequenceOfPacka
         __models.insert(model);
     }
 }
-void SequenceOfPackageManager::ConstructFromJson(const QJsonObject& json)
+void SequenceOfPackageManager::constructFromJson(const QJsonObject& json)
 {
     if(json.contains("sequence_of_packages"))
     {
@@ -44,33 +44,33 @@ void SequenceOfPackageManager::ConstructFromJson(const QJsonObject& json)
         return;
     }
 }
-QJsonArray SequenceOfPackageManager::DumpToJson()
+QJsonArray SequenceOfPackageManager::dumpToJson()
 {
     QJsonArray array;
     for(auto it = __models.begin(); it != __models.end(); ++it)
     {
-        array.append(it->DumpToJson());
+        array.append(it->dumpToJson());
     }
 
     return array;
 }
-SequenceOfPackageModel SequenceOfPackageManager::ReturnByPosition(const size_t& position)
+SequenceOfPackageModel SequenceOfPackageManager::returnByPosition(const size_t& position)
 {
     for ( auto& model : __models)
     {
-        if (model.GetPosition() == position)
+        if (model.getPosition() == position)
         {
             return model;
         }
     }
     throw std::runtime_error("SequenceOfPackageModel with given id not found");
 }
-QVector<SequenceOfPackageModel> SequenceOfPackageManager::ReturnByPackageId(const size_t& package_id)
+QVector<SequenceOfPackageModel> SequenceOfPackageManager::returnByPackageId(const size_t& package_id)
 {
     QVector<SequenceOfPackageModel> res;
     for ( auto& model : __models)
     {
-        if (model.GetPackageId() == package_id)
+        if (model.getPackageId() == package_id)
         {
             res.push_back(model);
         }

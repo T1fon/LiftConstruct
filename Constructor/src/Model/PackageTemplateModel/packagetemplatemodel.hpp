@@ -13,23 +13,23 @@ class PackageTemplateModel
 public:
     PackageTemplateModel(const QJsonObject& json);
     PackageTemplateModel(const size_t& size, const QString& description, const QString& name);
-    void SetSize(const size_t& size);
-    const size_t& GetSize();
+    void setSize(const size_t& size);
+    const size_t& getSize();
     void addSection(const size_t& pos, const QJsonObject& json);
     void addSection(const size_t& pos,const size_t& package_zone_id, const size_t& start_position,
                     const size_t& size_section);
-    void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
+    void changeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position,
                                              const size_t& size_section);
-    void ChangeSection(const size_t& size, const QString& description, const QString& name);
-    void ChangeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
+    void changeSection(const size_t& size, const QString& description, const QString& name);
+    void changeSection(const size_t& pos, const size_t& package_zone_id, const size_t& start_position, const size_t& size_section,
                        const size_t& size, const QString& description, const QString& name);
-    void DeleteSection(const size_t& pos);
-    QJsonObject DumpToJson();
-    void ConstructFromJson(const QJsonObject& json);
-    void SetDescriotion(const QString& description);
-    QString& GetDescription();
-    void SetName(const QString& name);
-    QString& GetName();
+    void deleteSection(const size_t& pos);
+    QJsonObject dumpToJson();
+    void constructFromJson(const QJsonObject& json);
+    void setDescriotion(const QString& description);
+    QString& getDescription();
+    void setName(const QString& name);
+    QString& getName();
     size_t& getId();
     SectionManager& getSection();
     void setSection(const SectionManager& section);

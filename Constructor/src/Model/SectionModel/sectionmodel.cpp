@@ -51,32 +51,32 @@ void SectionModel::__ErrorMsg(QString target)
      qDebug() << "Ошибка, json не считал строчку " << target;
 }
 
-void SectionModel::SetPackageZoneId(const size_t& package_zone_id)
+void SectionModel::setPackageZoneId(const size_t& package_zone_id)
 {
     __package_zone_id = package_zone_id;
 }
 
-size_t& SectionModel::GetPackageZoneId()
+size_t& SectionModel::getPackageZoneId()
 {
     return __package_zone_id;
 }
 
-void SectionModel::SetStartPosition(const size_t& start_position)
+void SectionModel::setStartPosition(const size_t& start_position)
 {
     __start_position = start_position;
 }
 
-size_t& SectionModel::GetStartPosition()
+size_t& SectionModel::getStartPosition()
 {
     return __start_position;
 }
 
-void SectionModel::SetSizeStation(const size_t& size_section)
+void SectionModel::setSizeStation(const size_t& size_section)
 {
     __size_section = size_section;
 }
 
-size_t& SectionModel::GetSizeStation()
+size_t& SectionModel::getSizeStation()
 {
     return __size_section;
 }
@@ -89,7 +89,7 @@ QJsonObject SectionModel::toJson()
     return json;
 }
 
-void SectionModel::ConstructFromJson(const QJsonObject& json)
+void SectionModel::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("package_zone_id"))
     {

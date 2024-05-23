@@ -98,62 +98,62 @@ void VirtualPortModel::__ErrorMsg(QString object)
     qDebug() << "Ошибка, json не считал строчку " <<object;
 }
 
-void VirtualPortModel::SetPhysicalInterface(const QString& physical_interface)
+void VirtualPortModel::setPhysicalInterface(const QString& physical_interface)
 {
     __physical_interface = physical_interface;
 }
 
-QString VirtualPortModel::GetPhysicalInterface() const
+QString VirtualPortModel::getPhysicalInterface() const
 {
     return __physical_interface;
 }
 
-void VirtualPortModel::SetBod(const int32_t& bod)
+void VirtualPortModel::setBod(const int32_t& bod)
 {
     __bod = bod;
 }
 
-int32_t VirtualPortModel::GetBod() const
+int32_t VirtualPortModel::getBod() const
 {
     return __bod;
 }
 
-void VirtualPortModel::SetBitOfData(const QSerialPort::DataBits& bit_of_data)
+void VirtualPortModel::setBitOfData(const QSerialPort::DataBits& bit_of_data)
 {
     __bit_of_data = bit_of_data;
 }
 
-QSerialPort::DataBits VirtualPortModel::GetBitOfData() const
+QSerialPort::DataBits VirtualPortModel::getBitOfData() const
 {
     return __bit_of_data;
 }
 
-void VirtualPortModel::SetParity(const QSerialPort::Parity& parity)
+void VirtualPortModel::setParity(const QSerialPort::Parity& parity)
 {
     __parity = parity;
 }
 
-QSerialPort::Parity VirtualPortModel::GetParity() const
+QSerialPort::Parity VirtualPortModel::getParity() const
 {
     return __parity;
 }
 
-void VirtualPortModel::SetStopBits(const QSerialPort::StopBits& stop_bits)
+void VirtualPortModel::setStopBits(const QSerialPort::StopBits& stop_bits)
 {
     __stop_bits = stop_bits;
 }
 
-QSerialPort::StopBits VirtualPortModel::GetStopBits() const
+QSerialPort::StopBits VirtualPortModel::getStopBits() const
 {
     return __stop_bits;
 }
 
-void VirtualPortModel::SetFlowControl(const QSerialPort::FlowControl& flow_control)
+void VirtualPortModel::setFlowControl(const QSerialPort::FlowControl& flow_control)
 {
     __flow_control = flow_control;
 }
 
-QSerialPort::FlowControl VirtualPortModel::GetFlowControl() const
+QSerialPort::FlowControl VirtualPortModel::getFlowControl() const
 {
     return __flow_control;
 }
@@ -171,7 +171,7 @@ QJsonObject VirtualPortModel::toJson()
     return json;
 }
 
-void VirtualPortModel::ConstructFromJson(const QJsonObject& json)
+void VirtualPortModel::constructFromJson(const QJsonObject& json)
 {
     if (json.contains("physical_interface"))
     {
