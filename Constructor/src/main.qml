@@ -20,27 +20,29 @@ Window
         width: parent.width
         height: sheight * 3.704
         anchors.top: parent.top
+        background: Rectangle{color:"#E9E9E9"}
         //contentWidth: swidth * 7.813
         //color: "#E9E9E9"
-            Menu {
-                id:main_menu
-                title: "Файл"
-                font.family: "Inter"
-                font.pixelSize: 15 * 0.04 * swidth
-                //contentWidth: swidth * 10.813
-                //implicitWidth: swidth * 10.813
-                //implicitBackgroundWidth: swidth * 10.813
+        Menu {
+            id:main_menu
+            title: "Файл"
+            font.family: "Inter"
+            font.pixelSize: 15 * 0.04 * swidth
+            width: swidth * 10.813
+            contentWidth: swidth * 10.813
+            //implicitWidth: swidth * 10.813
+            //implicitBackgroundWidth: swidth * 10.813
+            MenuItem { text: "Открыть"; onTriggered: console.log("Открыть"); Shortcut{context: Qt.ApplicationShortcut; sequence: StandardKey.Open;onActivated: {console.log("Открыть")} } }
+            MenuItem { text: "Закрыть"; onTriggered: console.log("Закрыть");Shortcut{context: Qt.ApplicationShortcut; sequence: StandardKey.Close;onActivated: {console.log("Закрыть")} } }
+            MenuItem { text: "Сохранить"; onTriggered: console.log("Сохранить");Shortcut{context: Qt.ApplicationShortcut; sequence: StandardKey.Save;onActivated: {console.log("Сохранить")} } }
+            MenuItem { text: "Сохранить как"; onTriggered: console.log("Сохранить как");Shortcut{context: Qt.ApplicationShortcut; sequence: StandardKey.SaveAs; onActivated: {console.log("Сохранить как")} } }
+            MenuItem { text: "Экспортировать"; onTriggered: console.log("Экспортировать"); }
+            background: Rectangle
+            {
                 width: swidth * 10.813
-                MenuItem { text: "Открыть"; onTriggered: console.log("Открыть") }
-                MenuItem { text: "Закрыть"; onTriggered: console.log("Закрыть") }
-                MenuItem { text: "Сохранить"; onTriggered: console.log("Сохранить") }
-                MenuItem { text: "Сохранить как"; onTriggered: console.log("Сохранить как") }
-                MenuItem { text: "Экспортировать"; onTriggered: console.log("Экспортировать") }
-                background: Rectangle
-                {
-                    width: swidth * 10.813
-                }
             }
+        }
+
         MenuBarItem
         {
             id: construct_button;
@@ -86,6 +88,7 @@ Window
             }
         }
     }
+
     Rectangle
     {
         id: widows_buttons
@@ -99,8 +102,8 @@ Window
             id:construct_menu_button
             height: parent.height
             width: swidth * 12.5
-            color: "#D9D9D9"
-            border.color: "#D9D9D9"
+            color: "#E9E9E9"
+            border.color: "#E9E9E9"
             border.width: 1
             radius: 2
             Text

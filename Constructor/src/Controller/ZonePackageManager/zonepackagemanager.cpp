@@ -23,7 +23,9 @@ ZonePackageManager& ZonePackageManager::getInstance(const QJsonObject& json) {
     static ZonePackageManager instance(json);
     return instance;
 }
-
+const QVector<ZonePackageModel>& ZonePackageManager::getModels(){
+    return __models;
+}
 
 QVector<QString> ZonePackageManager::getAllNames()
 {

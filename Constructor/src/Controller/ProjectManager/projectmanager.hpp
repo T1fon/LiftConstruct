@@ -49,7 +49,7 @@ private:
 };
 
 class ProjectManager : public QObject {
-
+Q_OBJECT
 public:
 
     static ProjectModel* projectModel();

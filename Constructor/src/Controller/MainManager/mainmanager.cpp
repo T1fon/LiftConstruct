@@ -1,5 +1,7 @@
 #include "mainmanager.hpp"
-
+QString MainManager::__name;
+QString MainManager::__last_redact_date;
+QString MainManager::__path_json;
 MainManager::MainManager(const QJsonObject& json)
 {
     if (json.contains("name"))
@@ -27,7 +29,7 @@ MainManager::MainManager(const QJsonObject& json)
 }
 StationManager& MainManager::getStationManager(const QJsonObject& json){return StationManager::getInstance(json);}
 TestManager& MainManager::getTestManager(const QJsonObject& json){return TestManager::getInstance(json);}
-ZonePackageManager& MainManager::getZoneManager(const QJsonObject& json){return ZonePackageManager::getInstance(json);}
+ZonePackageManager& MainManager::getZoneManager(const QJsonObject& json){return ZonePackageManager::getInstance(json); }
 PackageManager& MainManager::getPackageManager(const QJsonObject& json){return PackageManager::getInstance(json);}
 
 MainManager& MainManager::getInstance(const QJsonObject& json)

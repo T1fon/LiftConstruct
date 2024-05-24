@@ -6,3 +6,10 @@ add_library(StationModel STATIC StationModel.cpp)
 
 target_link_libraries(StationModel PRIVATE Qt6::Core)
 target_link_libraries(StationModel PRIVATE Qt6::SerialPort)
+
+target_link_directories(StationModel PUBLIC ../)
+target_link_directories(StationModel PUBLIC ../../Controller)
+
+target_link_libraries(StationModel PUBLIC CRCModel)
+target_link_libraries(StationModel PUBLIC VirtualPortModel)
+target_link_libraries(StationModel PUBLIC PackageTemplateManager)

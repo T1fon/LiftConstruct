@@ -5,3 +5,7 @@ add_library(ZonePackageManager STATIC ZonePackageManager.cpp)
 
 target_link_libraries(ZonePackageManager PRIVATE Qt6::Core)
 target_link_libraries(ZonePackageManager PRIVATE Qt6::Gui)
+
+target_link_directories(ZonePackageManager PUBLIC ../../Model)
+
+target_link_libraries(ZonePackageManager PUBLIC ZonePackageModel)
