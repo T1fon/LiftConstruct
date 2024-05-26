@@ -22,18 +22,18 @@ Rectangle
     {
         id: package_viev_header_rec
         width: parent.width
-        height: sheight * 5.714
+        height: sm_one_zone_main_rec.sheight * 5.714
         anchors.top: parent.top
         color: "#BBBBBB"
         Button
         {
             id: package_viev_delete_button
-            width: swidth * 2.033
-            height: sheight * 3.428
-            x: swidth * 0.731
+            width: sm_one_zone_main_rec.swidth * 2.033
+            height: sm_one_zone_main_rec.sheight * 3.428
+            x: sm_one_zone_main_rec.swidth * 0.731
             anchors.verticalCenter: parent.verticalCenter
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.04 * sm_one_zone_main_rec.swidth
             text: "-"
             onClicked:
             {
@@ -42,28 +42,32 @@ Rectangle
         }
         Rectangle
         {
-            width: swidth * 10.081
-            height: sheight * 3.428
-            x: swidth * 3.739
+            width: sm_one_zone_main_rec.swidth * 10.081
+            height: sm_one_zone_main_rec.sheight * 3.428
+            x: sm_one_zone_main_rec.swidth * 3.739
             anchors.verticalCenter: parent.verticalCenter
             color: "#BBBBBB"
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.08 * swidth
+                font.pixelSize: 20 * 0.08 * sm_one_zone_main_rec.swidth
                 text: name_zone
             }
         }
         Button
         {
             id: package_viev_settings_button
-            width: swidth * 2.033
-            height: sheight * 3.428
-            x: swidth * 35
-            y: sheight * 1.143
+            width: sm_one_zone_main_rec.swidth * 2.033
+            height: sm_one_zone_main_rec.swidth * 2.033
+            x: sm_one_zone_main_rec.swidth * 75
+            //y: sm_one_zone_main_rec.sheight * 1.143
+            anchors.verticalCenter: parent.verticalCenter
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
-            text: "Ш"
+            font.pixelSize: 22 * 0.04 * sm_one_zone_main_rec.swidth
+            icon.source: Qt.resolvedUrl("qrc:/settings.png")
+            icon.width: package_viev_settings_button.width
+            icon.height: package_viev_settings_button.height
+            display: AbstractButton.IconOnly
             onClicked:
             {
 
@@ -73,10 +77,10 @@ Rectangle
         CheckBox
         {
             id: show_package_view_rec
-            width: swidth * 2.033
-            height: sheight * 3.571
-            x: swidth * 96.74
-            y: sheight * 1.143
+            width: sm_one_zone_main_rec.swidth * 2.033
+            height: sm_one_zone_main_rec.sheight * 3.571
+            anchors.verticalCenter: package_viev_header_rec.verticalCenter
+            x: sm_one_zone_main_rec.swidth * 77.45
             onCheckedChanged:
             {
                 package_view_rec.state === "opened" ? package_view_rec.state = "closed" : package_view_rec.state = "opened";
@@ -84,8 +88,8 @@ Rectangle
         }
         Image
         {
-            width: swidth * 1.302
-            height: sheight * 2.315
+            width: sm_one_zone_main_rec.swidth * 1.302
+            height: sm_one_zone_main_rec.sheight * 2.315
             anchors.verticalCenter: show_package_view_rec.verticalCenter
             //source: show_package_view_rec.checked ? "../../arrows_down.png" : "../../arrows_up.png"
             //visible: !show_package_templates.indeterminate || !show_package_templates.checked
@@ -108,19 +112,19 @@ Rectangle
                 PropertyChanges
                 {
                     target: package_view_rec;
-                    height: sheight * 64.814
+                    height: sm_one_zone_main_rec.sheight * 64.814
                     visible: true
                     enabled: true
                 }
                 PropertyChanges {
                     target: ozr_section_title;
-                    height: sheight * 3.428;
-                    y: sheight * 2.714
+                    height: sm_one_zone_main_rec.sheight * 3.428;
+                    y: sm_one_zone_main_rec.sheight * 2.714
                 }
                 PropertyChanges {
                     target: ozr_section_scrolview;
-                    height: sheight * 24.083
-                    y: ozr_section_title.height + ozr_section_title.y + sheight * 3
+                    height: sm_one_zone_main_rec.sheight * 24.083
+                    y: ozr_section_title.height + ozr_section_title.y + sm_one_zone_main_rec.sheight * 3
                 }
                 PropertyChanges
                 {
@@ -132,13 +136,13 @@ Rectangle
                 {
                     target: ozr_description;
                     height: 0;
-                    y: ozr_line.height + ozr_line.y + sheight * 3;
+                    y: ozr_line.height + ozr_line.y + sm_one_zone_main_rec.sheight * 3;
                 }
                 PropertyChanges
                 {
                     target: sm_one_zone_te_rec;
-                    height: sheight * 37.857
-                    y: ozr_description.height + ozr_description.y + sheight * 3
+                    height: sm_one_zone_main_rec.sheight * 37.857
+                    y: ozr_description.height + ozr_description.y + sm_one_zone_main_rec.sheight * 3
                 }
                 PropertyChanges
                 {
@@ -152,19 +156,19 @@ Rectangle
                 PropertyChanges
                 {
                     target: package_view_rec;
-                    height: sheight * 0
+                    height: sm_one_zone_main_rec.sheight * 0
                     visible: false
                     enabled: false
                 }
                 PropertyChanges {
                     target: ozr_section_title;
                     height: 1;
-                    y: sheight * 41.428
+                    y: sm_one_zone_main_rec.sheight * 41.428
                 }
                 PropertyChanges {
                     target: ozr_section_scrolview;
-                    height: sheight * 3.428
-                    y: sheight * 45
+                    height: sm_one_zone_main_rec.sheight * 3.428
+                    y: sm_one_zone_main_rec.sheight * 45
                 }
                 PropertyChanges
                 {
@@ -195,46 +199,47 @@ Rectangle
         {
             NumberAnimation
             {
-                properties: "height"
+                properties: "y"
                 duration: 300
                 easing.type: Easing.InOutQuad
             }
             NumberAnimation
             {
-                properties: "y"
+                properties: "height"
                 duration: 300
                 easing.type: Easing.InOutQuad
             }
+
         }
         state: "closed"
         Rectangle
         {
             id: ozr_section_title
-            width: swidth * 11.788
+            width: sm_one_zone_main_rec.swidth * 11.788
             height: 0
-            x: swidth * 3.821
+            x: sm_one_zone_main_rec.swidth * 3.821
             y: 0
             color: "#D9D9D9"
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.08 * swidth
+                font.pixelSize: 20 * 0.08 * sm_one_zone_main_rec.swidth
                 text: qsTr("Секции пакета")
             }
         }
         ScrollView
         {
             id: ozr_section_scrolview
-            width: swidth * 90.813
+            width: sm_one_zone_main_rec.swidth * 90.813
             height: 0
-            x: swidth * 3.821
+            x: sm_one_zone_main_rec.swidth * 3.821
             y: 0
             Rectangle
             {
                 id: table
                 anchors.top: parent.top
                 width: parent.width
-                height: sheight * 7.142
+                height: sm_one_zone_main_rec.sheight * 7.142
                 color: "#D9D9D9"
                 property real squareWidth: width / 17
                 property real squareHeight: table.height
@@ -258,7 +263,7 @@ Rectangle
                                 anchors.centerIn: parent
                                 text: index > 0 ? (index).toString() : ""
                                 font.family: "Inter"
-                                font.pixelSize: 24 * 0.06 * swidth
+                                font.pixelSize: 24 * 0.06 * sm_one_zone_main_rec.swidth
                             }
                         }
                     }
@@ -273,7 +278,7 @@ Rectangle
                 delegate: Rectangle
                 {
                     width: parent.width
-                    height: sheight * 7.142
+                    height: sm_one_zone_main_rec.sheight * 7.142
                     Grid
                     {
                         anchors.fill: parent
@@ -325,23 +330,23 @@ Rectangle
         Rectangle
         {
             id: ozr_description
-            width: swidth * 7.886
+            width: sm_one_zone_main_rec.swidth * 7.886
             height: 0
-            x: swidth * 3.821
+            x: sm_one_zone_main_rec.swidth * 3.821
             y: 0
             color: "#D9D9D9"
             Text
             {
                 font.family: "Inter"
-                font.pixelSize: 20 * 0.08 * swidth
+                font.pixelSize: 20 * 0.08 * sm_one_zone_main_rec.swidth
                 text: qsTr("Описание")
             }
         }
         Rectangle
         {
             id: sm_one_zone_te_rec
-            width: swidth * 90.813
-            x: swidth * 3.821
+            width: sm_one_zone_main_rec.swidth * 90.813
+            x: sm_one_zone_main_rec.swidth * 3.821
             y: 0
             height: 0
             TextEdit

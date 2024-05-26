@@ -98,7 +98,7 @@ Rectangle
     }
     Dialog {
         id: warning_dialog
-        title: "ошибка"
+        title: "Ошибка"
         standardButtons: Dialog.Ok
         Text {
             font.pixelSize: 20 * 0.1 * swidth
@@ -122,7 +122,7 @@ Rectangle
         onClicked:
         {
             console.log(sm_package_view_name_ti.text, sm_package_view_size_ti.text)
-            if(sm_package_view_name_ti.text != "" && sm_package_view_size_ti != ""
+            if(sm_package_view_name_ti.text !== "" && sm_package_view_size_ti.text !== ""
                     && parseInt(sm_package_view_size_ti.text) !== 0 && !isNaN(sm_package_view_size_ti.text) )
             {
                 sendDataToSMfPV(sm_package_view_name_ti.text, parseInt(sm_package_view_size_ti.text))

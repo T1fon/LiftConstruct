@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>arrows_down.png</file>
         <file>arrows_up.png</file>
+        <file>settings.png</file>
     </qresource>
 </RCC>

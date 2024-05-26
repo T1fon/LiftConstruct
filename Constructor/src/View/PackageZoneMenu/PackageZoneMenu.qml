@@ -40,9 +40,9 @@ Rectangle
 
         color: "#D9D9D9"
 
-        function addZoneInModel(name, ccolor)
+        function addZoneInModel(name, value_color)
         {
-            pzm_model.append({ text: name, color: ccolor });
+            pzm_model.append({ text: name, color: value_color });
             left_menu_listView.height += 5.556*construct_menu_window.sheight;
             left_menu_scrollview.contentHeight = left_menu_listView.height;
 
@@ -177,7 +177,7 @@ Rectangle
             enabled: false
             onClicked:
             {
-                if(input_name.text ===  " " || color_box.color === "#000000")
+                if(input_name.text ===  " " || color_box.color.toString() === "#000000")
                 {
                     warning_dialog.open()
                     return;
@@ -347,7 +347,7 @@ Rectangle
             id: white_rect
             width: left_menu_scrollview.width - left_menu_scrollview_scrollbar.width
             height: construct_menu_window.sheight * 0.9
-            color: "white"
+            color: "#EFEFEF"
             x: left_menu_listView.height
             anchors.left: parent.left
         }

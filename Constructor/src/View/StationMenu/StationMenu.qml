@@ -20,131 +20,152 @@ Rectangle
     Rectangle
     {
         id: sm_left_rect
-        width: swidth * 17.188
+        width: station_menu_window.swidth * 17.188
         height: parent.height
         anchors.left: parent.left
         color: "#D9D9D9"
-        ScrollView
+        Flickable
         {
-            id: sm_left_menu_scrollview
-            height: parent.height
+            id: left_menu_scrollview
+            height: parent.height - station_menu_window.sheight*15
             width: parent.width
             anchors.right : parent.right
             anchors.top: parent.top
             clip: true
-
+            ScrollBar.vertical: ScrollBar {
+                id: left_menu_scrollview_scrollbar
+                policy: ScrollBar.AlwaysOn
+                active: true
+            }
             ListView
             {
-                id: sm_left_menu_listView
+                id: left_menu_listView
                 width: parent.width
                 height: contentHeight
 
                 model: ListModel
                 {
-                    id: sm_left_model
+                    id: left_model
                 }
                 delegate: Rectangle
                 {
-                    width: sm_left_menu_listView.width
-                    height: sheight * 5.556
+                    width: left_menu_listView.width
+                    height: station_menu_window.sheight * 5.556
                     color: model.color
                     border.color: "black"
                     border.width: (left_menu_listView.currentIndex === index) ? 2 : 0
+
+                    /*port settings*/
+                    property string interface_type: ""
+                    property int port_index_baund_rate: 0
+                    property int port_index_data_bits: 0
+                    property int port_index_flow_control: 0
+                    property int port_index_parity: 0
+                    property int port_index_stop_bits: 0
 
                     Text
                     {
                         text: model.text
                         anchors.centerIn: parent
                         font.family: "Inter"
-                        font.pointSize: 20 * swidth * 0.035
+                        font.pointSize: 20 * station_menu_window.swidth * 0.035
                     }
                     MouseArea
                     {
                         anchors.fill: parent
                         onClicked:
                         {
-                            input_name.text = model.text
-                            color_box.color = model.color
-                            sm_left_menu_listView.currentIndex = index
-                            //color_box.enabled = true
-                            //delete_zone.enabled = true
+                            station_menu_window.setVisibleActiveZone(true);
+                            sm_station_name.text = model.text;
+                            left_menu_listView.currentIndex = index;
+                            sm_interface.text = model.interface_type;
+                            bits_in_sec_cb.currentIndex = model.port_index_baund_rate;
+                            data_bit_cb.currentIndex = model.port_index_data_bits;
+                            parity_cb.currentIndex = model.port_index_parity;
+                            stop_bits_cb.currentIndex = model.port_index_stop_bits;
+                            flow_control_cb.currentIndex = model.port_index_flow_control;
+
                         }
                     }
 
                 }
             }
-            Rectangle
-            {
-                id: sm_white_rect
-                width: swidth * 17.188
-                height: sheight * 0.9
-                color: "white"
-                x: sm_left_menu_listView.height
-                anchors.left: parent.left
-            }
+
             onContentHeightChanged: {
-                if (sm_left_menu_scrollview.flickableItem !== undefined) {
-                    if (contentHeight > sm_left_menu_scrollview.height) {
-                        sm_left_menu_scrollview.flickableItem.interactive = true;
+                if (left_menu_scrollview.flickableItem !== undefined) {
+                    if (contentHeight > left_menu_scrollview.height) {
+                        left_menu_scrollview.flickableItem.interactive = true;
                     } else {
-                        sm_left_menu_scrollview.flickableItem.interactive = false;
+                        left_menu_scrollview.flickableItem.interactive = false;
                     }
                 }
             }
-            Button
+
+        }
+        Rectangle
+        {
+            id: white_rect
+            width: left_menu_scrollview.width - left_menu_scrollview_scrollbar.width
+            height: station_menu_window.sheight * 0.9
+            color: "#EFEFEF"
+            x: left_menu_listView.height
+            anchors.left: parent.left
+        }
+        Button
+        {
+            id: left_plus_but
+            width: station_menu_window.swidth * 2.604
+            height: station_menu_window.sheight * 5.37
+            x: station_menu_window.swidth * 6.51
+            y: left_menu_listView.contentHeight + white_rect.height
+            text: "+"
+            font.pointSize: 48 * station_menu_window.swidth * 0.03
+            onClicked:
             {
-                id: sm_left_plus_but
-                width: swidth * 2.604
-                height: sheight * 5.37
-                x: swidth * 6.51
-                y: sm_left_menu_listView.contentHeight + sm_white_rect.height
-                text: "+"
-                font.pointSize: 48 * swidth * 0.03
-                onClicked:
-                {
-                   sm_station_name.text = ""
-                   sm_interface.text = ""
-                   sm_crc_ok_checkbox.checked = false
-                   byte_info.text = ""
-                   start_count.text = ""
-                   end_count.text = ""
-                }
-                //cdelat cnachala serii kvadrat potom on sapolnitsa
+               station_menu_window.setVisibleActiveZone(true);
+               sm_station_name.text = ""
+               sm_interface.text = ""
+               sm_crc_ok_checkbox.checked = false
+               byte_info.text = ""
+               start_count.text = ""
+               end_count.text = ""
             }
+            //cdelat cnachala serii kvadrat potom on sapolnitsa
         }
     }
     //правая панелька с кнопками
     Rectangle
     {
         id: buttons_right_menu
-        width: swidth * 17.188
+        width: station_menu_window.swidth * 17.188
         height: parent.height
         anchors.right: parent.right
         color: "#D9D9D9"
+
         Button
         {
             id: add_color_button
-            width: swidth * 14.063
-            height: sheight * 5.556
-            x: swidth * 0.833
-            y: sheight * 2.407
-            font.pointSize: 22 * swidth * 0.03
+            width: station_menu_window.swidth * 14.063
+            height: station_menu_window.sheight * 5.556
+            x: station_menu_window.swidth * 0.833
+            y: station_menu_window.sheight * 2.407
+            font.pointSize: 22 * station_menu_window.swidth * 0.03
             text: "Добавить"
             visible: false
             enabled: false
             onClicked:
             {
-                    addSection.open()
+                addSection.open()
             }
         }
         Button
         {
             id: change_color_button
-            width: swidth * 14.063
-            height: sheight * 5.556
-            x: swidth * 0.833
-            y: sheight * 2.407
-            font.pointSize: 22 * swidth * 0.03
+            width: station_menu_window.swidth * 14.063
+            height: station_menu_window.sheight * 5.556
+            x: station_menu_window.swidth * 0.833
+            y: station_menu_window.sheight * 2.407
+            font.pointSize: 22 * station_menu_window.swidth * 0.03
             text: "Изменить"
             visible: false
             enabled: false
@@ -152,52 +173,85 @@ Rectangle
         Button
         {
             id: delete_color_button
-            width: swidth * 14.063
-            height: sheight * 5.556
-            x: swidth * 0.833
-            y: sheight * 10.74
-            font.pointSize: 22 * swidth * 0.03
+            width: station_menu_window.swidth * 14.063
+            height: station_menu_window.sheight * 5.556
+            x: station_menu_window.swidth * 0.833
+            y: station_menu_window.sheight * 10.74
+            font.pointSize: 22 * station_menu_window.swidth * 0.03
             text: "Удалить"
             visible: false
             enabled: false
         }
     }
     //центральное окно
-    ScrollView
+    function setVisibleActiveZone(visible_value){
+        station_menu_scrollview_right.visible = visible_value;
+        buttons_bottom_menu.visible = visible_value;
+
+    }
+
+    Flickable
     {
         id: station_menu_scrollview_right
-        width: swidth * 64.063
-        height: sheight * 87.315
-        x: swidth * 17.188
+        width: station_menu_window.swidth * 64.063
+        height: station_menu_window.sheight * 85.315
+        x: station_menu_window.swidth * 17.188
         clip: true
+        visible: false
+        ScrollBar.vertical: ScrollBar {
+            id: station_menu_scrollview_scrollbar
+            policy: ScrollBar.AlwaysOn
+            active: true
+        }
+        function addZoneInModel(name, value_color)
+        {
+            left_model.append({ text: name,
+                                color: value_color,
+                                interface_type: sm_interface.text,
+                                port_index_baund_rate: bits_in_sec_cb.currentIndex,
+                                port_index_data_bits: data_bit_cb.currentIndex,
+                                port_index_parity: parity_cb.currentIndex,
+                                port_index_stop_bits: stop_bits_cb.currentIndex,
+                                port_index_flow_control: flow_control_cb.currentIndex
+                              });
+            left_menu_listView.height += 5.556*station_menu_window.sheight;
+            left_menu_scrollview.contentHeight = left_menu_listView.height;
 
+            if(left_menu_scrollview.contentHeight < left_menu_scrollview.height){
+                white_rect.y = left_menu_listView.height;
+                left_plus_but.y = white_rect.y + white_rect.height;
+            }else{
+                white_rect.y = left_menu_scrollview.y + left_menu_scrollview.height;
+                left_plus_but.anchors.top = white_rect.bottom;
+            }
+        }
 
         Rectangle
         {
             id: sm_name_station_rec
-            width: swidth * 58.698
-            height: sheight * 4.629
-            x: swidth * 4.323
-            y: sheight * 4.259
+            width: station_menu_window.swidth * 58.698
+            height: station_menu_window.sheight * 4.629
+            x: station_menu_window.swidth * 4.323
+            y: station_menu_window.sheight * 4.259
             color: "#D9D9D9"
             Rectangle
             {
                 height: parent.height
-                width: swidth * 14.409
+                width: station_menu_window.swidth * 14.409
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#D9D9D9"
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     text: qsTr("Наименование станции")
                 }
             }
             Rectangle
             {
                 height: parent.height
-                width: swidth * 24.884
+                width: station_menu_window.swidth * 24.884
                 anchors.right: parent.right
                 TextInput
                 {
@@ -205,7 +259,7 @@ Rectangle
                     width: parent.width
                     height: parent.height
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: ""
@@ -215,29 +269,29 @@ Rectangle
         Rectangle
         {
             id: sm_interface_rec
-            width: swidth * 58.698
-            height: sheight * 4.629
-            x: swidth * 4.323
-            y: sheight * 12.5
+            width: station_menu_window.swidth * 58.698
+            height: station_menu_window.sheight * 4.629
+            x: station_menu_window.swidth * 4.323
+            y: station_menu_window.sheight * 12.5
             color: "#D9D9D9"
             Rectangle
             {
                 height: parent.height
-                width: swidth * 14.409
+                width: station_menu_window.swidth * 14.409
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#D9D9D9"
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     text: qsTr("Интерфейс")
                 }
             }
             Rectangle
             {
                 height: parent.height
-                width: swidth * 24.884
+                width: station_menu_window.swidth * 24.884
                 anchors.right: parent.right
                 TextInput
                 {
@@ -245,7 +299,7 @@ Rectangle
                     width: parent.width
                     height: parent.height
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: ""
@@ -255,31 +309,31 @@ Rectangle
         Rectangle
         {
             id: sm_crc_ok_zone
-            width: swidth * 58.698
-            height: sheight * 2.963
-            x: swidth * 4.323
-            y: sheight * 20.74
+            width: station_menu_window.swidth * 58.698
+            height: station_menu_window.sheight * 2.963
+            x: station_menu_window.swidth * 4.323
+            y: station_menu_window.sheight * 20.74
             color: "#D9D9D9"
             Rectangle
             {
                 id: crc_ok_text
                 height: parent.height
-                width: swidth * 14.409
+                width: station_menu_window.swidth * 14.409
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#D9D9D9"
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     text: qsTr("Вычислять CRC")
                 }
             }
             CheckBox
             {
                 id: sm_crc_ok_checkbox
-                width: swidth * 1.354
-                height: sheight * 1.667
+                width: station_menu_window.swidth * 1.354
+                height: station_menu_window.sheight * 1.667
                 anchors.right: parent.right
                 checked: false
                 onCheckedChanged:
@@ -304,54 +358,56 @@ Rectangle
         Rectangle
         {
             id: port_settings
-            height: sheight * 4.629
-            width: swidth * 64.063
-            y: sheight * 23.425
+            height: station_menu_window.sheight * 4.629
+            width: station_menu_window.swidth * 64.063
+            y: station_menu_window.sheight * 25.425
             color: "#A0A0A0"
             border.width: 2
             border.color: "black"
             Rectangle
             {
-                height: sheight * 2.222
-                width: swidth * 8.802
-                x: swidth * 2.396
-                y: sheight * 1.204
+                height: station_menu_window.sheight * 2.222
+                width: station_menu_window.swidth * 8.802
+                x: station_menu_window.swidth * 2.396
+                y: station_menu_window.sheight * 1.204
                 color: "#A0A0A0"
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     text: qsTr("Настройки порта")
                 }
             }
             CheckBox
             {
                 id: show_port_parametrs
-                width: swidth * 1.302
-                height: sheight * 2.315
-                x: swidth * 61.979
-                y: sheight * 1.111
+                width: station_menu_window.swidth * 1.302
+                height: station_menu_window.sheight * 2.315
+                x: station_menu_window.swidth * 61.979
+                y: station_menu_window.sheight * 1.111
                 state: "closed"
                 onCheckedChanged:
                 {
                     port_settings_parametrs.state === "opened" ? port_settings_parametrs.state = "closed" : port_settings_parametrs.state = "opened";
                 }
+
+
             }
             Image
             {
-                width: swidth * 1.302
-                height: sheight * 2.315
-                anchors.verticalCenter: show_port_parametrs.verticalCenter
+                width: station_menu_window.swidth * 1.302
+                height: station_menu_window.sheight * 2.315
+                //anchors.verticalCenter: show_port_parametrs.verticalCenter
                 //куда закинуть картинки
-                source: show_port_parametrs.checked ? "../Constructor/arrows_down.png" : "../Constructor/arrows_up.png"
+                source: show_port_parametrs.checked ? "qrc:/arrows_down.png" : "qrc:/arrows_up.png"
                 //visible: !show_port_parametrs.indeterminate || !show_port_parametrs.checked
             }
         }
         Rectangle
         {
             id: port_settings_parametrs
-            width: swidth * 64.063
-            y: sheight * 28
+            width: station_menu_window.swidth * 64.063
+            y: station_menu_window.sheight * 30
             color: "#D9D9D9"
             height: 0
             states:
@@ -362,60 +418,60 @@ Rectangle
                     PropertyChanges
                     {
                         target: port_settings_parametrs;
-                        height: sheight * 42.037
+                        height: station_menu_window.sheight * 42.037
                     }
                     PropertyChanges
                     {
                         target: bits_in_sec_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 3.796;
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 3.796;
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: data_bit_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 11.304
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 11.304
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: parity_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 18.995
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 18.995
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: stop_bits_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 26.688
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 26.688
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: flow_control_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 34.379
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 34.379
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: flow_control_rec;
-                        height: sheight * 3.989;
-                        y: sheight * 34.379
+                        height: station_menu_window.sheight * 3.989;
+                        y: station_menu_window.sheight * 34.379
                         enabled: true;
                         visible: true;
                     }
                     PropertyChanges
                     {
                         target: package_templates;
-                        y: sheight * 70.278
+                        y: station_menu_window.sheight * 70.278
                     }
 
                 },
@@ -462,7 +518,7 @@ Rectangle
                     PropertyChanges
                     {
                         target: package_templates;
-                        y: sheight * 28
+                        y: station_menu_window.sheight * 30
                     }
                 }
             ]
@@ -485,17 +541,17 @@ Rectangle
             Rectangle
             {
                 id: bits_in_sec_rec
-                width: swidth * 58.696
+                width: station_menu_window.swidth * 58.696
                 height: 0
-                x: swidth * 2.865
+                x: station_menu_window.swidth * 2.865
                 y: 0
                 enabled: false;
                 visible: false;
                 color: "#D9D9D9"
                 Rectangle
                 {
-                    width: swidth * 10.26
-                    height: sheight * 2.778
+                    width: station_menu_window.swidth * 10.26
+                    height: station_menu_window.sheight * 2.778
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#D9D9D9"
@@ -503,197 +559,198 @@ Rectangle
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("Бит в секунду")
                     }
                 }
                 ComboBox
                 {
                     id: bits_in_sec_cb
-                    width: swidth * 7.945
+                    width: station_menu_window.swidth * 7.945
                     height: parent.height
                     anchors.right: parent.right
-                    font.pixelSize: 22 * 0.04 * swidth
-
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
+                    editable: true
                     model: ListModel
                     {
                         id: bits_in_sec
-                        ListElement
-                        {
-                            text: "9600"
-                        }
+                        ListElement{text: "1200"}
+                        ListElement{text: "2400"}
+                        ListElement{text: "4800"}
+                        ListElement{text: "9600"}
+                        ListElement{text: "19200"}
+                        ListElement{text: "38400"}
+                        ListElement{text: "57600"}
+                        ListElement{text: "115200"}
                     }
+                    onAccepted:
+                        ()=>
+                        {
+                            if (bits_in_sec_cb.find(bits_in_sec_cb.editText) === -1)
+                                bits_in_sec.append({text: bits_in_sec_cb.editText});
+                        }
                 }
             }
             Rectangle
             {
                 id: data_bit_rec
-                width: swidth * 58.696
+                width: station_menu_window.swidth * 58.696
                 height: 0
-                x: swidth * 2.865
+                x: station_menu_window.swidth * 2.865
                 y: 0
                 enabled: false;
                 visible: false;
                 color: "#D9D9D9"
                 Rectangle
                 {
-                    width: swidth * 10.26
-                    height: sheight * 2.778
+                    width: station_menu_window.swidth * 10.26
+                    height: station_menu_window.sheight * 2.778
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#D9D9D9"
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("Бит данных")
                     }
                 }
                 ComboBox
                 {
                     id: data_bit_cb
-                    width: swidth * 7.945
+                    width: station_menu_window.swidth * 7.945
                     height: parent.height
                     anchors.right: parent.right
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     model: ListModel
                     {
                         id: data_bit
-                        ListElement
-                        {
-                            text: "8"
-                        }
+                        ListElement{text: "8"}
+                        ListElement{text: "7"}
+                        ListElement{text: "6"}
+                        ListElement{text: "5"}
                     }
                 }
             }
             Rectangle
             {
                 id: parity_rec
-                width: swidth * 58.696
+                width: station_menu_window.swidth * 58.696
                 height: 0
-                x: swidth * 2.865
+                x: station_menu_window.swidth * 2.865
                 y: 0
                 color: "#D9D9D9"
                 enabled: false;
                 visible: false;
                 Rectangle
                 {
-                    width: swidth * 10.26
-                    height: sheight * 2.778
+                    width: station_menu_window.swidth * 10.26
+                    height: station_menu_window.sheight * 2.778
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#D9D9D9"
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("Четность")
                     }
                 }
                 ComboBox
                 {
                     id: parity_cb
-                    width: swidth * 7.945
+                    width: station_menu_window.swidth * 7.945
                     height: parent.height
                     anchors.right: parent.right
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     model: ListModel
                     {
                         id: parity
-                        ListElement
-                        {
-                            text: "Нет"
-                        }
-                        ListElement
-                        {
-                            text: "Да"
-                        }
+                        ListElement{text: "None"}
+                        ListElement{text: "Even"}
+                        ListElement{text: "Odd"}
+                        ListElement{text: "Mark"}
+                        ListElement{text: "Space"}
                     }
                 }
             }
             Rectangle
             {
                 id: stop_bits_rec
-                width: swidth * 58.696
+                width: station_menu_window.swidth * 58.696
                 height: 0
-                x: swidth * 2.865
+                x: station_menu_window.swidth * 2.865
                 y: 0
                 enabled: false;
                 visible: false;
                 color: "#D9D9D9"
                 Rectangle
                 {
-                    width: swidth * 10.26
-                    height: sheight * 2.778
+                    width: station_menu_window.swidth * 10.26
+                    height: station_menu_window.sheight * 2.778
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#D9D9D9"
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("Стоповые биты")
                     }
                 }
                 ComboBox
                 {
                     id: stop_bits_cb
-                    width: swidth * 7.945
+                    width: station_menu_window.swidth * 7.945
                     height: parent.height
                     anchors.right: parent.right
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     model: ListModel
                     {
                         id: stop_bits
-                        ListElement
-                        {
-                            text: "1"
-                        }
+                        ListElement{text: "1"}
+                        ListElement{text: "1.5"}
+                        ListElement{text: "2"}
                     }
                 }
             }
             Rectangle
             {
                 id: flow_control_rec
-                width: swidth * 58.696
+                width: station_menu_window.swidth * 58.696
                 height: 0
-                x: swidth * 2.865
+                x: station_menu_window.swidth * 2.865
                 y: 0
                 color: "#D9D9D9"
                 enabled: false;
                 visible: false;
                 Rectangle
                 {
-                    width: swidth * 10.26
-                    height: sheight * 2.778
+                    width: station_menu_window.swidth * 10.26
+                    height: station_menu_window.sheight * 2.778
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#D9D9D9"
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("Управление потоком")
                     }
                 }
                 ComboBox
                 {
                     id: flow_control_cb
-                    width: swidth * 7.945
+                    width: station_menu_window.swidth * 7.945
                     height: parent.height
                     anchors.right: parent.right
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     model: ListModel
                     {
                         id: flow_control
-                        ListElement
-                        {
-                            text: "Нет"
-                        }
-                        ListElement
-                        {
-                            text: "Да"
-                        }
+                        ListElement{text: "None"}
+                        ListElement{text: "Hardware"}
+                        ListElement{text: "Xon / Xoff"}
                     }
                 }
             }
@@ -702,33 +759,33 @@ Rectangle
         Rectangle
         {
             id: package_templates
-            height: sheight * 4.629
-            width: swidth * 64.063
-            y: sheight * 28
+            height: station_menu_window.sheight * 4.629
+            width: station_menu_window.swidth * 64.063
+            y: station_menu_window.sheight * 30
             color: "#A0A0A0"
             border.width: 2
             border.color: "black"
             Rectangle
             {
-                height: sheight * 2.222
-                width: swidth * 8.802
+                height: station_menu_window.sheight * 2.222
+                width: station_menu_window.swidth * 8.802
                 color: "#A0A0A0"
-                x: swidth * 2.396
-                y:sheight * 1.204
+                x: station_menu_window.swidth * 2.396
+                y: station_menu_window.sheight * 1.204
                 Text
                 {
                     font.family: "Inter"
-                    font.pixelSize: 22 * 0.04 * swidth
+                    font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                     text: qsTr("Шаблоны пакетов")
                 }
             }
             CheckBox
             {
                 id: show_package_templates
-                width: swidth * 1.302
-                height: sheight * 2.315
-                x: swidth * 61.979
-                y: sheight * 1.111
+                width: station_menu_window.swidth * 1.302
+                height: station_menu_window.sheight * 2.315
+                x: station_menu_window.swidth * 61.979
+                y: station_menu_window.sheight * 1.111
                 onCheckedChanged:
                 {
                     package_templates_parametrs.state === "opened" ? package_templates_parametrs.state = "closed" : package_templates_parametrs.state = "opened";
@@ -736,10 +793,10 @@ Rectangle
             }
             Image
             {
-                width: swidth * 1.302
-                height: sheight * 2.315
+                width: station_menu_window.swidth * 1.302
+                height: station_menu_window.sheight * 2.315
                 anchors.verticalCenter: show_package_templates.verticalCenter
-                source: show_package_templates.checked ? "../../arrows_down.png" : "../../arrows_up.png"
+                source: show_package_templates.checked ? ":/arrows_down.png" : ":/arrows_up.png"
                 //visible: !show_package_templates.indeterminate || !show_package_templates.checked
             }
             Rectangle
@@ -757,7 +814,7 @@ Rectangle
                         PropertyChanges
                         {
                             target: package_templates_parametrs
-                            height: sheight * 50
+                            height: station_menu_window.sheight * 50
                         }
                         PropertyChanges
                         {
@@ -768,7 +825,7 @@ Rectangle
                         PropertyChanges
                         {
                             target: add_zone_but
-                            height: sheight * 5.37
+                            height: station_menu_window.sheight * 5.37
                             y: sm_zones_lv.y + sm_zones_lv.height
                             visible: true
                             enabled: true
@@ -836,9 +893,9 @@ Rectangle
                         //width: parent.width
                         //height: package_templates_parametrs.height
                         //visible: false
-                        def_width: swidth * 80
-                        def_height: sheight * 70
-                        number_lines: number_zone_main
+                        def_width: station_menu_window.swidth * 80
+                        def_height: station_menu_window.sheight * 70
+                        number_lines: station_menu_window.number_zone_main
                         name_zone: name_zone_main
                         sendDataToSMfOZR: function(box_row, box_color)
                         {
@@ -846,7 +903,7 @@ Rectangle
                             row_pos = box_row
                             if(box_row > 0)
                             {
-                                if(box_color == "#ffffff")
+                                if(box_color.toString() === "#ffffff")
                                 {
                                     add_color_button.visible = true;
                                     add_color_button.enabled = true;
@@ -880,14 +937,14 @@ Rectangle
 
                 Button {
                     id: add_zone_but
-                    width: swidth * 2.604
+                    width: station_menu_window.swidth * 2.604
                     height: 0
                     //visible: false
                     //enabled: false
                     y: 0
-                    x: swidth * 30.859
+                    x: station_menu_window.swidth * 30.859
                     text: "+"
-                    font.pointSize: 48 * swidth * 0.03
+                    font.pointSize: 48 * station_menu_window.swidth * 0.03
                     onClicked: {
                         addNewZone.open()
                     }
@@ -898,33 +955,33 @@ Rectangle
             Rectangle
             {
                 id: crc_templates
-                height: sheight * 4.629
-                width: swidth * 64.063
+                height: station_menu_window.sheight * 4.629
+                width: station_menu_window.swidth * 64.063
                 anchors.top: package_templates_parametrs.bottom
                 color: "#A0A0A0"
                 border.width: 2
                 border.color: "black"
                 Rectangle
                 {
-                    height: sheight * 2.222
-                    width: swidth * 8.802
+                    height: station_menu_window.sheight * 2.222
+                    width: station_menu_window.swidth * 8.802
                     color: "#A0A0A0"
-                    x: swidth * 2.396
-                    y: sheight * 1.204
+                    x: station_menu_window.swidth * 2.396
+                    y: station_menu_window.sheight * 1.204
                     Text
                     {
                         font.family: "Inter"
-                        font.pixelSize: 22 * 0.04 * swidth
+                        font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         text: qsTr("CRC")
                     }
                 }
                 CheckBox
                 {
                     id: show_crc
-                    width: swidth * 1.302
-                    height: sheight * 2.315
-                    x: swidth * 61.979
-                    y: sheight * 1.111
+                    width: station_menu_window.swidth * 1.302
+                    height: station_menu_window.sheight * 2.315
+                    x: station_menu_window.swidth * 61.979
+                    y: station_menu_window.sheight * 1.111
                     enabled: false
                     checked: false
                     onCheckedChanged:
@@ -934,16 +991,16 @@ Rectangle
                 }
                 Image
                 {
-                    width: swidth * 1.302
-                    height: sheight * 2.315
+                    width: station_menu_window.swidth * 1.302
+                    height: station_menu_window.sheight * 2.315
                     anchors.verticalCenter: show_crc.verticalCenter
-                    source: show_crc.checked ? "../../arrows_down.png" : "../../arrows_up.png"
+                    source: show_crc.checked ? ":/arrows_down.png" : ":/arrows_up.png"
                     //visible: !show_crc.indeterminate || !show_crc.checked
                 }
                 Rectangle
                 {
                     id: crc_parametrs
-                    width: swidth * 64.063
+                    width: station_menu_window.swidth * 64.063
                     anchors.top: parent.bottom
                     height: 0
                     color: "#D9D9D9"
@@ -955,45 +1012,45 @@ Rectangle
                             PropertyChanges
                             {
                                 target: crc_parametrs;
-                                height: sheight * 85.533
+                                height: station_menu_window.sheight * 85.533
                             }
                             PropertyChanges
                             {
                                 target: byte_info_rec;
-                                y: sheight * 3.796
-                                height: sheight * 5.556
+                                y: station_menu_window.sheight * 3.796
+                                height: station_menu_window.sheight * 5.556
                                 enabled: true
                                 visible: true
                             }
                             PropertyChanges
                             {
                                 target: start_count_rec;
-                                y: sheight * 11.667
-                                height: sheight * 5.556
+                                y: station_menu_window.sheight * 11.667
+                                height: station_menu_window.sheight * 5.556
                                 enabled: true
                                 visible: true
                             }
                             PropertyChanges
                             {
                                 target: end_count_rec;
-                                y: sheight * 19.537
-                                height: sheight * 5.556
+                                y: station_menu_window.sheight * 19.537
+                                height: station_menu_window.sheight * 5.556
                                 enabled: true
                                 visible: true
                             }
                             PropertyChanges
                             {
                                 target: code_rec;
-                                y: sheight * 28.056
-                                height: sheight * 2.5
+                                y: station_menu_window.sheight * 28.056
+                                height: station_menu_window.sheight * 2.5
                                 enabled: true
                                 visible: true
                             }
                             PropertyChanges
                             {
                                 target: code_example_rec;
-                                y: sheight * 32.407
-                                height: sheight * 53.981
+                                y: station_menu_window.sheight * 32.407
+                                height: station_menu_window.sheight * 53.981
                                 enabled: true
                                 visible: true
                             }
@@ -1051,31 +1108,30 @@ Rectangle
                     {
                         NumberAnimation
                         {
-                            properties: "height"
+                            properties: "y"
                             duration: 300
                             easing.type: Easing.InOutQuad
                         }
                         NumberAnimation
                         {
-                            properties: "y"
+                            properties: "height"
                             duration: 300
                             easing.type: Easing.InOutQuad
                         }
-
                     }
                     Rectangle
                     {
                         id: byte_info_rec
-                        width: swidth * 59.01
+                        width: station_menu_window.swidth * 59.01
                         height: 0
-                        x: swidth * 2.604
+                        x: station_menu_window.swidth * 2.604
                         y: 0
                         enabled: false
                         visible: false
                         color: "#D9D9D9"
                         Rectangle
                         {
-                            width: swidth * 14.409
+                            width: station_menu_window.swidth * 14.409
                             height: 5
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
@@ -1083,14 +1139,14 @@ Rectangle
                             Text
                             {
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 text: qsTr("В какой байт поместить контрольную сумму")
                             }
                         }
                         Rectangle
                         {
                             height: parent.height
-                            width: swidth * 3.125
+                            width: station_menu_window.swidth * 3.125
                             anchors.right: parent.right
                             TextInput
                             {
@@ -1100,7 +1156,7 @@ Rectangle
                                 width: parent.width
                                 anchors.right: parent.right
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: ""
@@ -1111,16 +1167,16 @@ Rectangle
                     Rectangle
                     {
                         id: start_count_rec
-                        width: swidth * 59.01
+                        width: station_menu_window.swidth * 59.01
                         height: 0
-                        x: swidth * 2.604
+                        x: station_menu_window.swidth * 2.604
                         y: 0
                         enabled: false
                         visible: false
                         color: "#D9D9D9"
                         Rectangle
                         {
-                            width: swidth * 14.409
+                            width: station_menu_window.swidth * 14.409
                             height: 5
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
@@ -1128,14 +1184,14 @@ Rectangle
                             Text
                             {
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 text: qsTr("Начало вычисления контрольной суммы")
                             }
                         }
                         Rectangle
                         {
                             height: parent.height
-                            width: swidth * 3.125
+                            width: station_menu_window.swidth * 3.125
                             anchors.right: parent.right
                             TextInput
                             {
@@ -1144,7 +1200,7 @@ Rectangle
                                 width: parent.width
                                 anchors.right: parent.right
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: ""
@@ -1154,16 +1210,16 @@ Rectangle
                     Rectangle
                     {
                         id: end_count_rec
-                        width: swidth * 59.01
+                        width: station_menu_window.swidth * 59.01
                         height: 0
-                        x: swidth * 2.604
+                        x: station_menu_window.swidth * 2.604
                         y: 0
                         enabled: false
                         visible: false
                         color: "#D9D9D9"
                         Rectangle
                         {
-                            width: swidth * 14.409
+                            width: station_menu_window.swidth * 14.409
                             height: 5
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
@@ -1171,14 +1227,14 @@ Rectangle
                             Text
                             {
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 text: qsTr("Конец вычисления контрольной суммы")
                             }
                         }
                         Rectangle
                         {
                             height: parent.height
-                            width: swidth * 3.125
+                            width: station_menu_window.swidth * 3.125
                             anchors.right: parent.right
                             TextInput
                             {
@@ -1187,7 +1243,7 @@ Rectangle
                                 width: parent.width
                                 anchors.right: parent.right
                                 font.family: "Inter"
-                                font.pixelSize: 22 * 0.04 * swidth
+                                font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: ""
@@ -1197,9 +1253,9 @@ Rectangle
                     Rectangle
                     {
                         id: code_rec
-                        width: swidth * 14.409
+                        width: station_menu_window.swidth * 14.409
                         height: 0
-                        x: swidth * 2.604
+                        x: station_menu_window.swidth * 2.604
                         y: 0
                         color: "#D9D9D9"
                         enabled: false
@@ -1207,7 +1263,7 @@ Rectangle
                         Text
                         {
                             font.family: "Inter"
-                            font.pixelSize: 22 * 0.04 * swidth
+                            font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                             text: qsTr("Код")
                         }
                     }
@@ -1215,9 +1271,9 @@ Rectangle
                     Rectangle
                     {
                         id: code_example_rec
-                        width: swidth * 59.01
+                        width: station_menu_window.swidth * 59.01
                         height: 0
-                        x: swidth * 2.604
+                        x: station_menu_window.swidth * 2.604
                         y: 0
                         enabled: false
                         visible: false
@@ -1229,7 +1285,7 @@ Rectangle
                             height: parent.height
                             anchors.right: parent.right
                             font.family: "Inter"
-                            font.pixelSize: 22 * 0.04 * swidth
+                            font.pixelSize: 22 * 0.04 * station_menu_window.swidth
                         }
                     }
                 }
@@ -1240,52 +1296,109 @@ Rectangle
     Rectangle
     {
         id: buttons_bottom_menu
-        width: swidth * 64.063
-        height: sheight * 12.315
-        y: sheight * 84.259
-        x: swidth * 17.188
+        width: station_menu_window.swidth * 64.063
+        height: station_menu_window.sheight * 12.315
+        y: station_menu_window.sheight * 82.259
+        x: station_menu_window.swidth * 17.188
         color: "#D9D9D9"
+        visible: false
         Button
         {
             id: save_station_button
-            width: swidth * 14.063
-            height: sheight * 5.556
-            x: swidth * 0.989
-            y: sheight * 3.981
+            width: station_menu_window.swidth * 14.063
+            height: station_menu_window.sheight * 5.556
+            x: station_menu_window.swidth * 0.989
+            y: station_menu_window.sheight * 3.981
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.04 * station_menu_window.swidth
             text: "Сохранить"
             onClicked:
             {
-                station_menu_listview.model.append
-                        ({
-                            name: station_name.text,
-                            color: "white"
-                         })
-                zone_storage_listview.forceLayout()
+                var itemIndex = -1;
+                /*проверить что расличные поля не пустые*/
+                //if()
+
+                for (var i = 0; i < left_model.count; ++i) {
+                    if (left_model.get(i).text === sm_station_name.text)
+                    {
+                        itemIndex = i;
+                        break;
+                    }
+                }
+                if (itemIndex !== -1)
+                {
+                    //package_zone_view.changePackageZone(input_name.text, color_box.color);
+                    left_model.set(itemIndex, { name: sm_station_name.text,
+                                                color: left_model.get(i).color,
+                                                interface_type: sm_interface.text,
+                                                port_index_baund_rate: bits_in_sec_cb.currentIndex,
+                                                port_index_data_bits: data_bit_cb.currentIndex,
+                                                port_index_parity: parity_cb.currentIndex,
+                                                port_index_stop_bits: stop_bits_cb.currentIndex,
+                                                port_index_flow_control: flow_control_cb.currentIndex
+                                              });
+
+                }
+                else
+                {
+                    station_menu_scrollview_right.addZoneInModel(sm_station_name.text, left_model.count  % 2 === 0 ? "#FFFFFF" : "#ECECEC");
+                    //package_zone_view.addPackageZone(input_name.text, color_box.color);
+                }
+
+                sm_station_name.text = "";
+                left_menu_listView.currentIndex = -1;
+                station_menu_window.setVisibleActiveZone(false);
             }
         }
+
+        Dialog {
+            id: confirmation_dialog
+            title: "Удалить?"
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            Text {
+                text:  "Вы действительно хотите удалить '" + sm_station_name.text + "'?";
+            }
+            onAccepted:
+            {
+                if (confirmation_dialog.opened)
+                {
+                    var selectedIdx = left_menu_listView.currentIndex;
+
+                    left_menu_listView.model.remove(selectedIdx);
+                    for(var i = selectedIdx; i < left_model.count; ++i)
+                    {
+                        left_model.setProperty(i, "color", i % 2 == 0 ? "#FFFFFF" : "#ECECEC");
+                    }
+                    //package_zone_view.deletePackageZone(pzm_model.get(selectedIdx).text);
+                    left_menu_listView.height -= 5.556*station_menu_window.sheight;
+                    left_menu_scrollview.contentHeight = left_menu_listView.height;
+                    left_menu_listView.contentHeight = left_menu_listView.height;
+                    if(left_menu_scrollview.contentHeight < left_menu_scrollview.height){
+                        white_rect.y = left_menu_listView.contentHeight;
+                        left_plus_but.y = white_rect.y + white_rect.height;
+                    }
+                    left_menu_listView.currentIndex = -1;
+                    station_menu_window.setVisibleActiveZone(false);
+                }
+            }
+        }
+
         Button
         {
             id: delete_station_button
-            width: swidth * 14.063
-            height: sheight * 5.556
-            x: swidth * 49.375
-            y: sheight * 3.981
+            width: station_menu_window.swidth * 14.063
+            height: station_menu_window.sheight * 5.556
+            x: station_menu_window.swidth * 49.375
+            y: station_menu_window.sheight * 3.981
             font.family: "Inter"
-            font.pixelSize: 22 * 0.04 * swidth
+            font.pixelSize: 22 * 0.04 * station_menu_window.swidth
             text: "Удалить"
             onClicked:
             {
-                var selectedIdx = station_menu_listview.currentIndex
-                if (selectedIdx >= 0 && selectedIdx < station_menu_listview.model.count)
+                var selectedIdx = left_menu_listView.currentIndex
+                if (selectedIdx >= 0 && selectedIdx < left_model.count)
                 {
-                    var elementName = station_menu_listview.model.get(selectedIdx).name
-                    var confirmationDialog = Qt.inputDialog(parent, "Вы действительно хотите удалить '" + elementName + "'?", "Удалить?", "Оставить")
-                    if (confirmationDialog.exec() === Qt.DialogCode.Accepted)
-                    {
-                        station_menu_listview.model.remove(selectedIdx)
-                    }
+                    confirmation_dialog.open();
                 }
             }
         }
@@ -1295,8 +1408,8 @@ Rectangle
         id: addSection
         width: 700
         height: 500
-        x: swidth * 27.77
-        y: sheight * 14.851
+        x: station_menu_window.swidth * 27.77
+        y: station_menu_window.sheight * 14.851
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape
@@ -1325,8 +1438,8 @@ Rectangle
         id: addNewZone
         width: 700
         height: 500
-        x: swidth * 27.77
-        y: sheight * 14.851
+        x: station_menu_window.swidth * 27.77
+        y: station_menu_window.sheight * 14.851
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape
@@ -1344,7 +1457,7 @@ Rectangle
                 {
                     console.log("Имя зоны: ", zone_name,  " Размер: ", Math.ceil(zone_size / 16))
                     sm_zones_lv.model.append({ name_zone: zone_name, number_lines: Math.ceil(zone_size / 16)})
-                    number_zone_main++
+                    station_menu_window.number_zone_main++
                 }
                 onPvClosed:
                 {
