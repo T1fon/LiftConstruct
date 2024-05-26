@@ -48,9 +48,19 @@ QHash<int, QByteArray> ProjectModel::roleNames() const
     return roles;
 }
 
-ProjectModel* ProjectManager::__project_model = new ProjectModel();
+ProjectManager::ProjectManager()
+{
+    __project_model = new ProjectModel();
+    __date = "";
+    __path = "";
+    loadProjects();
+}
 
-ProjectModel* ProjectManager::projectModel()
+ProjectModel* ProjectManager::__project_model = nullptr;
+QString ProjectManager::__date;
+QString ProjectManager::__path;
+
+ProjectModel* ProjectManager::projectModel() const
 {
     return __project_model;
 }
@@ -125,4 +135,8 @@ void ProjectManager::openProject(int index)
     __date = QDate::currentDate().toString("dd-MM-yyy");
     __path = project_path;
 }
+
+QString ProjectManager::getDate(){return __date;}
+QString ProjectManager::getPath(){return __path;}
+
 

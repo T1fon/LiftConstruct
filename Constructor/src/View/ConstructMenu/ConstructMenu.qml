@@ -17,6 +17,7 @@ Rectangle {
     ProjectManager
     {
         id: project_manager
+        Component.onCompleted: project_manager.loadProjects()
     }
 
     Rectangle
@@ -119,9 +120,9 @@ Rectangle {
         anchors.centerIn: parent.Center
         standardButtons: Dialog.Ok | Dialog.Cancel
         onAccepted: {
-            project_manager.createProject(projectNameInput.text)
+            project_manager.createProject(project_name_input.text)
             create_project_dialog.visible = false
-            projectCreate(projectNameInput.text,project_manager.getDate(), project_manager.getPath())
+            projectCreate(project_name_input.text,project_manager.getDate(), project_manager.getPath())
         }
         onRejected: {
             create_project_dialog.visible = false

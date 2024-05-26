@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "Controller/MainManager/mainmanager.hpp"
-#include "Controller/ProjectManager/projectmanager.hpp"
+#include "View/ProjectManager/projectmanager.hpp"
 
 int main(int argc, char *argv[])
 {

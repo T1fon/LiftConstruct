@@ -50,9 +50,11 @@ private:
 
 class ProjectManager : public QObject {
 
-public:
+    Q_OBJECT
 
-    static ProjectModel* projectModel();
+public:
+    ProjectManager();
+    ProjectModel* projectModel() const;
 
 public slots:
     static void loadProjects();
