@@ -54,7 +54,6 @@ public:
 private:
     std::vector<std::unique_ptr<StationModel>> __models;
 
-    // Приватный конструктор для Singleton
     explicit StationManager(const QJsonObject& json, QObject* parent = nullptr);
 
 signals:

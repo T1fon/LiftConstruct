@@ -2,6 +2,12 @@
 
 SequenceOfPackageModel::SequenceOfPackageModel(const QJsonObject& json)
 {
+    if(json.empty())
+    {
+        __position = 0;
+        __package_id = 0;
+        __action = RECEIVE;
+    }
     if(json.contains("position"))
     {
         __position = json["position"].toInt();

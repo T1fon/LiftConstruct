@@ -2,16 +2,25 @@
 
 StationManager::StationManager(const QJsonObject& json, QObject* parent)
     : QObject(parent) {
-    if (json.contains("station")) {
-        QJsonArray array = json["station"].toArray();
+    if(json.empty())
+    {
+        __models.clear();
+    }
+    else
+    {
+        if (json.contains("station"))
+        {
+            QJsonArray array = json["station"].toArray();
 
-        for (const QJsonValue& one_section_box : array) {
-            QJsonObject one_section = one_section_box.toObject();
-            std::unique_ptr<StationModel> model = std::make_unique<StationModel>(one_section);
-            __models.push_back(std::move(model));
+            for (const QJsonValue& one_section_box : array)
+            {
+                QJsonObject one_section = one_section_box.toObject();
+                std::unique_ptr<StationModel> model = std::make_unique<StationModel>(one_section);
+                __models.push_back(std::move(model));
+            }
+        } else {
+            qDebug() << "Нет поля station";
         }
-    } else {
-        qDebug() << "Нет поля station";
     }
 }
 
@@ -24,22 +33,25 @@ StationManager& StationManager::getInstance(const QJsonObject& json) {
 
 void StationManager::constructFromJson(const QJsonObject& json)
 {
-    if (json.contains("station"))
+    if(json.empty())
     {
         __models.clear();
-        QJsonArray array = json["station"].toArray();
-
-        for (const QJsonValue& one_section_box : array)
-        {
-            QJsonObject one_section = one_section_box.toObject();
-            std::unique_ptr<StationModel> modelPtr = std::make_unique<StationModel>(one_section);
-            __models.push_back(std::move(modelPtr));
-        }
     }
     else
     {
-        qDebug() << "Нет поля station";
-        return;
+        if (json.contains("station"))
+        {
+            QJsonArray array = json["station"].toArray();
+
+            for (const QJsonValue& one_section_box : array)
+            {
+                QJsonObject one_section = one_section_box.toObject();
+                std::unique_ptr<StationModel> model = std::make_unique<StationModel>(one_section);
+                __models.push_back(std::move(model));
+            }
+        } else {
+            qDebug() << "Нет поля station";
+        }
     }
 }
 QJsonArray StationManager::DumpToJson()

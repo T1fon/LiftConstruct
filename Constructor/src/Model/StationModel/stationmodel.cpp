@@ -4,68 +4,76 @@ size_t StationModel::__last_id = 0;
 
 StationModel::StationModel(const QJsonObject& json)
 {
-    if(json.contains("id"))
+    if(json.empty())
     {
-        __id = json["id"].toInteger(__last_id);
-        if(__last_id < __id){__last_id = __id;};
-    }
-
-    // Проверка инициализации имени
-    if(json.contains("name"))
-    {
-        __name = json["name"].toString();
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (нет такого поля name)";
-        return;
-    }
-
-    // Проверка инициализации флага calculate_crc
-    if(json.contains("calculate_crc"))
-    {
-        __calculate_crc = json["calculate_crc"].toBool();
+        __last_id = 0;
+        __id = 0;
+        __name.clear();
+        __calculate_crc = false;
+        __crc = std::make_unique<CRCModel>();
+        __virtual_port = std::make_unique<VirtualPortModel>();
+        __package_template = std::make_unique<PackageTemplateManager>(QJsonObject());
     }
     else
     {
-        qDebug() << "Ошибка чтения json (нет такого поля calculate_crc)";
-        return;
-    }
+        if(json.contains("id"))
+        {
+            __id = json["id"].toInteger(__last_id);
+            if(__last_id < __id){__last_id = __id;};
+        }
 
-    // Инициализация объекта CRCModel
-    if(json.contains("crc"))
-    {
-        __crc = std::make_unique<CRCModel>(json["crc"].toObject());
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (нет такого поля crc)";
-        return;
-    }
+        if(json.contains("name"))
+        {
+            __name = json["name"].toString();
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля name)";
+            return;
+        }
 
-    // Инициализация объекта VirtualPortModel
-    if(json.contains("virtual_port"))
-    {
-        __virtual_port = std::make_unique<VirtualPortModel>(json["virtual_port"].toObject());
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (нет такого поля virtual_port)";
-        return;
-    }
+        if(json.contains("calculate_crc"))
+        {
+            __calculate_crc = json["calculate_crc"].toBool();
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля calculate_crc)";
+            return;
+        }
 
-    // Инициализация объекта PackageTemplateManager
-    if(json.contains("package_template"))
-    {
-        QJsonArray buf = json["package_template"].toArray();
-        QJsonObject send;
-        send["package_template"] = buf;
-        __package_template = std::make_unique<PackageTemplateManager>(send);
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (нет такого поля package_template)";
-        return;
+        if(json.contains("crc"))
+        {
+            __crc = std::make_unique<CRCModel>(json["crc"].toObject());
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля crc)";
+            return;
+        }
+
+        if(json.contains("virtual_port"))
+        {
+            __virtual_port = std::make_unique<VirtualPortModel>(json["virtual_port"].toObject());
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля virtual_port)";
+            return;
+        }
+
+        if(json.contains("package_template"))
+        {
+            QJsonArray buf = json["package_template"].toArray();
+            QJsonObject send;
+            send["package_template"] = buf;
+            __package_template = std::make_unique<PackageTemplateManager>(send);
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля package_template)";
+            return;
+        }
     }
 }
 
@@ -107,65 +115,76 @@ void StationModel::changePackageTemplate(const size_t& id, const size_t& size, c
 
 void StationModel::constructFromJson(const QJsonObject& json)
 {
-    if(json.contains("name"))
+    if(json.empty())
     {
-        __name = json["name"].toString();
+        __last_id = 0;
+        __id = 0;
+        __name.clear();
+        __calculate_crc = false;
+        __crc = std::make_unique<CRCModel>();
+        __virtual_port = std::make_unique<VirtualPortModel>();
+        __package_template = std::make_unique<PackageTemplateManager>(QJsonObject());
     }
     else
     {
-        qDebug() << "Ошибка чтения json (нет такого поля name)";
-        return;
-    }
-    if(json.contains("calculate_crc"))
-    {
-        __calculate_crc = json["caclulate_crc"].toBool();
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (нет такого поля calculate_crc)";
-        return;
-    }
-    if(json.contains("crc"))
-    {
-        QJsonObject crc_json;
-        crc_json["position_crc"] = json["position_crc"];
-        crc_json["size_crc"] = json["size_crc"];
-        crc_json["start_calculate_crc"] = json["start_calculate_crc"];
-        crc_json["end_calculate_crc"] = json["end_calculate_crc"];
-        crc_json["code"] = json["code"];
-        __crc->constructFromJson(crc_json);
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (Отсутствует поле CRC)";
-        return;
-    }
-    if(json.contains("virtual_port"))
-    {
-        QJsonObject vp_json;
-        vp_json["physical_interface"] = json["physical_interface"];
-        vp_json["bod"] = json["bod"];
-        vp_json["bit_of_data"] = json["bit_of_data"];
-        vp_json["parity"] = json["parity"];
-        vp_json["stop_bits"] = json["stop_bits"];
-        vp_json["flow_control"] = json["flow_control"];
-        __virtual_port->constructFromJson(vp_json);
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (Отсутствует поле Virtual Port)";
-        return;
-    }
-    if(json.contains("package_template"))
-    {
-        QJsonObject pt_object;
-        pt_object["package_tempalte"] = json["package_template"];
-        __package_template->constructFromJson(pt_object);
-    }
-    else
-    {
-        qDebug() << "Ошибка чтения json (Отсутствует поле Package Tempalte)";
-        return;
+        if(json.contains("id"))
+        {
+            __id = json["id"].toInteger(__last_id);
+            if(__last_id < __id){__last_id = __id;};
+        }
+
+        if(json.contains("name"))
+        {
+            __name = json["name"].toString();
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля name)";
+            return;
+        }
+
+        if(json.contains("calculate_crc"))
+        {
+            __calculate_crc = json["calculate_crc"].toBool();
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля calculate_crc)";
+            return;
+        }
+
+        if(json.contains("crc"))
+        {
+            __crc = std::make_unique<CRCModel>(json["crc"].toObject());
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля crc)";
+            return;
+        }
+
+        if(json.contains("virtual_port"))
+        {
+            __virtual_port = std::make_unique<VirtualPortModel>(json["virtual_port"].toObject());
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля virtual_port)";
+            return;
+        }
+
+        if(json.contains("package_template"))
+        {
+            QJsonArray buf = json["package_template"].toArray();
+            QJsonObject send;
+            send["package_template"] = buf;
+            __package_template = std::make_unique<PackageTemplateManager>(send);
+        }
+        else
+        {
+            qDebug() << "Ошибка чтения json (нет такого поля package_template)";
+            return;
+        }
     }
 }
 

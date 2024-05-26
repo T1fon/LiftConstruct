@@ -37,7 +37,6 @@ private:
     MainManager(const MainManager&) = delete;
     MainManager& operator=(const MainManager&) = delete;
 
-
     static QString __name;
     static QString __last_redact_date;
     static QString __path_json;

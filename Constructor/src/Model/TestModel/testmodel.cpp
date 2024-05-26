@@ -3,6 +3,14 @@ size_t TestModel::__last_id = 0;
 
 TestModel::TestModel(const QJsonObject& json): __sequence_of_packages(json)
 {
+    if(json.empty())
+    {
+        __last_id = 0;
+        __id = 0;
+        __name.clear();
+        __station_id = 0;
+        __description.clear();
+    }
     if(json.contains("id"))
     {
         __id = json["id"].toInteger(__last_id);

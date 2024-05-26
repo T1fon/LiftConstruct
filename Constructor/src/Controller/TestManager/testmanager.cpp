@@ -2,20 +2,27 @@
 
 TestManager::TestManager(const QJsonObject& json)
 {
-    if(json.contains("tests"))
+    if(json.empty())
     {
-        QJsonArray tests_array = json["tests"].toArray();
-
-        for(const auto& item : tests_array)
-        {
-            QJsonObject buf_json = item.toObject();
-            __models.emplace_back(TestModel(buf_json));
-        }
+        __models.clear();
     }
     else
     {
-        qDebug() << "json не содержит поля sequence_of_packages";
-        return;
+        if(json.contains("tests"))
+        {
+            QJsonArray tests_array = json["tests"].toArray();
+
+            for(const auto& item : tests_array)
+            {
+                QJsonObject buf_json = item.toObject();
+                __models.emplace_back(TestModel(buf_json));
+            }
+        }
+        else
+        {
+            qDebug() << "json не содержит поля sequence_of_packages";
+            return;
+        }
     }
 }
 

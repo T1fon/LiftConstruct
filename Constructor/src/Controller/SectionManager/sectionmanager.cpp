@@ -2,19 +2,27 @@
 
 SectionManager::SectionManager(const QJsonObject& json)
 {
-    if (json.contains("sections"))
+    if(json.empty())
     {
-        QJsonArray array = json["sections"].toArray();
-
-        for( const QJsonValue& one_section_box: array)
-        {
-            QJsonObject one_section = one_section_box.toObject();
-            __sections.emplace_back(SectionModel(one_section));
-        }
+        __sections.clear();
+        __total_size = 0;
     }
     else
-        __errorMsg("sections");
-    __total_size = __sections.size();
+    {
+        if (json.contains("sections"))
+        {
+            QJsonArray array = json["sections"].toArray();
+
+            for( const QJsonValue& one_section_box: array)
+            {
+                QJsonObject one_section = one_section_box.toObject();
+                __sections.emplace_back(SectionModel(one_section));
+            }
+        }
+        else
+            __errorMsg("sections");
+        __total_size = __sections.size();
+    }
 }
 SectionManager::SectionManager(const SectionManager& other)
     : QObject(other.parent()), __sections(other.__sections), __total_size(other.__total_size)

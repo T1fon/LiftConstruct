@@ -17,6 +17,7 @@ public:
     QVector<QString> getAllNames();
     ZonePackageModel& getModel(const size_t& id);
     ZonePackageModel& getModel(const QString& name);
+    const QVector<ZonePackageModel>& getModels();
 
     void changeElement(const size_t& id, const QString& name, const QColor& color);
     void changeElement(const QString& name, const QColor& color);

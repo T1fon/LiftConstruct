@@ -31,7 +31,6 @@ public:
     }
     bool operator<(const SequenceOfPackageModel& other) const
     {
-        // Define your comparison logic here
         if (__position < other.__position)
         {
             return true;

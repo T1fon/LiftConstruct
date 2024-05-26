@@ -4,6 +4,13 @@ size_t PackageTemplateModel::__last_id = 0;
 
 PackageTemplateModel::PackageTemplateModel(const QJsonObject& json) : __sections(json)
 {
+    if(json.empty())
+    {
+        __last_id = 0;
+        __id = 0;
+        __description.clear();
+        __name.clear();
+    }
     if(json.contains("id"))
     {
         __id = json["id"].toInteger(__last_id);

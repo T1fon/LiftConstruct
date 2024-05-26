@@ -2,18 +2,28 @@
 
 PackageTemplateManager::PackageTemplateManager(const QJsonObject& json)
 {
-    if (json.contains("package_template")) {
-        QJsonArray array = json["package_template"].toArray();
-        qDebug() << "Found package_template, count:" << array.size();  // Логируем количество найденных элементов
+    if(json.empty())
+    {
+        __models.clear();
+    }
+    else
+    {
+        if (json.contains("package_template"))
+        {
+            QJsonArray array = json["package_template"].toArray();
+            qDebug() << "Found package_template, count:" << array.size();
 
-        for (const QJsonValue& one_model : array) {
-            QJsonObject one_object = one_model.toObject();
-            qDebug() << "Adding model:" << one_object;  // Логируем объект, который добавляем
-            __models.emplace_back(PackageTemplateModel(one_object));
+            for (const QJsonValue& one_model : array)
+            {
+                QJsonObject one_object = one_model.toObject();
+                qDebug() << "Adding model:" << one_object;
+                __models.emplace_back(PackageTemplateModel(one_object));
+            }
+        } else
+        {
+            qDebug() << "Ошибка чтения json в PackageTemplateManager: package_template not found";
+            return;
         }
-    } else {
-        qDebug() << "Ошибка чтения json в PackageTemplateManager: package_template not found";
-        return;
     }
 }
 PackageTemplateManager::PackageTemplateManager(){}

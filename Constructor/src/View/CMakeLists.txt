@@ -1,2 +1,2 @@
-add_subdirectory(SrcManager)
-add_subdirectory(ProjectManager)
+add_subdirectory(ConstructMenu)
+add_subdirectory(PackageZoneMenu)

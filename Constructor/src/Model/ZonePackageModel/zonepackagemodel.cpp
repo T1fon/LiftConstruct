@@ -34,10 +34,20 @@ ZonePackageModel::ZonePackageModel(const QString &name, const QColor &color)
 }
 ZonePackageModel::ZonePackageModel(const QJsonObject &value)
 {
-    __id = value[DEF_JSON_FIELD_VAL_ID].toInteger(__id_max);
-    if(__id_max < __id){__id_max = __id;}
-    __name = value[DEF_JSON_FIELD_VAL_NAME].toString("");
-    __color = QColor(value[DEF_JSON_FIELD_VAL_COLOR].toString(DEF_COLOR_VALUE));
+    if(value.empty())
+    {
+        __id_max = 0;
+        __id = 0;
+        __name = 0;
+        __color = QColor();
+    }
+    else
+    {
+        __id = value[DEF_JSON_FIELD_VAL_ID].toInteger(__id_max);
+        if(__id_max < __id){__id_max = __id;}
+        __name = value[DEF_JSON_FIELD_VAL_NAME].toString("");
+        __color = QColor(value[DEF_JSON_FIELD_VAL_COLOR].toString(DEF_COLOR_VALUE));
+    }
 }
 
 void ZonePackageModel::setName(const QString &name){__name = name;}

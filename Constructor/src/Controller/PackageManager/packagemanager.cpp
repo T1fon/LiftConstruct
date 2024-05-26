@@ -2,20 +2,27 @@
 
 PackageManager::PackageManager(const QJsonObject& json)
 {
-    if(json.contains("packages"))
+    if(json.empty())
     {
-        QJsonArray packages_array = json["packages"].toArray();
-
-        for(const auto& item : packages_array)
-        {
-            const QJsonObject buf_json = item.toObject();
-            __models.emplace_back(PackageModel(buf_json));
-        }
+        __models.clear();
     }
     else
     {
-        qDebug() << "json не содержит поля packages";
-        return;
+        if(json.contains("packages"))
+        {
+            QJsonArray packages_array = json["packages"].toArray();
+
+            for(const auto& item : packages_array)
+            {
+                const QJsonObject buf_json = item.toObject();
+                __models.emplace_back(PackageModel(buf_json));
+            }
+        }
+        else
+        {
+            qDebug() << "json не содержит поля packages";
+            return;
+        }
     }
 }
 

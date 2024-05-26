@@ -2,20 +2,27 @@
 
 SequenceOfPackageManager::SequenceOfPackageManager(const QJsonObject& json)
 {
-    if(json.contains("sequence_of_packages"))
+    if(json.empty())
     {
-        QJsonArray packages_array = json["sequence_of_packages"].toArray();
-
-        for(const auto& item : packages_array)
-        {
-            const QJsonObject buf_json = item.toObject();
-            __models.insert(SequenceOfPackageModel(buf_json));
-        }
+        __models.clear();
     }
     else
     {
-        qDebug() << "json не содержит поля sequence_of_packages";
-        return;
+        if(json.contains("sequence_of_packages"))
+        {
+            QJsonArray packages_array = json["sequence_of_packages"].toArray();
+
+            for(const auto& item : packages_array)
+            {
+                const QJsonObject buf_json = item.toObject();
+                __models.insert(SequenceOfPackageModel(buf_json));
+            }
+        }
+        else
+        {
+            qDebug() << "json не содержит поля sequence_of_packages";
+            return;
+        }
     }
 }
 

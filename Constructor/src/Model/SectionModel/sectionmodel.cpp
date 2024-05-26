@@ -16,32 +16,41 @@ SectionModel::SectionModel(const SectionModel& other)
 
 SectionModel::SectionModel(const QJsonObject& json)
 {
-    if (json.contains("package_zone_id"))
+    if(json.empty())
     {
-        __package_zone_id = json["package_zone_id"].toInt();
+        __package_zone_id = 0;
+        __start_position = 0;
+        __size_section = 0;
     }
     else
     {
-        __ErrorMsg("package_zone_id");
-        return;
-    }
-    if (json.contains("start_position"))
-    {
-        __start_position = json["start_position"].toInt();
-    }
-    else
-    {
-        __ErrorMsg("start_position");
-        return;
-    }
-    if (json.contains("size_section"))
-    {
-        __size_section = json["size_section"].toInt();
-    }
-    else
-    {
-        __ErrorMsg("size_section");
-        return;
+        if (json.contains("package_zone_id"))
+        {
+            __package_zone_id = json["package_zone_id"].toInt();
+        }
+        else
+        {
+            __ErrorMsg("package_zone_id");
+            return;
+        }
+        if (json.contains("start_position"))
+        {
+            __start_position = json["start_position"].toInt();
+        }
+        else
+        {
+            __ErrorMsg("start_position");
+            return;
+        }
+        if (json.contains("size_section"))
+        {
+            __size_section = json["size_section"].toInt();
+        }
+        else
+        {
+            __ErrorMsg("size_section");
+            return;
+        }
     }
 
 }

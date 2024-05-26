@@ -3,6 +3,16 @@ int PackageModel::__last_id = 0;
 
 PackageModel::PackageModel(const QJsonObject& json)
 {
+    if(json.empty())
+    {
+        __last_id = 0;
+        __id = 0;
+        __station_id = 0;
+        __package_template_id = 0;
+        __name = "0";
+        __data.clear();
+    }
+    else
     if(json.contains("id"))
     {
         __id = json["id"].toInteger(__last_id);

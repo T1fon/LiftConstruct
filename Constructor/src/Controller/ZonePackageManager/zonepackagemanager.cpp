@@ -2,20 +2,27 @@
 
 ZonePackageManager::ZonePackageManager(const QJsonObject& json)
 {
-    if(json.contains("package_zones"))
+    if(json.empty())
     {
-        QJsonArray packages_array = json["package_zones"].toArray();
-
-        for(const auto& item : packages_array)
-        {
-            const QJsonObject buf_json = item.toObject();
-            __models.emplace_back(ZonePackageModel(buf_json));
-        }
+        __models.clear();
     }
     else
     {
-        qDebug() << "json не содержит поля packages";
-        return;
+        if(json.contains("package_zones"))
+        {
+            QJsonArray packages_array = json["package_zones"].toArray();
+
+            for(const auto& item : packages_array)
+            {
+                const QJsonObject buf_json = item.toObject();
+                __models.emplace_back(ZonePackageModel(buf_json));
+            }
+        }
+        else
+        {
+            qDebug() << "json не содержит поля packages";
+            return;
+        }
     }
 }
 
@@ -23,7 +30,9 @@ ZonePackageManager& ZonePackageManager::getInstance(const QJsonObject& json) {
     static ZonePackageManager instance(json);
     return instance;
 }
-
+const QVector<ZonePackageModel>& ZonePackageManager::getModels(){
+    return __models;
+}
 
 QVector<QString> ZonePackageManager::getAllNames()
 {
